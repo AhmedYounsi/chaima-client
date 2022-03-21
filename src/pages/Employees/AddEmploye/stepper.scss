@@ -1,0 +1,31 @@
+.site-page-header {
+  border: 1px solid rgb(235, 237, 240);
+  .ant-page-header-heading-left {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+    overflow: hidden;
+  }
+}
+
+.steps-content {
+  min-height: 200px;
+  margin-top: 16px;
+  padding-top: 80px;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+.steps-action {
+  margin-top: 24px;
+}
+[data-theme='dark'] .steps-content {
+  margin-top: 16px;
+  background-color: #ffffff;
+  color: #ffffff;
+  padding-top: 80px;
+}
+
+.div-stepper {
+  margin-top: 30px;
+}

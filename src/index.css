@@ -1,0 +1,90 @@
+@import '~normalize.css';
+@import '~@blueprintjs/core/lib/css/blueprint.css';
+@import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
+
+#components-layout-demo-top-side-2 .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0 !important;
+}
+
+.ant-row-rtl #components-layout-demo-top-side-2 .logo {
+  float: right;
+  margin: 16px 0 16px 24px;
+}
+
+.site-layout-background {
+  background: #fff;
+}
+
+.ant-layout {
+  min-height: 100vh !important;
+}
+
+button:focus {
+  border: none !important;
+  outline: none !important;
+  background: #53535373 !important;
+}
+
+.bp3-tab-indicator-wrapper .bp3-tab-indicator {
+  background-color: #ff5722 !important;
+}
+.bp3-tab[aria-selected='true'],
+.bp3-tab:not([aria-disabled='true']):hover {
+  color: #ff5722 !important;
+}
+
+:focus {
+  outline: none !important ;
+}
+
+.custom_second {
+  background-color: #ff5722 !important;
+  color: white !important;
+  background-image: none !important;
+  border: none !important;
+}
+
+.custom_second:focus {
+  background-color: #ff5722 !important;
+  color: white !important;
+  background-image: none !important;
+  border: none !important;
+}
+
+button:active {
+  filter: opacity(0.2);
+}
+.ant-page-header {
+  padding: 20px 0px !important;
+}
+
+.ant-page-header-back {
+  margin-top: 2px;
+  font-size: 20px !important;
+}
+
+span.active-breadcrumb {
+  color: #1890ff;
+  font-weight: 600;
+}
+.ant-breadcrumb .anticon {
+  font-size: 20px !important;
+}
+
+span {
+  cursor: pointer;
+}

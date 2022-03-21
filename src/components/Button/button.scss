@@ -1,0 +1,22 @@
+.button {
+  height: 44px;
+  border: none;
+
+  color: white;
+  font-size: 19px;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+.button-1 {
+  background: #40a9ff;
+}
+.button-2 {
+  background: #ff4d4f;
+}
+.button:active {
+  filter: opacity(0.2);
+}
+
+.w100 {
+  width: 100%;
+}

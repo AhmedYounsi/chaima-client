@@ -1,0 +1,28 @@
+.custom-input {
+  height: 44px;
+  width: 100%;
+  border: 1px solid #cbcbcb;
+  padding: 10px;
+  font-size: 18px;
+  width: 50%;
+  padding-left: 41px;
+}
+input::placeholder {
+  color: #a3a3a3;
+}
+.custom-input:focus {
+  border-bottom: 2px solid #40a9ff;
+  padding-top: 12px;
+}
+
+.input-content {
+  position: relative;
+  span {
+    position: absolute;
+    top: 50%;
+    font-size: 25px;
+    transform: translateY(-50%);
+    left: 9px;
+    color: #a3a3a3;
+  }
+}
