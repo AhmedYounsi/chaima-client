@@ -1,28 +1,41 @@
 .custom-input {
-  height: 44px;
+  height: 40px;
   width: 100%;
-  border: 1px solid #cbcbcb;
-  padding: 10px;
-  font-size: 18px;
-  width: 50%;
+  border: 1px solid #ced4da;
+  padding: 0.5rem 0.5rem;
+  font-size: 1rem;
   padding-left: 41px;
-}
-input::placeholder {
-  color: #a3a3a3;
-}
-.custom-input:focus {
-  border-bottom: 2px solid #40a9ff;
-  padding-top: 12px;
+  color: #495057;
+  background: #ffffff;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+    box-shadow 0.2s;
+  border-radius: 3px;
+  .input::placeholder {
+    color: #a3a3a3;
+  };
+
+  .custom-input:enabled:hover {
+    border-color: #106ba3;
+  };
+  
+  .input-content {
+    position: relative;
+    span {
+      position: absolute;
+      top: 50%;
+      font-size: 18px;
+      transform: translateY(-50%);
+      left: 9px;
+      color: #a3a3a3;
+    }
+  };
+
+  .custom-input:focus {
+    border-bottom: 2px solid #106ba3;
+    padding-top: 12px;
+  }
+
 }
 
-.input-content {
-  position: relative;
-  span {
-    position: absolute;
-    top: 50%;
-    font-size: 25px;
-    transform: translateY(-50%);
-    left: 9px;
-    color: #a3a3a3;
-  }
-}
+
+

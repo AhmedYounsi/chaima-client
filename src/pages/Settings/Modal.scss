@@ -1,0 +1,40 @@
+.ant-modal {
+  border-radius: 8px !important;
+  width: 30% !important;
+
+  .ant-modal-content {
+    border: 1px !important;
+    border-radius: 8px !important;
+  }
+
+  .ant-modal-header {
+    border-bottom: 0px !important ;
+    border-radius: 8px !important;
+  }
+  .ant-modal-body {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+    padding-top: 5px !important;
+  }
+  .root {
+    background-color: #f4f4f5;
+    border-radius: 5px;
+    color: #515164;
+    font-size: 16px;
+    line-height: 25px;
+    padding: 20px;
+    position: relative;
+    text-align: center;
+  }
+  .ant-modal-title {
+    color: #1e1e31 !important;
+    font-weight: 500 !important;
+    font: 20px/28px Inter, sans-serif !important;
+    padding-right: 8px !important;
+  }
+
+  .ant-form-item-label
+    > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+    content: '' !important;
+  }
+}

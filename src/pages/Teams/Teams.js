@@ -1,10 +1,10 @@
 import React from 'react';
-import { PageHeader, Button } from 'antd';
-import '../Employees/HeaderPage.scss';
+import { PageHeader, Button, Divider } from 'antd';
 
 function Teams() {
   return (
     <div>
+      <Divider></Divider>
       <PageHeader
         className="site-page-header"
         ghost={false}

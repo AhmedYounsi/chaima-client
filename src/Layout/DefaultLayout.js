@@ -3,21 +3,26 @@ import { Layout } from 'antd';
 import Sidebar from '../components/SideBar/Sidebar';
 import Home from '../pages/Home/Home';
 import Employees from '../pages/Employees/Employees';
+import Event from '../pages/Events/Events';
+import NewEvent from '../pages/Events/NewEvent';
+import Settings from '../pages/Settings/Settings';
+import Calendar from '../pages/Calendar/AppCalendar';
 import NewUser from '../pages/Employees/AddEmploye/NewUser';
 import HeaderTab from '../components/Header/HeaderTab';
 import Footer from '../components/Footer/Footer';
 import AppBreadcrumb from '../components/AppBreadcrumb/AppBreadcrumb';
+import _Alert from '../components/Alert/_Alert';
 import { Route, Routes } from 'react-router-dom';
 
 import './DefaultLayout.scss';
-import { useSelector } from 'react-redux';
+//import { useSelector } from 'react-redux';
 
 const { Header, Content, Sider } = Layout;
 
 function DefaultLayout() {
   const [collapsed, setcollapsed] = useState(false);
 
-  const TokenReducer = useSelector((state) => state.TokenReducer);
+  //const TokenReducer = useSelector((state) => state.TokenReducer);
   return (
     <>
       <Layout style={{ minHeight: '100vh' }}>
@@ -30,6 +35,7 @@ function DefaultLayout() {
           <Sidebar />
         </Sider>
         <Layout className="site-layout">
+          <_Alert />
           <Header className="site-layout-background" style={{ padding: 0 }}>
             <HeaderTab />
           </Header>
@@ -46,6 +52,10 @@ function DefaultLayout() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/employees/newUser" element={<NewUser />} />
+                <Route path="/events" element={<Event />} />
+                <Route path="/events/newEvent" element={<NewEvent />} />
+                <Route path="/calendar" element={<Calendar />} />
+                <Route path="/settings" element={<Settings />} />
               </Routes>
             </div>
           </Content>

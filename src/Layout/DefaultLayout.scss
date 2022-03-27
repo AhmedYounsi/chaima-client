@@ -6,6 +6,10 @@
 
 .site-layout .site-layout-background {
   background: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 21, 0.125);
+  border: 1px solid var(--cui-card-border-color, rgba(0, 0, 21, 0.125));
+  border-radius: 0.25rem;
 }
 [data-theme='dark'] .site-layout .site-layout-background {
   background: #141414;

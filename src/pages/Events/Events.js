@@ -1,21 +1,19 @@
 import React from 'react';
-import { PageHeader, Button, Descriptions, Divider } from 'antd';
+import { PageHeader, Button, Descriptions, BackTop } from 'antd';
 import { Link } from 'react-router-dom';
 
-function ListEmployees() {
+function Events() {
   return (
-
     <div>
-      <Divider></Divider>
-
+      <BackTop></BackTop>
       <PageHeader
         className="site-page-header"
         ghost={false}
-        title="Employees"
+        title="Events"
         subTitle="Configure employees"
         extra={[
           <Button key="1" type="primary">
-            <Link to="/employees/newUser">New Employees </Link>
+            <Link to="/events/newEvent">New Event </Link>
           </Button>,
         ]}
       >
@@ -29,4 +27,4 @@ function ListEmployees() {
   );
 }
 
-export default ListEmployees;
+export default Events;

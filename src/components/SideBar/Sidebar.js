@@ -7,6 +7,7 @@ import {
   UserOutlined,
   CalendarOutlined,
   FileOutlined,
+  NotificationOutlined,
 } from '@ant-design/icons';
 import './Sidebar.scss';
 import { NavLink } from 'react-router-dom';
@@ -35,20 +36,32 @@ const Sidebar = () => {
           <Menu.Item key="3">Time Off</Menu.Item>
           <Menu.Item key="4">Chat</Menu.Item>
         </SubMenu>
+        <SubMenu key="sub1" icon={<NotificationOutlined />} title="Events">
+          <Menu.Item style={{ margin: 0 }} key="5">
+            <NavLink className="nav-link" to="/events">
+              Event
+            </NavLink>
+          </Menu.Item>
+          <Menu.Item style={{ margin: 0 }} key="6">
+            <NavLink className="nav-link" to="/">
+              Announcement
+            </NavLink>
+          </Menu.Item>
+        </SubMenu>
 
-        <Menu.Item style={{ margin: 0 }} icon={<CalendarOutlined />} key="5">
-          <NavLink className="nav-link" to="/">
+        <Menu.Item style={{ margin: 0 }} icon={<CalendarOutlined />} key="7">
+          <NavLink className="nav-link" to="/calendar">
             Calendar
           </NavLink>
         </Menu.Item>
 
-        <Menu.Item style={{ margin: 0 }} icon={<FileOutlined />} key="6">
+        <Menu.Item style={{ margin: 0 }} icon={<FileOutlined />} key="8">
           <NavLink className="nav-link" to="/">
             Files
           </NavLink>
         </Menu.Item>
-        <Menu.Item style={{ margin: 0 }} icon={<SettingOutlined />} key="7">
-          <NavLink className="nav-link" to="/">
+        <Menu.Item style={{ margin: 0 }} icon={<SettingOutlined />} key="9">
+          <NavLink className="nav-link" to="/settings">
             Settings
           </NavLink>
         </Menu.Item>

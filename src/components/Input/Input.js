@@ -1,6 +1,7 @@
 import React from 'react';
 import './Input.scss';
 
+
 function Input(props) {
   return (
     <div className="input-content" style={{ width: props.width }}>
@@ -12,6 +13,8 @@ function Input(props) {
         className={'custom-input ' + props.className}
         placeholder={props.placeholder}
         style={{ width: '100%', textAlign: props.center ? 'center' : '' }}
+
+
       />
     </div>
   );

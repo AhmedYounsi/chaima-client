@@ -3,7 +3,6 @@ import { Tab, Tabs } from '@blueprintjs/core';
 import ListUser from './ListEmployees';
 import Teams from '../Teams/Teams';
 import { useState } from 'react';
-import './Tabs.scss';
 
 function Employees() {
   const [Selected, setSelected] = useState('1');
@@ -24,6 +23,7 @@ function Employees() {
         <Tab className="bp3-tab" id="2" title="Teams" panel={<Teams />} />
         <Tabs.Expander />
       </Tabs>
+
     </div>
   );
 }

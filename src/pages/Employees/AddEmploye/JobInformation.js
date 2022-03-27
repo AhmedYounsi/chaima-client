@@ -1,56 +1,58 @@
 import React from 'react';
-import { Form, Row, Col, Input } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Row, Col, Form, Select, DatePicker } from 'antd';
 
 function JobInformation() {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-  };
   return (
-    <div>
-      <Form
-        name="normal_login"
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-      >
-        <Row>
-          <Col span={12}>
-            <Form.Item
-              name="username"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Username!',
-                },
-              ]}
-            >
-              <Input
-                prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Last Name"
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name="Last Name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Username!',
-                },
-              ]}
-            >
-              <Input
-                prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Username"
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
-    </div>
+    <Form>
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+          <Select style={{ width: '100%' }}
+            showSearch
+            placeholder="Select office" />
+
+        </Col>
+        <Col span={12}>
+          <Select style={{ width: '100%' }}
+            showSearch
+            placeholder="Select Departement" />
+
+        </Col>
+      </Row>
+
+      <br />
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+          <Select style={{ width: '100%' }}
+            showSearch
+            placeholder="Select Job Title" />
+
+        </Col>
+        <Col span={12}>
+          <Select style={{ width: '100%' }}
+            showSearch
+            placeholder="Reported to" />
+
+        </Col>
+      </Row>
+
+      <br />
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+
+          <Select style={{ width: '100%' }}
+            showSearch
+            placeholder="Select Contract Type" />
+        </Col>
+        <Col span={12}>
+          <DatePicker style={{ width: '100%', height: '40px' }}
+            size='large'
+            placeholder={'Start with Addinn From'} />
+        </Col>
+      </Row>
+
+      <br />
+
+    </Form>
   );
 }
 
