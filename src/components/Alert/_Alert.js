@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import './_Alert.scss';
@@ -20,6 +20,7 @@ const _Alert = () => {
           type={AlertReducer.type}
           closable
           afterClose={handleClose}
+          showIcon
         />
       ) : null}
     </div>

@@ -1,21 +1,22 @@
 import React from 'react';
-import { PageHeader, Button, Divider } from 'antd';
+import { BackTop } from 'antd';
 
 function Teams() {
   return (
-    <div>
-      <Divider></Divider>
-      <PageHeader
-        className="site-page-header"
-        ghost={false}
-        title="Teams"
-        subTitle="Configure your teams"
-        extra={[
-          <Button key="1" type="primary">
-            New Team
-          </Button>,
-        ]}
-      ></PageHeader>
+    <div className="sections-vertical">
+      <BackTop />
+      <div className="pad">
+        <div className="padForm">
+          <div className="header-pad">
+            <span className="title-text">Teams</span>
+            <br />
+            <span className="description-text">Configure your teams </span>
+            <div className="line radical"></div>
+          </div>
+        </div>
+
+        <div className="site-layout-content">list team</div>
+      </div>
     </div>
   );
 }

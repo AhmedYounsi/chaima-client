@@ -8,13 +8,12 @@
   }
 
   .ant-modal-header {
-    border-bottom: 0px !important ;
     border-radius: 8px !important;
   }
   .ant-modal-body {
     padding-left: 30px !important;
     padding-right: 30px !important;
-    padding-top: 5px !important;
+    padding-top: 25px !important;
   }
   .root {
     background-color: #f4f4f5;
@@ -28,13 +27,19 @@
   }
   .ant-modal-title {
     color: #1e1e31 !important;
-    font-weight: 500 !important;
-    font: 20px/28px Inter, sans-serif !important;
-    padding-right: 8px !important;
+    font: 16px/20px Inter, sans-serif !important;
   }
 
   .ant-form-item-label
     > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
     content: '' !important;
   }
+}
+
+.ant-modal-footer {
+  padding: 10px 16px;
+  text-align: right;
+  background: transparent;
+  border-top: 1px solid #f0f0f0;
+  border-radius: 0 0 2px 2px;
 }

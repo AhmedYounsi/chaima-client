@@ -58,15 +58,19 @@ function AppCalendar() {
     return num ? (
       <div className="notes-month">
         <section>{num}</section>
-        <span>Backlog number</span>
       </div>
     ) : null;
   }
   return (
-    <Calendar
-      dateCellRender={dateCellRender}
-      monthCellRender={monthCellRender}
-    />
+    <div className="site-layout-background">
+      <div className="site-layout-header-centred">Calendar</div>
+      <div className="site-layout-content">
+        <Calendar
+          dateCellRender={dateCellRender}
+          monthCellRender={monthCellRender}
+        />
+      </div>
+    </div>
   );
 }
 

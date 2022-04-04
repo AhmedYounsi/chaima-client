@@ -1,12 +1,11 @@
 /* eslint-disable */
 import api from '../Utils/api';
-import { setAlert } from './alert';
 
-import { GET_User, GET_Users, User_ERROR, ADD_OFFICE } from './types';
+import { User_ERROR } from './types';
 
-export const AddOffice = async (dispatch, office) => {
+export const AddDepartement = async (dispatch, departement) => {
   try {
-    const res = await api.post('/offices', office);
+    const res = await api.post('/departements', departement);
     return res;
   } catch (err) {
     dispatch({
@@ -16,9 +15,9 @@ export const AddOffice = async (dispatch, office) => {
   }
 };
 
-export const GetOffice = async (dispatch) => {
+export const GetDepartement = async (dispatch) => {
   try {
-    const res = await api.get('/offices');
+    const res = await api.get('/departements');
     return res;
   } catch (err) {
     dispatch({
@@ -28,9 +27,9 @@ export const GetOffice = async (dispatch) => {
   }
 };
 
-export const DeleteOffice = async (id) => {
+export const DeleteDepartement = async (id) => {
   try {
-    const res = await api.delete('/offices', { data: { id } });
+    const res = await api.delete('/departements', { data: { id } });
     return res;
   } catch (err) {
     dispatch({

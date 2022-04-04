@@ -7,28 +7,19 @@ import 'react-phone-input-2/lib/bootstrap.css';
 
 const { TextArea } = Input;
 
-
-
 function GeneralInfo() {
-
   return (
-    <Form >
+    <Form>
       <Row gutter={[16, 16]}>
         <Col span={12}>
-
-          <Input
-            size='large'
-            placeholder='First Name'
-            type='text'
-          />
+          <Input size="large" placeholder="First Name" type="text" />
         </Col>
         <Col span={12}>
           <Input
             className="custom-input"
-            size='large'
-
+            size="large"
             placeholder={'Last Name'}
-            type='text'
+            type="text"
           />
         </Col>
       </Row>
@@ -36,48 +27,24 @@ function GeneralInfo() {
       <Row>
         <Input
           className="custom-input"
-          size='large'
-
+          size="large"
           placeholder={'Email'}
-          type='email'
+          type="email"
         />
       </Row>
-      <br />
-      <Row gutter={[16, 16]}>
-        <Col span={12}>
-          <Input.Password
-            className="custom-input"
-            size='large'
 
-            placeholder={'Password'}
-            iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-          />
-        </Col>
-        <Col span={12}>
-          <Input.Password
-            className="custom-input"
-            size='large'
-
-            placeholder={'Confirm Password'}
-            iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-
-          />
-        </Col>
-      </Row>
       <br />
       <Row>
-        <TextArea
-          rows={4}
-          placeholder={'Address'}
-          type={'text'}
-        />
+        <TextArea rows={4} placeholder={'Address'} type={'text'} />
       </Row>
       <br />
       <Row gutter={[16, 16]}>
         <Col span={12}>
-          <DatePicker className="custom-input"
-            size='large'
-            placeholder={'Date of Birth'} />
+          <DatePicker
+            className="custom-input"
+            size="large"
+            placeholder={'Date of Birth'}
+          />
         </Col>
         <Col span={12}>
           <PhoneInput
@@ -87,12 +54,11 @@ function GeneralInfo() {
             enableLongNumbers={false}
             country={'fr'}
             placeholder="Number Phone"
-          //value={Tel}
-          // onChange={(phone) => setTel(phone)}
+            //value={Tel}
+            // onChange={(phone) => setTel(phone)}
           />
         </Col>
       </Row>
-
     </Form>
   );
 }

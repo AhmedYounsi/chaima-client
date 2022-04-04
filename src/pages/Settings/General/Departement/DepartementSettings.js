@@ -1,83 +1,125 @@
-import React from 'react';
-import { Collapse, Dropdown, Menu, Button, List } from 'antd';
+/* eslint-disable */
+import React, { useState, useEffect } from 'react';
+import { Button, Tooltip } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import Departements from './ListDepartementSettings';
+import { Form, Input, Modal } from 'antd';
 import {
-  SettingOutlined,
-  DeleteOutlined,
-  EditOutlined,
-} from '@ant-design/icons';
-
-const { Panel } = Collapse;
+  AddDepartement,
+  GetDepartement,
+} from '../../../../actions/DepartementAction';
+import { useDispatch } from 'react-redux';
+import '../../Modal.scss';
 
 function DepartementSettings() {
-  const data = [
-    {
-      title: 'Rh',
-    },
-    {
-      title: 'Finance',
-    },
-    {
-      title: 'Marketing',
-    },
-  ];
-  const menu = (
-    <Menu>
-      <Menu.Item key="1">
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          Edit Name Departement
-        </a>
-      </Menu.Item>
-      <Menu.Item key="2">
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.aliyun.com"
-        >
-          Remove Departement
-        </a>
-      </Menu.Item>
-      <Menu.Item key="3">
-        <a href="https://www.aliyun.com">Add new Post Title</a>
-      </Menu.Item>
-    </Menu>
-  );
+  const [form] = Form.useForm();
+  const [visible, setVisible] = useState(false);
+  const [name, setname] = useState('');
+  const [DepartementList, setDepartementList] = useState([]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    GetDepartements();
+  }, []);
+
+  const GetDepartements = async () => {
+    const res = await GetDepartement(dispatch);
+    console.log(res.data);
+    if (res.status == 200) setDepartementList(res.data);
+  };
+
+  const showModal = () => {
+    setVisible(true);
+  };
+
+  const hideModal = () => {
+    setVisible(false);
+  };
+
+  const onFinish = async (values) => {
+    console.log('Finish:', values);
+    const departement = {
+      name: name,
+    };
+    const res = await AddDepartement(dispatch, departement);
+    if (res.status == 200) {
+      setVisible(false);
+      GetDepart();
+      dispatch({
+        type: 'SetAlert',
+        payload: {
+          type: 'success',
+          message: 'Departement added successfully !',
+        },
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+  const onOk = () => {
+    form.submit();
+  };
 
   return (
     <div>
-      <Collapse defaultActiveKey={['1']} expandIconPosition={'left'}>
-        <Panel
-          header="Departement"
-          key="1"
-          extra={
-            <Dropdown overlay={menu} placement="bottomRight" arrow>
-              <Button shape="circle" icon={<SettingOutlined />} />
-            </Dropdown>
-          }
-        >
-          <div>
-            <List
-              itemLayout="horizontal"
-              dataSource={data}
-              renderItem={(item, index) => (
-                <List.Item
-                  key={index}
-                  actions={[
-                    <Button type="link" icon={<EditOutlined />} />,
-                    <Button type="link" danger icon={<DeleteOutlined />} />,
-                  ]}
-                >
-                  <List.Item.Meta title={item.title} />
-                </List.Item>
-              )}
-            />
+      <div className="pad">
+        <div className="padForm">
+          <div className="header-pad">
+            <span className="title-text">Departement and post title</span>
+            <br />
+            <span className="description-text">
+              These are Addinnn's Departement, to which you can assign employees
+            </span>
+            <div className="line radical"></div>
+            <br />
+            <br />
+
+            <Tooltip title="Add Departement">
+              <Button
+                type="primary"
+                shape="round"
+                icon={<PlusOutlined />}
+                onClick={showModal}
+                ghost
+                style={{ height: '40px' }}
+              >
+                Add New Departement
+              </Button>
+            </Tooltip>
           </div>
-        </Panel>
-      </Collapse>
+          <div className="form-pad-2">
+            <Departements />
+          </div>
+        </div>
+      </div>
+
+      <Modal
+        title="Add New Departement"
+        visible={visible}
+        onOk={onOk}
+        onCancel={hideModal}
+      >
+        <Form form={form} layout="vertical" name="userForm" onFinish={onFinish}>
+          <Form.Item
+            name={'name'}
+            val
+            label="Departement Name"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input
+              value={name}
+              onChange={(e) => setname(e.target.value)}
+              className="custom-input"
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 }
+
 export default DepartementSettings;

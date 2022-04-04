@@ -7,9 +7,15 @@
 .site-layout .site-layout-background {
   background: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0, 0, 21, 0.125);
-  border: 1px solid var(--cui-card-border-color, rgba(0, 0, 21, 0.125));
-  border-radius: 0.25rem;
+  border-radius: 5px;
+  box-shadow: 0 5px 20px rgb(0 0 0 / 5%);
+  .header {
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 10%);
+    color: #515164;
+    padding: 16px 20px;
+    position: relative;
+    width: 100%;
+  }
 }
 [data-theme='dark'] .site-layout .site-layout-background {
   background: #141414;

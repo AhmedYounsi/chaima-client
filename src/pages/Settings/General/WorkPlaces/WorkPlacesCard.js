@@ -7,14 +7,17 @@ function WorkPlacesCard(props) {
   const menu = (
     <Menu>
       <Menu.Item key="M1">
-        <button onClick={() => props.setUpdatedOffice(props.item)}>
+        <Button type="text" onClick={() => props.setUpdatedOffice(props.item)}>
           Edit WorkSpace
-        </button>
+        </Button>
       </Menu.Item>
       <Menu.Item key="M2">
-        <button onClick={() => props.DeleteWorkPlace(props.item._id)}>
+        <Button
+          type="text"
+          onClick={() => props.DeleteWorkPlace(props.item._id)}
+        >
           Remove WorkSpace
-        </button>
+        </Button>
       </Menu.Item>
     </Menu>
   );

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { PageHeader, Row, Col, Input, DatePicker } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Button, Row, Col, Input, DatePicker } from 'antd';
+import { Link } from 'react-router-dom';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
 
 function NewEvent() {
-  const navigate = useNavigate();
   const [dates, setDates] = useState([]);
   const [hackValue, setHackValue] = useState();
   const [value, setValue] = useState();
@@ -28,15 +28,16 @@ function NewEvent() {
   };
 
   return (
-    <div>
-      <PageHeader
-        className="site-page-header"
-        onBack={() => navigate('/events')}
-        title="New Event"
-        subTitle="Create new one"
-      />
-      <br />
-      <div className="row_group">
+    <div className="site-layout-background">
+      <div className="site-layout-header-deviser">
+        <div className="header-middle">New Event</div>
+        <div className="header-left">
+          <Link to="/events">
+            <Button icon={<ArrowLeftOutlined />} type="link"></Button>
+          </Link>
+        </div>
+      </div>
+      <div className="site-layout-content">
         <Row gutter={[16, 16]}>
           <Col span={12}>
             <Input size="large" placeholder="Title" type="text" />
@@ -48,16 +49,21 @@ function NewEvent() {
           <Col span={12}>
             <TextArea rows={2} placeholder={'Description'} type={'text'} />
           </Col>
-          <Col span={12}>
-            <TextArea rows={2} placeholder={'Address'} type={'text'} />
-          </Col>
+          <Col span={12}></Col>
         </Row>
         <br />
 
         <Row gutter={[16, 16]}>
           <Col span={12}>
+            <TextArea rows={2} placeholder={'Address'} type={'text'} />
+          </Col>
+          <Col span={12}></Col>
+        </Row>
+        <br />
+        <Row gutter={[16, 16]}>
+          <Col span={12}>
             <RangePicker
-              className={'custom-Input'}
+              className={'ant-picker-range'}
               value={hackValue || value}
               disabledDate={disabledDate}
               onCalendarChange={(val) => setDates(val)}

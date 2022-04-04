@@ -1,13 +1,7 @@
 import React from 'react';
-import { Divider } from 'antd';
 
 function Permession() {
-    return (
-
-        <div>
-            <Divider></Divider>
-        </div>
-    );
+  return <div></div>;
 }
 
 export default Permession;

@@ -18,12 +18,12 @@ const Sidebar = () => {
     <>
       <Menu theme={'dark'} mode="inline">
         <Menu.Item style={{ margin: 0 }} icon={<DashboardOutlined />} key="0">
-          <NavLink className="nav-link" to="/home">
+          <NavLink className="nav-link" to="/dashboard">
             Dashboard
           </NavLink>
         </Menu.Item>
         <Menu.Item style={{ margin: 0 }} icon={<UserOutlined />} key="1">
-          <NavLink className="nav-link" to="/">
+          <NavLink className="nav-link" to="/profile">
             Me
           </NavLink>
         </Menu.Item>
@@ -33,22 +33,22 @@ const Sidebar = () => {
               Employees
             </NavLink>
           </Menu.Item>
-          <Menu.Item key="3">Time Off</Menu.Item>
+          <Menu.Item key="3">
+            <NavLink className="nav-link" to="/timeOff">
+              TimeOff
+            </NavLink>
+          </Menu.Item>
           <Menu.Item key="4">Chat</Menu.Item>
         </SubMenu>
-        <SubMenu key="sub1" icon={<NotificationOutlined />} title="Events">
-          <Menu.Item style={{ margin: 0 }} key="5">
-            <NavLink className="nav-link" to="/events">
-              Event
-            </NavLink>
-          </Menu.Item>
-          <Menu.Item style={{ margin: 0 }} key="6">
-            <NavLink className="nav-link" to="/">
-              Announcement
-            </NavLink>
-          </Menu.Item>
-        </SubMenu>
-
+        <Menu.Item
+          style={{ margin: 0 }}
+          icon={<NotificationOutlined />}
+          key="5"
+        >
+          <NavLink className="nav-link" to="/events">
+            Event
+          </NavLink>
+        </Menu.Item>
         <Menu.Item style={{ margin: 0 }} icon={<CalendarOutlined />} key="7">
           <NavLink className="nav-link" to="/calendar">
             Calendar

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import {
-  Divider,
-  PageHeader,
   Button,
-  Descriptions,
+  BackTop,
   Tooltip,
   List,
   Dropdown,
@@ -41,45 +39,43 @@ function TimeOffSettings() {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          Edit Type
-        </a>
+        <Button type="text">Edit Type</Button>
       </Menu.Item>
       <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.aliyun.com"
-        >
-          Remove Type
-        </a>
+        <Button type="text">Remove Type</Button>
       </Menu.Item>
     </Menu>
   );
   return (
-    <div>
-      <Divider></Divider>
+    <div className="sections-vertical">
+      <BackTop />
+      <div className="pad">
+        <div className="padForm">
+          <div className="header-pad">
+            <span className="title-text">Absence types</span>
 
-      <PageHeader
-        key="P1"
-        className="site-page-header"
-        ghost={false}
-        title="Absence types"
-        // subTitle="Configure WorkPlaces"
-        extra={[
-          <Tooltip title="Add New Absence Type">
-            <Button
-              type="dashed"
-              shape="circle"
-              icon={<PlusOutlined />}
-              onClick={showModal}
-            />
-          </Tooltip>,
+            <br />
+            <span className="description-text">
+              Manage the types of absences within your company so your employees
+              can select them when requesting time off{' '}
+            </span>
+            <div className="line radical"></div>
+            <br />
+            <br />
 
+            <Tooltip title="Add New Absence Type">
+              <Button
+                style={{ height: '40px' }}
+                shape="round"
+                type="primary"
+                ghost
+                icon={<PlusOutlined />}
+                onClick={showModal}
+              >
+                Add New Absence Type
+              </Button>
+            </Tooltip>
+          </div>
           <Modal
             className="ant-modal"
             title="Add new time off policy"
@@ -93,18 +89,8 @@ function TimeOffSettings() {
                 <Input className="custom-input" />
               </Form.Item>
             </Form>
-          </Modal>,
-        ]}
-      >
-        <Descriptions Descriptions size="middle" column={3}>
-          <Descriptions.Item style={{ width: '10%' }}>
-            <p>
-              Manage the types of absences within your company so your employees{' '}
-            </p>
-            <p> can select them when requesting time off. </p>
-          </Descriptions.Item>
-          <Descriptions.Item></Descriptions.Item>
-          <Descriptions.Item>
+          </Modal>
+          <div className="form-pad-2">
             <List
               size="large"
               bordered
@@ -126,10 +112,9 @@ function TimeOffSettings() {
                 </List.Item>
               )}
             />
-          </Descriptions.Item>
-        </Descriptions>
-      </PageHeader>
-      <br />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

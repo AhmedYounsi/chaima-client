@@ -1,0 +1,33 @@
+.div-timeOff-global{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    justify-content: space-between;
+}
+.div-timeOff-global .div-history{
+    width: 100%;
+    padding-top: 20px;
+}
+.div-timeOff-global .div-timeOff{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    position: relative;
+
+}
+.div-timeOff .blockA {
+    width: 70%;
+
+}
+
+.div-timeOff .blockB {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30%;
+
+}

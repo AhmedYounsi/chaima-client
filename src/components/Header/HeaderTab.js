@@ -2,6 +2,8 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import './HeaderTab.scss';
+import { Link } from 'react-router-dom';
+
 function HeaderTab() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,12 +20,14 @@ function HeaderTab() {
       <div className="bp3-navbar-group bp3-align-left"></div>
       <div className="bp3-navbar-group bp3-align-right">
         <button className="bp3-button bp3-minimal bp3-icon-user">
-          Hamouda Younsi
+          <Link to="/profile">Hamouda Younsi</Link>
         </button>
         <span className="bp3-navbar-divider"></span>
 
         <button className="bp3-button bp3-minimal bp3-icon-notifications"></button>
-        <button className="bp3-button bp3-minimal bp3-icon-cog"></button>
+        <Link to="/settings">
+          <button className="bp3-button bp3-minimal bp3-icon-cog" />
+        </Link>
         <span className="bp3-navbar-divider"></span>
 
         <button

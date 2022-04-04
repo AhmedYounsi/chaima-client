@@ -1,17 +1,30 @@
 import React, { useState } from 'react';
 import { Layout } from 'antd';
+//layout
 import Sidebar from '../components/SideBar/Sidebar';
-import Home from '../pages/Home/Home';
-import Employees from '../pages/Employees/Employees';
-import Event from '../pages/Events/Events';
-import NewEvent from '../pages/Events/NewEvent';
-import Settings from '../pages/Settings/Settings';
-import Calendar from '../pages/Calendar/AppCalendar';
-import NewUser from '../pages/Employees/AddEmploye/NewUser';
 import HeaderTab from '../components/Header/HeaderTab';
 import Footer from '../components/Footer/Footer';
 import AppBreadcrumb from '../components/AppBreadcrumb/AppBreadcrumb';
 import _Alert from '../components/Alert/_Alert';
+//dashboard
+import Dashboard from '../pages/Home/Dashboard';
+// employees
+import Employees from '../pages/Employees/Employees';
+import NewUser from '../pages/Employees/AddEmploye/NewUser';
+// evenement
+import Event from '../pages/Events/Events';
+import NewEvent from '../pages/Events/NewEvent';
+//my profile
+import Me from '../pages/Profile/Profile';
+//Settings
+import Settings from '../pages/Settings/Settings';
+//calendar
+import Calendar from '../pages/Calendar/AppCalendar';
+//leave
+import TimeOff from '../pages/TimeOff/TimeOff';
+//Teams
+import AddTeam from '../pages/Teams/AddTeam/AddTeam';
+
 import { Route, Routes } from 'react-router-dom';
 
 import './DefaultLayout.scss';
@@ -44,18 +57,19 @@ function DefaultLayout() {
             <br />
             <AppBreadcrumb />
             <br />
-            <div
-              className="site-layout-background"
-              style={{ padding: 24, minHeight: 360 }}
-            >
+            <div style={{ padding: 24, minHeight: 360 }}>
               <Routes>
-                <Route path="/home" element={<Home />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/employees/newUser" element={<NewUser />} />
+                <Route path="/employees/newTeam" element={<AddTeam />} />
+
                 <Route path="/events" element={<Event />} />
                 <Route path="/events/newEvent" element={<NewEvent />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/profile" element={<Me />} />
+                <Route path="/timeOff" element={<TimeOff />} />
               </Routes>
             </div>
           </Content>
