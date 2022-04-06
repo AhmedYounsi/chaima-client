@@ -1,24 +1,16 @@
 import React, { useState } from 'react';
-import {
-  PageHeader,
-  Button,
-  Descriptions,
-  BackTop,
-  Tooltip,
-  Modal,
-  Form,
-  Radio,
-} from 'antd';
+import { Button, BackTop, Tooltip, Modal, Form, Radio, Space } from 'antd';
 import { Tab, Tabs } from '@blueprintjs/core';
 import ListEvents from './ListEvents';
 import ListAnnouncement from '../Announcement/ListAnnouncement';
 import { PlusOutlined } from '@ant-design/icons';
 import '../Settings/Modal.scss';
 import './radio.scss';
-
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Events() {
+  const [value, setValue] = useState(null);
+
   const [Selected, setSelected] = useState('1');
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
@@ -33,6 +25,25 @@ function Events() {
 
   const onOk = () => {
     form.submit();
+  };
+  const navigate = useNavigate();
+
+  const onFinish = async (value) => {
+    console.log('Finish:', value);
+    {
+      (function () {
+        switch (value.type) {
+          case 'event':
+            return navigate('/events/newEvent');
+
+          case 'announcement':
+            return navigate('/events/newAnnouncement');
+
+          default:
+            break;
+        }
+      })();
+    }
   };
 
   return (
@@ -49,9 +60,9 @@ function Events() {
               shape="round"
               icon={<PlusOutlined />}
               ghost
-              //onClick={showModal}
+              onClick={showModal}
             >
-              <Link to="/events/newEvent">New Event </Link>
+              Create post
             </Button>
           </Tooltip>
         </div>
@@ -85,11 +96,56 @@ function Events() {
         })()}
       </div>
       <Modal
-        title="Add New Departement"
+        title="Create post"
         visible={visible}
         onOk={onOk}
         onCancel={hideModal}
-      ></Modal>
+      >
+        <Form form={form} layout="vertical" onFinish={onFinish}>
+          <Form.Item>
+            Send messages to colleagues in different communities or share
+            company-wide messages and events.
+          </Form.Item>
+          <Form.Item
+            label="SELECT POST TYPE"
+            name={'type'}
+            val
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Radio.Group value={value}>
+              <Space direction="vertical">
+                <Radio.Button className="p-field-radiobutton " value="event">
+                  <div className="radio-title">
+                    <label className="p-radiobutton-label"> Event</label>
+                  </div>
+
+                  <p className="p-text-light">
+                    Create an event and notify your colleagues. We'll add this
+                    event to the company calendar.
+                  </p>
+                </Radio.Button>
+
+                <Radio.Button
+                  className="p-field-radiobutton "
+                  value="announcement"
+                >
+                  <div className="radio-title">
+                    <label> Announcement</label>
+                  </div>
+
+                  <p className="p-text-light">
+                    Share news, big announcements or ask a question.
+                  </p>
+                </Radio.Button>
+              </Space>
+            </Radio.Group>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 }

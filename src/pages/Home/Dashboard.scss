@@ -1,0 +1,39 @@
+.div-dashboard-global{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    justify-content: space-between;
+}
+
+.div-dashboard-global .blockA {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    position: relative;
+
+}
+
+.blockA .WelcomeCard {
+    width: 30%;
+    
+}
+
+.WelcomeCard .layoutCard{
+    padding: 30px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+}
+.layoutCard .descriptionAddinn{
+    display: inline-block;
+    max-width: 100%;
+    color: #515164;
+    white-space: nowrap;
+    letter-spacing: normal;
+    font: 16px/20px Inter, sans-serif;
+    font-weight: 400;
+}

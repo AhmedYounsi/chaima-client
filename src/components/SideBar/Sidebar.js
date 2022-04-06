@@ -56,7 +56,7 @@ const Sidebar = () => {
         </Menu.Item>
 
         <Menu.Item style={{ margin: 0 }} icon={<FileOutlined />} key="8">
-          <NavLink className="nav-link" to="/">
+          <NavLink className="nav-link" to="/files">
             Files
           </NavLink>
         </Menu.Item>

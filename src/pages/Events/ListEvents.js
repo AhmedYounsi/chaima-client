@@ -7,6 +7,7 @@ function ListEvents() {
     <div className="site-layout-content">
       <BackTop />
       <List
+        className={'ant-list-item1'}
         grid={{ gutter: 16, column: 3 }}
         pagination={{
           onChange: (page) => {

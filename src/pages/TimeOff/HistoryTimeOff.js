@@ -1,6 +1,8 @@
 import React from 'react';
 import { Tab, Tabs } from '@blueprintjs/core';
 import { useState } from 'react';
+import ApprovedList from './ApprovedList';
+import DeclinedList from './DeclinedList';
 
 function HistoryTimeOff() {
   const [Selected, setSelected] = useState('1');
@@ -23,7 +25,20 @@ function HistoryTimeOff() {
           <Tabs.Expander />
         </Tabs>
       </div>
-      <div className="site-layout-content"></div>
+      <div className="site-layout-content">
+        {(function () {
+          switch (Selected) {
+            case '1':
+              return <ApprovedList />;
+
+            case '2':
+              return <DeclinedList />;
+
+            default:
+              break;
+          }
+        })()}
+      </div>
     </div>
   );
 }

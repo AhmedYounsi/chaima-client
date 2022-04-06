@@ -180,21 +180,7 @@ span {
   padding: 20px;
 }
 
-.ant-descriptions-item-container .ant-descriptions-item-label,
-.ant-descriptions-item-container .ant-descriptions-item-content {
-  display: block !important;
-  font: 16px/24px Inter, sans-serif !important ;
-  color: #1e1e31;
-}
-.ant-page-header-heading-title {
-  font: 20px/28px Inter, sans-serif !important ;
-  font-weight: 500;
-  color: #1e1e31;
-}
 
-.ant-page-header-content {
-  padding-top: 10px !important;
-}
 
 .ant-list-bordered {
   border-radius: 5px !important;

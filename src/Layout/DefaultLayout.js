@@ -14,6 +14,7 @@ import NewUser from '../pages/Employees/AddEmploye/NewUser';
 // evenement
 import Event from '../pages/Events/Events';
 import NewEvent from '../pages/Events/NewEvent';
+import NewAnnouncement from '../pages/Announcement/NewAnnouncement';
 //my profile
 import Me from '../pages/Profile/Profile';
 //Settings
@@ -24,6 +25,8 @@ import Calendar from '../pages/Calendar/AppCalendar';
 import TimeOff from '../pages/TimeOff/TimeOff';
 //Teams
 import AddTeam from '../pages/Teams/AddTeam/AddTeam';
+//Files
+import Files from '../pages/Files/Files';
 
 import { Route, Routes } from 'react-router-dom';
 
@@ -66,10 +69,16 @@ function DefaultLayout() {
 
                 <Route path="/events" element={<Event />} />
                 <Route path="/events/newEvent" element={<NewEvent />} />
+                <Route
+                  path="/events/newAnnouncement"
+                  element={<NewAnnouncement />}
+                />
+
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/profile" element={<Me />} />
                 <Route path="/timeOff" element={<TimeOff />} />
+                <Route path="/files" element={<Files />} />
               </Routes>
             </div>
           </Content>
