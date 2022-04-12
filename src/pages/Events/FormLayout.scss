@@ -1,0 +1,16 @@
+.form-layout{
+    width: 100%;
+    display: flex;
+    direction: row;
+    flex: 1 1 auto;
+    padding: 50px;
+}
+
+.form-layout .blockFormA{
+    width : 100%;
+}
+.form-layout .blockFormB{
+    width : 100%;
+    padding-left: 15px;
+
+}

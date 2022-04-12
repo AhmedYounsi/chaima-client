@@ -1,5 +1,4 @@
 import React from 'react';
-import './Profile.scss';
 import { Form, Select, BackTop, DatePicker } from 'antd';
 
 function JobInfo() {

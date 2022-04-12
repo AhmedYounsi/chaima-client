@@ -1,10 +1,16 @@
 import React from 'react';
-import { Button, Form, Input, Row, Col } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
 import { Link } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
+const { Option } = Select;
 
 function NewAnnouncement() {
+  const [form] = Form.useForm();
+  function handleChange(value) {
+    console.log(`selected ${value}`);
+  }
+
   return (
     <div className="site-layout-background">
       <div className="site-layout-header-deviser">
@@ -15,23 +21,84 @@ function NewAnnouncement() {
           </Link>
         </div>
       </div>
-      <div className="site-layout-content">
-        <Form>
-          <Row gutter={[16, 16]}>
-            <Col span={12}>
-              <Form.Item>
-                <Input></Input>
+      <Form form={form} layout="vertical">
+        <div className="pad">
+          <div className="padForm">
+            <div className="header-pad" style={{ width: '60%' }}>
+              <Form.Item
+                name={'title'}
+                val
+                label="Title"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input
+                  className="custom-input"
+                  placeholder={'Title'}
+                  type={'text'}
+                ></Input>
               </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item>
-                <TextArea rows={2} placeholder={'Description'} type={'text'} />
+              <Form.Item
+                name={'description'}
+                val
+                label="Description"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <TextArea
+                  className="custom-input"
+                  rows={2}
+                  placeholder={'Description'}
+                  type={'text'}
+                />
               </Form.Item>
-            </Col>
-          </Row>
-          <Form.Item></Form.Item>
-        </Form>
-      </div>
+            </div>
+            <div className="form-pad">
+              <Form.Item
+                name={'community'}
+                val
+                label="Select community"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Select defaultValue="1" allowClear>
+                  <Option value="1">All</Option>
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name={'members'}
+                val
+                label="Members"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Select
+                  mode="multiple"
+                  allowClear
+                  style={{ width: '100%' }}
+                  placeholder="Please select"
+                  onChange={handleChange}
+                >
+                  <Option value="cha">chaima</Option>
+                  <Option value="ch">chaima</Option>
+                </Select>
+              </Form.Item>
+            </div>
+          </div>
+        </div>
+      </Form>
     </div>
   );
 }

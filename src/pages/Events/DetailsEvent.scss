@@ -1,0 +1,31 @@
+.details-Event {
+    padding:40px ;
+    border:1px solid #e2e2e5 ;
+    border-radius: 5px;
+}
+
+.created-header{
+    display: flex;
+    direction: row;
+
+}
+
+.created-header .created{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;    
+    padding-left:15px;
+}
+.created .by{    color: #515164;
+    white-space: normal;
+    letter-spacing: normal;
+    font-size: 18px;
+        font-weight: 500;}
+.created .at{
+    color: #515164;
+    white-space: normal;
+    letter-spacing: normal;
+    font-size: 14px;
+        font-weight: 400;
+}

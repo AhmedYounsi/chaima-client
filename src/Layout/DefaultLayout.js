@@ -15,6 +15,7 @@ import NewUser from '../pages/Employees/AddEmploye/NewUser';
 import Event from '../pages/Events/Events';
 import NewEvent from '../pages/Events/NewEvent';
 import NewAnnouncement from '../pages/Announcement/NewAnnouncement';
+import DetailsEvent from '../pages/Events/DetailsEvent';
 //my profile
 import Me from '../pages/Profile/Profile';
 //Settings
@@ -73,6 +74,7 @@ function DefaultLayout() {
                   path="/events/newAnnouncement"
                   element={<NewAnnouncement />}
                 />
+                <Route path="/events/details" element={<DetailsEvent />} />
 
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/settings" element={<Settings />} />

@@ -1,5 +1,4 @@
 import React from 'react';
-import './Profile.scss';
 import { Form, Input, DatePicker, BackTop } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import PhoneInput from 'react-phone-input-2';

@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
-import { Button, Row, Col, Input, DatePicker } from 'antd';
+import { Button, Form, Input, DatePicker, Select } from 'antd';
 import { Link } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import './FormLayout.scss';
 
 const { TextArea } = Input;
+const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 function NewEvent() {
+  const [form] = Form.useForm();
+
+  function handleChange(value) {
+    console.log(`selected ${value}`);
+  }
   const [dates, setDates] = useState([]);
   const [hackValue, setHackValue] = useState();
   const [value, setValue] = useState();
@@ -37,43 +44,79 @@ function NewEvent() {
           </Link>
         </div>
       </div>
-      <div className="site-layout-content">
-        <Row gutter={[16, 16]}>
-          <Col span={12}>
-            <Input size="large" placeholder="Title" type="text" />
-          </Col>
-          <Col span={12}></Col>
-        </Row>
-        <br />
-        <Row gutter={[16, 16]}>
-          <Col span={12}>
-            <TextArea rows={2} placeholder={'Description'} type={'text'} />
-          </Col>
-          <Col span={12}></Col>
-        </Row>
-        <br />
-
-        <Row gutter={[16, 16]}>
-          <Col span={12}>
-            <TextArea rows={2} placeholder={'Address'} type={'text'} />
-          </Col>
-          <Col span={12}></Col>
-        </Row>
-        <br />
-        <Row gutter={[16, 16]}>
-          <Col span={12}>
-            <RangePicker
-              className={'ant-picker-range'}
-              value={hackValue || value}
-              disabledDate={disabledDate}
-              onCalendarChange={(val) => setDates(val)}
-              onChange={(val) => setValue(val)}
-              onOpenChange={onOpenChange}
-            />
-          </Col>
-          <Col span={12}></Col>
-        </Row>
-      </div>
+      <Form form={form} layout="vertical">
+        <div className="form-layout">
+          <div className="blockFormA">
+            <Form.Item
+              name={'title'}
+              val
+              label="Title"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input className="custom-input" placeholder="Title" type="text" />
+            </Form.Item>
+            <Form.Item
+              name={'description'}
+              val
+              label="Description"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <TextArea
+                className="custom-input"
+                rows={2}
+                placeholder={'Description'}
+                type={'text'}
+              />
+            </Form.Item>
+          </div>
+          <div className="blockFormB">
+            <Form.Item
+              name={'date'}
+              val
+              label="date"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <RangePicker
+                className={'custom-input'}
+                value={hackValue || value}
+                disabledDate={disabledDate}
+                onCalendarChange={(val) => setDates(val)}
+                onChange={(val) => setValue(val)}
+                onOpenChange={onOpenChange}
+              />
+            </Form.Item>
+            <Form.Item
+              name={'address'}
+              val
+              label="Address"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <TextArea
+                className="custom-input"
+                rows={2}
+                placeholder={'Address'}
+                type={'text'}
+              />
+            </Form.Item>
+          </div>
+        </div>
+      </Form>
     </div>
   );
 }

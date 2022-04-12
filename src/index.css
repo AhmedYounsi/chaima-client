@@ -161,7 +161,10 @@ span {
   font-size: 16px;
   font-weight: 600;
 }
-
+.ant-form-item-label
+> label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+content: '' !important;
+}
 
 .site-layout .site-layout-background .site-layout-header-centred {
   box-shadow: inset 0 -1px 0 rgb(0 0 0 / 10%) !important;

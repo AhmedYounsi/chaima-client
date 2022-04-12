@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BackTop, List } from 'antd';
 import EventCard from './EventCard';
+import DetailsEvent from './DetailsEvent';
+import './EventCard.scss';
 
 function ListEvents() {
+  const [Event, setEvent] = useState(null);
+
   return (
     <div className="site-layout-content">
       <BackTop />
@@ -19,7 +23,10 @@ function ListEvents() {
         itemLayout={'vertical'}
         renderItem={(item, index) => (
           <List.Item key={index}>
-            <EventCard item={item}></EventCard>
+            <EventCard
+              item={item}
+              onClick={(item) => setEvent(item)}
+            ></EventCard>
           </List.Item>
         )}
       />

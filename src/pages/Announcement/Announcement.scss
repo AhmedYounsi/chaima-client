@@ -12,7 +12,9 @@
     width: 100%;
 }
 
-
+.card-announcement:hover{
+    filter: brightness(0.95);
+  }
 
 .card-announcement .header-announcement {
     display: flex;

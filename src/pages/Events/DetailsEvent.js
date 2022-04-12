@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Menu, Button, Dropdown } from 'antd';
-
+import {
+  ArrowLeftOutlined,
+  MoreOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import { Menu, Button, Dropdown, Avatar, Divider } from 'antd';
+import './DetailsEvent.scss';
 function DetailsEvent() {
   const menu = (
     <Menu>
@@ -29,7 +33,17 @@ function DetailsEvent() {
           </Dropdown>
         </div>
       </div>
-      <div className="site-layout-content"></div>
+      <div className="site-layout-content">
+        <div className="details-Event">
+          <div className="created-header">
+            <Avatar shape="square" size={64} icon={<UserOutlined />} />
+            <div className="created">
+              <span className="by">chaima</span>
+              <span className="at">posted At </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
