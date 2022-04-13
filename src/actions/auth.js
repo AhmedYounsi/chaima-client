@@ -1,5 +1,7 @@
+/* eslint-disable */
 import api from '../Utils/api';
 import { setAlert } from './alert';
+import { LoadingAction } from './LoadingAction';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -12,9 +14,10 @@ import {
 
 // Load User
 export const loadUser = () => async (dispatch) => {
+
   try {
     const res = await api.get('/users');
-
+  
     dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -30,7 +33,7 @@ export const loadUser = () => async (dispatch) => {
 export const register = (formData) => async (dispatch) => {
   try {
     const res = await api.post('/users', formData);
-
+   
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data,
@@ -50,27 +53,24 @@ export const register = (formData) => async (dispatch) => {
 };
 
 // Login User
-export const login = (email, password) => async (dispatch) => {
+export const LoginAction = async (email, password,dispatch) => {
+  LoadingAction(true,dispatch)
   const body = { email, password };
-
+ 
   try {
     const res = await api.post('/users/signin', body);
-
+   
+    LoadingAction(false,dispatch)
     dispatch({
-      type: LOGIN_SUCCESS,
-      payload: res.data,
+      type: "SET_TOKEN",
+      payload: res.data.token,
     });
-
-    dispatch(loadUser());
+ 
   } catch (err) {
-    const errors = err.response.data.errors;
-
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-    }
-
+    LoadingAction(false,dispatch)
     dispatch({
-      type: LOGIN_FAIL,
+      type: 'SetAlert',
+      payload: { message :err.response.data.msg, type:'error' }
     });
   }
 };

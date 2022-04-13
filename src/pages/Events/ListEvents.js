@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import { BackTop, List } from 'antd';
 import EventCard from './EventCard';

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import TokenReducer from './TokenReducer';
+import LoadingReducer from './LoadingReducer';
 import AlertReducer from './AlertReducer';
 import alert from './alert';
 import auth from './auth';
@@ -13,6 +14,7 @@ const AllReducers = combineReducers({
   user: user,
   event: event,
   AlertReducer: AlertReducer,
+  LoadingReducer:LoadingReducer,
 });
 
 export default AllReducers;

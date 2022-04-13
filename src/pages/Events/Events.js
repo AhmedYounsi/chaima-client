@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import { Button, BackTop, Tooltip, Modal, Form, Radio, Space } from 'antd';
 import { Tab, Tabs } from '@blueprintjs/core';

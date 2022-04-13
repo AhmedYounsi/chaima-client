@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useMemo, useEffect } from 'react';
 import { Button, Modal, Form, Input, Select, Row, Col } from 'antd';
 import '../../Modal.scss';

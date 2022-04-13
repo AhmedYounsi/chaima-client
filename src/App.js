@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Route, Routes } from 'react-router-dom';
-
+import _Alert from './components/Alert/_Alert';
 import DefaultLayout from './Layout/DefaultLayout';
 
 import Login from './pages/Login/Login';
@@ -12,6 +12,7 @@ function App() {
   const [Logged, setLogged] = useState(false);
   return (
     <>
+      <_Alert />
       {TokenReducer && (
         <>
           <DefaultLayout />

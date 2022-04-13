@@ -1,4 +1,5 @@
 .custom-input {
+  position: relative;
   height: 40px;
   width: 100%;
   border: 1px solid #ced4da;
@@ -13,29 +14,31 @@
   .input::placeholder {
     color: #a3a3a3;
   };
-
-  .custom-input:enabled:hover {
-    border-color: #106ba3;
-  };
+}
+  // .custom-input:enabled:hover {
+  //   border-color: #106ba3;
+  // };
   
-  .input-content {
-    position: relative;
-    span {
-      position: absolute;
-      top: 50%;
-      font-size: 18px;
-      transform: translateY(-50%);
-      left: 9px;
-      color: #a3a3a3;
-    }
-  };
+ 
 
   .custom-input:focus {
     border-bottom: 2px solid #106ba3;
-    padding-top: 12px;
   }
 
-}
+
+
+.input-content {
+  position: relative;
+  span {
+    position: absolute;
+    top: 50%;
+    font-size: 18px;
+    transform: translateY(-50%);
+    left: 9px;
+    color: #a3a3a3;
+    z-index: 1;
+  }
+};
 
 
 

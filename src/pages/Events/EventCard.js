@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import './EventCard.scss';
 import { Menu, Button, Dropdown, Space, Divider, Avatar } from 'antd';

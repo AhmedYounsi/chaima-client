@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import { Layout } from 'antd';
 //layout
@@ -42,6 +43,7 @@ function DefaultLayout() {
   //const TokenReducer = useSelector((state) => state.TokenReducer);
   return (
     <>
+   
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
           collapsible
@@ -52,7 +54,7 @@ function DefaultLayout() {
           <Sidebar />
         </Sider>
         <Layout className="site-layout">
-          <_Alert />
+         
           <Header className="site-layout-background" style={{ padding: 0 }}>
             <HeaderTab />
           </Header>
