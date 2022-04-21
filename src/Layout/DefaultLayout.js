@@ -25,8 +25,6 @@ import Settings from '../pages/Settings/Settings';
 import Calendar from '../pages/Calendar/AppCalendar';
 //leave
 import TimeOff from '../pages/TimeOff/TimeOff';
-//Teams
-import AddTeam from '../pages/Teams/AddTeam/AddTeam';
 //Files
 import Files from '../pages/Files/Files';
 
@@ -43,7 +41,6 @@ function DefaultLayout() {
   //const TokenReducer = useSelector((state) => state.TokenReducer);
   return (
     <>
-   
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
           collapsible
@@ -54,7 +51,6 @@ function DefaultLayout() {
           <Sidebar />
         </Sider>
         <Layout className="site-layout">
-         
           <Header className="site-layout-background" style={{ padding: 0 }}>
             <HeaderTab />
           </Header>
@@ -68,7 +64,6 @@ function DefaultLayout() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/employees/newUser" element={<NewUser />} />
-                <Route path="/employees/newTeam" element={<AddTeam />} />
 
                 <Route path="/events" element={<Event />} />
                 <Route path="/events/newEvent" element={<NewEvent />} />
