@@ -12,45 +12,52 @@ import {
   Input,
 } from 'antd';
 import { PlusOutlined, SettingOutlined } from '@ant-design/icons';
-import { AddTimeOffType, GetTimeOffType } from '../../../actions/TimeOffAction';
-import './../Modal.scss';
+import {
+  AddContractType,
+  GetContractType,
+} from '../../../../actions/ContractTypeAction';
+import '../../Modal.scss';
 
-function TimeOffSettings() {
+function ContractType() {
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [name, setname] = useState('');
-  const [TimeOffTypeList, setTimeOffTypeList] = useState([]);
+  const [ContractTypeList, setContractTypeList] = useState([]);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    GetTimeOffTypes();
+    GetContractTypes();
   }, []);
 
-  const GetTimeOffTypes = async () => {
-    const res = await GetTimeOffType(dispatch);
+  const GetContractTypes = async () => {
+    const res = await GetContractType(dispatch);
     console.log(res.data);
-    if (res.status == 200) setTimeOffTypeList(res.data);
+    if (res.status == 200) setContractTypeList(res.data);
   };
 
   const showModal = () => {
     setVisible(true);
   };
 
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
   const onFinish = async (values) => {
-    const timeOffType = {
+    const contractType = {
       name: name,
     };
-    const res = await AddTimeOffType(dispatch, timeOffType);
+    const res = await AddContractType(dispatch, contractType);
     if (res.status == 200) {
       setVisible(false);
-      GetTimeOffTypes();
+      GetContractTypes();
       dispatch({
         type: 'SetAlert',
         payload: {
           type: 'success',
-          message: 'Time off type added successfully !',
+          message: 'Contract type added successfully !',
         },
       });
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -66,38 +73,34 @@ function TimeOffSettings() {
     form.submit();
   };
 
-  const handleCancel = () => {
-    setVisible(false);
-  };
-
   const menu = (
     <Menu>
-      <Menu.Item>
-        <Button type="text">Edit Type</Button>
+      <Menu.Item key="M1">
+        <Button type="text">Edit Type Contract</Button>
       </Menu.Item>
-      <Menu.Item>
-        <Button type="text">Remove Type</Button>
+      <Menu.Item key="M2">
+        <Button type="text">Remove Type Contract</Button>
       </Menu.Item>
     </Menu>
   );
+
   return (
     <div className="sections-vertical">
       <BackTop />
       <div className="pad">
         <div className="padForm">
           <div className="header-pad">
-            <span className="title-text">Absence types</span>
+            <span className="title-text">Contract Type </span>
 
             <br />
             <span className="description-text">
-              Manage the types of absences within your company so your employees
-              can select them when requesting time off{' '}
+              Create folders to organize employee documents.
             </span>
             <div className="line radical"></div>
             <br />
             <br />
 
-            <Tooltip title="Add New Absence Type">
+            <Tooltip title="Add new type directory">
               <Button
                 style={{ height: '40px' }}
                 shape="round"
@@ -106,13 +109,14 @@ function TimeOffSettings() {
                 icon={<PlusOutlined />}
                 onClick={showModal}
               >
-                Add New Absence Type
+                Add New Type
               </Button>
             </Tooltip>
           </div>
+
           <Modal
             className="ant-modal"
-            title="Add new time off policy"
+            title="Add a new type of contract"
             visible={visible}
             onOk={handleOk}
             confirmLoading={confirmLoading}
@@ -120,7 +124,7 @@ function TimeOffSettings() {
           >
             <Form layout={'vertical'} form={form} onFinish={onFinish}>
               <Form.Item
-                label=" Policy name"
+                label=" Contract name"
                 name={'name'}
                 rules={[
                   {
@@ -140,7 +144,7 @@ function TimeOffSettings() {
             <List
               size="large"
               bordered
-              dataSource={TimeOffTypeList}
+              dataSource={ContractTypeList}
               renderItem={(item, index) => (
                 <List.Item
                   key={index}
@@ -165,4 +169,4 @@ function TimeOffSettings() {
   );
 }
 
-export default TimeOffSettings;
+export default ContractType;

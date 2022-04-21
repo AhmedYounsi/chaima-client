@@ -2,6 +2,7 @@
 import React from 'react';
 import Departement from './Departement/DepartementSettings';
 import WorkPlaces from './WorkPlaces/WorkPlaces';
+import Contract from './Contract/ContractType';
 
 function GeneralSettings() {
   return (
@@ -9,6 +10,7 @@ function GeneralSettings() {
       <WorkPlaces />
 
       <Departement />
+      <Contract />
     </div>
   );
 }

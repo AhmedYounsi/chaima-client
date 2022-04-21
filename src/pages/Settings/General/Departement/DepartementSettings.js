@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
-import { Button, Tooltip } from 'antd';
+import { Button, Tooltip, BackTop } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import Departements from './ListDepartementSettings';
 import { Form, Input, Modal } from 'antd';
@@ -38,14 +38,13 @@ function DepartementSettings() {
   };
 
   const onFinish = async (values) => {
-    console.log('Finish:', values);
     const departement = {
       name: name,
     };
     const res = await AddDepartement(dispatch, departement);
     if (res.status == 200) {
       setVisible(false);
-      GetDepart();
+      GetDepartements();
       dispatch({
         type: 'SetAlert',
         payload: {
@@ -61,7 +60,8 @@ function DepartementSettings() {
   };
 
   return (
-    <div>
+    <div className="section">
+      <BackTop />
       <div className="pad">
         <div className="padForm">
           <div className="header-pad">
@@ -102,7 +102,6 @@ function DepartementSettings() {
         <Form form={form} layout="vertical" name="userForm" onFinish={onFinish}>
           <Form.Item
             name={'name'}
-            val
             label="Departement Name"
             rules={[
               {
