@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Alert } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import './_Alert.scss';
 const _Alert = () => {
   const AlertReducer = useSelector((state) => state.AlertReducer);
-
+  useEffect(() => {
+    if (AlertReducer.message)
+      setTimeout(() => {
+        dispatch({
+          type: 'SetAlert',
+          payload: [],
+        });
+      }, 5000);
+  }, [AlertReducer])
   const dispatch = useDispatch();
   const handleClose = () => {
     dispatch({

@@ -29,7 +29,6 @@ function userReducer(state = initialState, action) {
       return {
         ...state,
         users: payload,
-        loading: false,
       };
     case User_ERROR:
       return {

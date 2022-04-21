@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './stepper.scss';
 import { Steps, Button, message } from 'antd';
@@ -10,20 +10,57 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const { Step } = Steps;
 
-const steps = [
-  {
-    title: 'General Information',
-    content: <GeneralInfo />,
-  },
-  {
-    title: 'Job Information',
-    content: <JobInfo />,
-  },
-];
-
 function NewUser() {
   const navigate = useNavigate();
   const [current, setCurrent] = React.useState(0);
+  // GeneralInfo
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
+  const [Lastname, setFLastname] = useState('');
+  const [Firstname, setFirstname] = useState('');
+  const [Adresse, setAdresse] = useState('');
+  const [BirthDay, setBirthDay] = useState('');
+  const [Tel, setTel] = useState('');
+  //    WorkInfo
+  const [Office, setOffice] = useState('');
+  const [Dep, setDep] = useState('');
+  const [Post, setPost] = useState('');
+  const [Contrat, setContrat] = useState('');
+  const [Report, setReport] = useState('');
+
+  const steps = [
+    {
+      title: 'General Information',
+      content: (
+        <GeneralInfo
+          HandleEmail={(text) => setEmail(text)}
+          HandleLastname={(text) => setFLastname(text)}
+          HandleFirstName={(text) => setFirstname(text)}
+          HandleAdresse={(text) => setAdresse(text)}
+          HandleBirthday={(text) => setBirthDay(text)}
+          HandleTel={(text) => setTel(text)}
+          adresseMail={Email}
+        />
+      ),
+    },
+    {
+      title: 'Job Information',
+      content: (
+        <JobInfo
+          HandleOffice={(text) => setOffice(text)}
+          HandleDep={(text) => setDep(text)}
+          HandlePost={(text) => setPost(text)}
+          HandleContract={(text) => setContrat(text)}
+          HandleReported={(text) => setReport(text)}
+          Office={Office}
+          Dep={Dep}
+          Post={Post}
+          Contrat={Contrat}
+          Report={Report}
+        />
+      ),
+    },
+  ];
 
   const next = () => {
     setCurrent(current + 1);

@@ -17,7 +17,7 @@ export const loadUser = () => async (dispatch) => {
 
   try {
     const res = await api.get('/users');
-  
+
     dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -33,7 +33,7 @@ export const loadUser = () => async (dispatch) => {
 export const register = (formData) => async (dispatch) => {
   try {
     const res = await api.post('/users', formData);
-   
+
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data,
@@ -53,24 +53,28 @@ export const register = (formData) => async (dispatch) => {
 };
 
 // Login User
-export const LoginAction = async (email, password,dispatch) => {
-  LoadingAction(true,dispatch)
+export const LoginAction = async (email, password, dispatch) => {
+  LoadingAction(true, dispatch)
   const body = { email, password };
- 
+
   try {
     const res = await api.post('/users/signin', body);
-   
-    LoadingAction(false,dispatch)
+
+    LoadingAction(false, dispatch)
     dispatch({
       type: "SET_TOKEN",
       payload: res.data.token,
     });
- 
+    dispatch({
+      type: "SET_USER",
+      payload: res.data.user,
+    });
+
   } catch (err) {
-    LoadingAction(false,dispatch)
+    LoadingAction(false, dispatch)
     dispatch({
       type: 'SetAlert',
-      payload: { message :err.response.data.msg, type:'error' }
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };

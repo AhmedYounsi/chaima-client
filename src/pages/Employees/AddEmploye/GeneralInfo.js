@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React from 'react';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import '../../../components/Input/Input.scss';
 import { Row, Col, Input, DatePicker, Form } from 'antd';
 import PhoneInput from 'react-phone-input-2';
@@ -8,56 +7,97 @@ import 'react-phone-input-2/lib/bootstrap.css';
 
 const { TextArea } = Input;
 
-function GeneralInfo() {
+function GeneralInfo(props) {
   return (
-    <Form>
+    <Form layout="vertical">
       <Row gutter={[16, 16]}>
         <Col span={12}>
-          <Input size="large" placeholder="First Name" type="text" />
+          <Form.Item
+            name={'First Name'}
+            label="First Name"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input
+              className="custom-input"
+              size="large"
+              placeholder="First Name"
+              type="text"
+              onChange={(e) => props.HandleFirstName(e.target.value)}
+            />
+          </Form.Item>
         </Col>
         <Col span={12}>
-          <Input
-            className="custom-input"
-            size="large"
-            placeholder={'Last Name'}
-            type="text"
-          />
+          <Form.Item
+            name={'Last Name'}
+            label="Last Name"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input
+              className="custom-input"
+              size="large"
+              placeholder={'Last Name'}
+              type="text"
+              onChange={(e) => props.HandleLastname(e.target.value)}
+            />
+          </Form.Item>
         </Col>
       </Row>
-      <br />
-      <Row>
+      <Form.Item
+        name={'Email'}
+        label="Email"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
         <Input
           className="custom-input"
           size="large"
           placeholder={'Email'}
           type="email"
+          value={props.adresseMail}
+          onChange={(e) => props.HandleEmail(e.target.value)}
         />
-      </Row>
+      </Form.Item>
 
-      <br />
-      <Row>
-        <TextArea rows={4} placeholder={'Address'} type={'text'} />
-      </Row>
-      <br />
+      <Form.Item name={'Adress'} label="Adress">
+        <TextArea
+          rows={4}
+          placeholder={'Address'}
+          type={'text'}
+          onChange={(e) => props.HandleAdresse(e.target.value)}
+        />
+      </Form.Item>
       <Row gutter={[16, 16]}>
         <Col span={12}>
-          <DatePicker
-            className="custom-input"
-            size="large"
-            placeholder={'Date of Birth'}
-          />
+          <Form.Item name={'Date of Birth'} label="Date of Birth">
+            <DatePicker
+              className="custom-input"
+              size="large"
+              placeholder={'Date of Birth'}
+              onChange={(e) => props.HandleBirthday(e.target.value)}
+            />
+          </Form.Item>
         </Col>
         <Col span={12}>
-          <PhoneInput
-            className="input-phone"
-            //onFocus={() => focus_phone()}
-            //onBlur={() => blur_phone()}
-            enableLongNumbers={false}
-            country={'fr'}
-            placeholder="Number Phone"
-            //value={Tel}
-            // onChange={(phone) => setTel(phone)}
-          />
+          <Form.Item name={'Number Phone'} label="Number Phone">
+            <PhoneInput
+              className="input-phone"
+              enableLongNumbers={false}
+              country={'fr'}
+              placeholder="Number Phone"
+              onChange={(e) => props.HandleTel(e.target.value)}
+            />
+          </Form.Item>
         </Col>
       </Row>
     </Form>

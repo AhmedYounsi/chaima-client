@@ -1,10 +1,29 @@
 /* eslint-disable */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { getUsers } from '../../actions/user';
+import { useDispatch } from 'react-redux';
+
 import { BackTop } from 'antd';
-import { Table, Input, Button, Space } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { Table } from 'antd';
 function ListEmployees() {
+  const dispatch = useDispatch();
+  const [EmployeesList, setEmployeesList] = useState([]);
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = async () => {
+    const res = await getUsers(dispatch);
+    const arr = []
+    res.data.map((el, index) => {
+      arr.push({ key: index, ...el })
+    })
+
+    if (res.status == 200) setEmployeesList(arr);
+  };
+
   const columns = [
+
     {
       title: 'First Name',
       dataIndex: 'name',
@@ -13,14 +32,15 @@ function ListEmployees() {
     },
     {
       title: 'Last Name',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'lastName',
+      key: 'lastName',
       width: '30%',
     },
+
     {
       title: 'Job Title',
-      dataIndex: 'age',
-      key: 'age',
+      dataIndex: 'post',
+      key: 'post',
       width: '20%',
     },
     {
@@ -30,9 +50,9 @@ function ListEmployees() {
       width: '20%',
     },
     {
-      title: 'Action',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Number phone',
+      dataIndex: 'tel',
+      key: 'tel',
       width: '10%',
     },
   ];
@@ -51,12 +71,9 @@ function ListEmployees() {
             </span>
             <div className="line radical"></div>
           </div>
-          <div className="form-pad" style={{ width: '30%' }}>
-            <div className="box-nbr-employees">nombres employees</div>
-          </div>
         </div>
         <div className="site-layout-content">
-          <Table columns={columns} />
+          <Table columns={columns} dataSource={EmployeesList} />
         </div>
       </div>
     </div>

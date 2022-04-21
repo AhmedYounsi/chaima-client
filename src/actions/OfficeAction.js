@@ -1,8 +1,7 @@
 /* eslint-disable */
 import api from '../Utils/api';
-import { setAlert } from './alert';
 
-import { GET_User, GET_Users, User_ERROR, ADD_OFFICE } from './types';
+import { User_ERROR } from './types';
 
 export const AddOffice = async (dispatch, office) => {
   try {

@@ -1,7 +1,8 @@
 import api from '../Utils/api';
 import { setAlert } from './alert';
 
-import { GET_User, GET_Users, User_ERROR, CLEAR_PROFILE } from './types';
+import { GET_User, User_ERROR } from './types';
+import { LoadingAction } from './LoadingAction';
 
 // Get current users profile
 export const getCurrentUser = () => async (dispatch) => {
@@ -20,17 +21,10 @@ export const getCurrentUser = () => async (dispatch) => {
   }
 };
 
-// Get all profiles
-export const getUsers = () => async (dispatch) => {
-  dispatch({ type: CLEAR_PROFILE });
-
+export const getUsers = async (dispatch) => {
   try {
     const res = await api.get('/users/users');
-
-    dispatch({
-      type: GET_Users,
-      payload: res.data,
-    });
+    return res;
   } catch (err) {
     dispatch({
       type: User_ERROR,
@@ -38,36 +32,83 @@ export const getUsers = () => async (dispatch) => {
     });
   }
 };
+// Get all profiles
 
 // Create or update User
 export const createProfile =
   (formData, history, edit = false) =>
-  async (dispatch) => {
-    try {
-      const res = await api.post('/users', formData);
-      if (res.data) {
-        return true;
+    async (dispatch) => {
+      try {
+        const res = await api.post('/users', formData);
+        if (res.data) {
+          return true;
+        }
+        dispatch({
+          type: GET_User,
+          payload: res.data,
+        });
+
+        dispatch(setAlert(edit ? 'User Updated' : 'Usser Created', 'success'));
+
+        if (!edit) {
+          history.push('/dashboard');
+        }
+      } catch (err) {
+        const errors = err.response;
+
+        if (errors) {
+          errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+        }
+
+        dispatch({
+          type: User_ERROR,
+          payload: { msg: err.response.statusText, status: err.response.status },
+        });
       }
-      dispatch({
-        type: GET_User,
-        payload: res.data,
-      });
+    };
 
-      dispatch(setAlert(edit ? 'User Updated' : 'Usser Created', 'success'));
+export const UpdateUser = async (user, dispatch) => {
+  LoadingAction(true, dispatch)
+  try {
+    const res = await api.post('/users/update', user);
+    LoadingAction(false, dispatch)
+    window.scrollTo(0, 0)
+    dispatch({
+      type: "SET_USER",
+      payload: res.data,
+    });
+    dispatch({
+      type: 'SetAlert',
+      payload: {
+        type: 'success',
+        message: 'Profile updated successfully !',
+      },
+    });
+    return res;
+  } catch (err) {
+    LoadingAction(false, dispatch)
+    console.log(err)
+  }
+};
 
-      if (!edit) {
-        history.push('/dashboard');
-      }
-    } catch (err) {
-      const errors = err.response;
 
-      if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-      }
+export const UpdatePassword = async (data, dispatch) => {
 
-      dispatch({
-        type: User_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status },
-      });
-    }
-  };
+  LoadingAction(true, dispatch)
+  try {
+    const res = await api.post('/users/update_password', data);
+    LoadingAction(false, dispatch)
+    window.scrollTo(0, 0)
+    dispatch({
+      type: 'SetAlert',
+      payload: {
+        type: 'success',
+        message: 'Password updated successfully !',
+      },
+    });
+    return res;
+  } catch (err) {
+    LoadingAction(false, dispatch)
+    console.log(err)
+  }
+};

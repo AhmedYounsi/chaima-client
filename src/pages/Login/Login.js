@@ -13,14 +13,13 @@ function Login() {
   const [Password, setPassword] = useState("")
   const dispatch = useDispatch();
   const navigate = useNavigate();
- const LoadingReducer = useSelector((state) => state.LoadingReducer);
 
-  const login = () => {  
-    LoginAction(Mail,Password,dispatch)
+  const login = () => {
+    LoginAction(Mail, Password, dispatch)
   };
   return (
     <div className="login-form">
-   { LoadingReducer &&  <Loading />}
+
       <Input
         width={'350px'}
         onChange={(text) => setMail(text)}

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Form, Select, DatePicker, Checkbox } from 'antd';
 import { getUsers } from '../../../actions/user';
 import { useDispatch } from 'react-redux';
+const { Option } = Select;
+
 
 function JobInformation(props) {
   function onChange(e) {
@@ -15,9 +17,17 @@ function JobInformation(props) {
 
   const getUser = async () => {
     const res = await getUsers(dispatch);
-    console.log(res.data);
+    // let arr = []
+    // res.data.map((el, index) => {
+    //   arr.push(
+    //     {
+    //       key: index,
+    //       id: el._id,
+    //       value: el.name + " " + el.lastName,
+    //     })
+    // })
 
-    if (res.status == 200) setData(res.data);
+    if (res.status == 200) setreprtedto(res.data);
   };
 
   const [Data, setData] = useState([user]);
@@ -100,9 +110,19 @@ function JobInformation(props) {
                 showSearch
                 placeholder="Reported to"
                 size="large"
-                onChange={(e) => props.HandleReported(e.target.value)}
-                //options={reprtedto}
-              />
+                onChange={(e) => props.HandleReported(e)}
+              >
+                {
+                  reprtedto.length > 0 && reprtedto.map((el, index) => {
+                    return (
+                      <Option key={index} value={el._id}> {el.name + " " + el.lastName} </Option>
+                    )
+
+                  })
+                }
+
+
+              </Select>
             </Form.Item>
           </Col>
         </Row>
@@ -127,7 +147,7 @@ function JobInformation(props) {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name={'Start'} val label="Start">
+            <Form.Item name={'Start'} label="Start">
               <DatePicker
                 style={{ width: '100%', height: '40px' }}
                 size="large"
