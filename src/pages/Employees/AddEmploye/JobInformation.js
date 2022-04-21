@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Form, Select, DatePicker, Checkbox } from 'antd';
 import { getUsers } from '../../../actions/user';
+import { GetOffice } from '../../../actions/OfficeAction';
+import { GetDepartement } from '../../../actions/DepartementAction';
+
 import { useDispatch } from 'react-redux';
 const { Option } = Select;
 
-
 function JobInformation(props) {
+  const [OfficeList, setOfficeList] = useState([]);
+  const [reprtedto, setreprtedto] = useState([]);
+  const [DepartementList, setDepartementList] = useState([]);
+
   function onChange(e) {
     console.log(`checked = ${e.target.checked}`);
   }
@@ -17,22 +23,27 @@ function JobInformation(props) {
 
   const getUser = async () => {
     const res = await getUsers(dispatch);
-    // let arr = []
-    // res.data.map((el, index) => {
-    //   arr.push(
-    //     {
-    //       key: index,
-    //       id: el._id,
-    //       value: el.name + " " + el.lastName,
-    //     })
-    // })
-
     if (res.status == 200) setreprtedto(res.data);
   };
 
-  const [Data, setData] = useState([user]);
-  const [reprtedto, setreprtedto] = useState([]);
+  useEffect(() => {
+    GetOffices();
+  }, []);
 
+  const GetOffices = async () => {
+    const res = await GetOffice(dispatch);
+    console.log(res.data);
+    if (res.status == 200) setOfficeList(res.data);
+  };
+  useEffect(() => {
+    GetDepartements();
+  }, []);
+
+  const GetDepartements = async () => {
+    const res = await GetDepartement(dispatch);
+    console.log(res.data);
+    if (res.status == 200) setDepartementList(res.data);
+  };
   return (
     <>
       <Form layout="vertical">
@@ -52,8 +63,18 @@ function JobInformation(props) {
                 showSearch
                 placeholder="Select office"
                 size="large"
-                onChange={(e) => props.HandleOffice(e.target.value)}
-              />
+                onChange={(e) => props.HandleOffice(e)}
+              >
+                {OfficeList.length > 0 &&
+                  OfficeList.map((el, index) => {
+                    return (
+                      <Option key={index} value={el._id}>
+                        {' '}
+                        {el.name}{' '}
+                      </Option>
+                    );
+                  })}
+              </Select>
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -70,8 +91,18 @@ function JobInformation(props) {
                 style={{ width: '100%' }}
                 showSearch
                 placeholder="Select Departement"
-                onChange={(e) => props.HandleDep(e.target.value)}
-              />
+                onChange={(e) => props.HandleDep(e)}
+              >
+                {DepartementList.length > 0 &&
+                  DepartementList.map((el, index) => {
+                    return (
+                      <Option key={index} value={el._id}>
+                        {' '}
+                        {el.name}{' '}
+                      </Option>
+                    );
+                  })}
+              </Select>
             </Form.Item>
           </Col>
         </Row>
@@ -112,16 +143,15 @@ function JobInformation(props) {
                 size="large"
                 onChange={(e) => props.HandleReported(e)}
               >
-                {
-                  reprtedto.length > 0 && reprtedto.map((el, index) => {
+                {reprtedto.length > 0 &&
+                  reprtedto.map((el, index) => {
                     return (
-                      <Option key={index} value={el._id}> {el.name + " " + el.lastName} </Option>
-                    )
-
-                  })
-                }
-
-
+                      <Option key={index} value={el._id}>
+                        {' '}
+                        {el.name + ' ' + el.lastName}{' '}
+                      </Option>
+                    );
+                  })}
               </Select>
             </Form.Item>
           </Col>
