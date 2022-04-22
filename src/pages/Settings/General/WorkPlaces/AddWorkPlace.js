@@ -24,12 +24,10 @@ function AddWorkPlace(props) {
 
   const GetOffices = async () => {
     const res = await GetOffice(dispatch);
-    console.log(res.data);
     if (res.status == 200) setOfficeList(res.data);
   };
 
   const handleCancel = () => {
-    console.log('Clicked cancel button');
     setVisible(false);
   };
 
@@ -39,7 +37,6 @@ function AddWorkPlace(props) {
   const changeHandler = (value) => {
     setValue(value);
     const country = options.filter((el) => el.value == value);
-    console.log(country[0].label);
     setCountry(country[0].label);
   };
 

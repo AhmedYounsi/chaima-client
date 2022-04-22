@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -12,7 +13,11 @@ import {
   Input,
 } from 'antd';
 import { PlusOutlined, SettingOutlined } from '@ant-design/icons';
-import { AddTimeOffType, GetTimeOffType } from '../../../actions/TimeOffAction';
+import {
+  AddTimeOffType,
+  GetTimeOffType,
+  DeleteTimeOffType,
+} from '../../../actions/TimeOffAction';
 import './../Modal.scss';
 
 function TimeOffSettings() {
@@ -30,7 +35,6 @@ function TimeOffSettings() {
 
   const GetTimeOffTypes = async () => {
     const res = await GetTimeOffType(dispatch);
-    console.log(res.data);
     if (res.status == 200) setTimeOffTypeList(res.data);
   };
 
@@ -69,17 +73,21 @@ function TimeOffSettings() {
   const handleCancel = () => {
     setVisible(false);
   };
+  const DeleteTimeOff = async (id) => {
+    const res = await DeleteTimeOffType(id);
+    if (res.status == 200) {
+      GetTimeOffTypes();
+      dispatch({
+        type: 'SetAlert',
+        payload: {
+          type: 'success',
+          message: 'TimeOff type deleted successfully !',
+        },
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
-  const menu = (
-    <Menu>
-      <Menu.Item>
-        <Button type="text">Edit Type</Button>
-      </Menu.Item>
-      <Menu.Item>
-        <Button type="text">Remove Type</Button>
-      </Menu.Item>
-    </Menu>
-  );
   return (
     <div className="sections-vertical">
       <BackTop />
@@ -137,27 +145,47 @@ function TimeOffSettings() {
             </Form>
           </Modal>
           <div className="form-pad-2">
-            <List
-              size="large"
-              bordered
-              dataSource={TimeOffTypeList}
-              renderItem={(item, index) => (
-                <List.Item
-                  key={index}
-                  actions={[
-                    <Dropdown overlay={menu} placement="bottomRight" arrow>
-                      <Button
-                        type="dashed"
-                        shape="circle"
-                        icon={<SettingOutlined />}
-                      />
-                    </Dropdown>,
-                  ]}
-                >
-                  {item.name}
-                </List.Item>
-              )}
-            />
+            {TimeOffTypeList.length > 0 && (
+              <List
+                size="large"
+                bordered
+                dataSource={TimeOffTypeList}
+                renderItem={(item, index) => (
+                  <List.Item
+                    key={index}
+                    actions={[
+                      <Dropdown
+                        overlay={
+                          <Menu>
+                            <Menu.Item key={'edit'}>
+                              <Button type="text">Edit Type</Button>
+                            </Menu.Item>
+                            <Menu.Item key={'remove'}>
+                              <Button
+                                type="text"
+                                onClick={() => DeleteTimeOff(item._id)}
+                              >
+                                Remove Type
+                              </Button>
+                            </Menu.Item>
+                          </Menu>
+                        }
+                        placement="bottomRight"
+                        arrow
+                      >
+                        <Button
+                          type="dashed"
+                          shape="circle"
+                          icon={<SettingOutlined />}
+                        />
+                      </Dropdown>,
+                    ]}
+                  >
+                    {item.name}
+                  </List.Item>
+                )}
+              />
+            )}
           </div>
         </div>
       </div>

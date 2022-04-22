@@ -2,60 +2,102 @@
 import React, { useState, useEffect } from 'react';
 import { getUsers } from '../../actions/user';
 import { useDispatch } from 'react-redux';
-
-import { BackTop } from 'antd';
+import {
+  DeleteOutlined,
+  UserOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
+import { BackTop, Button, Space, Input } from 'antd';
 import { Table } from 'antd';
+import { useNavigate } from 'react-router-dom';
 function ListEmployees() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [EmployeesList, setEmployeesList] = useState([]);
+  const [EmployeeFilter, setEmployeeFilter] = useState([]);
+  const [Search, setSearch] = useState('');
+  const [sortedInfo, setsortedInfo] = useState(null);
+
   useEffect(() => {
     getUser();
   }, []);
 
+  useEffect(() => {
+    const filteredRows = EmployeesList.filter((row) => {
+      return (
+        row.name
+          .toString()
+          .toLowerCase()
+          .includes(Search.toString().toLowerCase()) ||
+        row.lastName
+          .toString()
+          .toLowerCase()
+          .includes(Search.toString().toLowerCase()) ||
+        row.name
+          .concat(' ', row.lastName)
+          .toString()
+          .toLowerCase()
+          .includes(Search.toString().toLowerCase())
+      );
+    });
+    if (Search.length < 1) {
+      setEmployeeFilter(EmployeesList);
+    } else {
+      setEmployeeFilter(filteredRows);
+    }
+  }, [Search]);
   const getUser = async () => {
     const res = await getUsers(dispatch);
-    const arr = []
+    const arr = [];
     res.data.map((el, index) => {
-      arr.push({ key: index, ...el })
-    })
+      arr.push({ key: index, ...el });
+    });
 
-    if (res.status == 200) setEmployeesList(arr);
+    if (res.status == 200) {
+      setEmployeesList(arr);
+      setEmployeeFilter(arr);
+    }
+  };
+
+  const ToProfile = (user) => {
+    navigate('/employees/profile', { state: { employee: user } });
   };
 
   const columns = [
-
     {
-      title: 'First Name',
+      title: 'Name',
       dataIndex: 'name',
-      key: 'name',
-      width: '30%',
+      sorter: (a, b) => a.name > b.name,
     },
     {
       title: 'Last Name',
       dataIndex: 'lastName',
-      key: 'lastName',
-      width: '30%',
-    },
-
-    {
-      title: 'Job Title',
-      dataIndex: 'post',
-      key: 'post',
-      width: '20%',
+      sorter: (a, b) => a.lastName > b.lastName,
     },
     {
-      title: 'Status',
-      dataIndex: 'address',
-      key: 'address',
-      width: '20%',
-    },
-    {
-      title: 'Number phone',
+      title: 'tel',
       dataIndex: 'tel',
-      key: 'tel',
-      width: '10%',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <Space size="middle">
+          <Button icon={<DeleteOutlined />} type="primary" danger>
+            Delete
+          </Button>
+          <Button
+            onClick={() => ToProfile(record)}
+            icon={<UserOutlined />}
+            type="primary"
+          >
+            Profile
+          </Button>
+        </Space>
+      ),
     },
   ];
+
   return (
     <div className="sections-vertical">
       <BackTop />
@@ -72,8 +114,15 @@ function ListEmployees() {
             <div className="line radical"></div>
           </div>
         </div>
+        <Input
+          value={Search}
+          onChange={(e) => setSearch(e.target.value)}
+          size="large"
+          placeholder="Search ..."
+          prefix={<SearchOutlined />}
+        />
         <div className="site-layout-content">
-          <Table columns={columns} dataSource={EmployeesList} />
+          <Table columns={columns} dataSource={EmployeeFilter} />
         </div>
       </div>
     </div>

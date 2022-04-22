@@ -22,7 +22,6 @@ function WorkPlaces() {
 
   const GetOffices = async () => {
     const res = await GetOffice(dispatch);
-    console.log(res.data);
     if (res.status == 200) setOfficeList(res.data);
   };
 

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -15,6 +16,7 @@ import { PlusOutlined, SettingOutlined } from '@ant-design/icons';
 import {
   AddContractType,
   GetContractType,
+  DeleteContractType,
 } from '../../../../actions/ContractTypeAction';
 import '../../Modal.scss';
 
@@ -33,7 +35,6 @@ function ContractType() {
 
   const GetContractTypes = async () => {
     const res = await GetContractType(dispatch);
-    console.log(res.data);
     if (res.status == 200) setContractTypeList(res.data);
   };
 
@@ -69,20 +70,23 @@ function ContractType() {
     }
   };
 
+  const DeleteContract = async (id) => {
+    const res = await DeleteContractType(id);
+    if (res.status == 200) {
+      GetContractTypes();
+      dispatch({
+        type: 'SetAlert',
+        payload: {
+          type: 'success',
+          message: 'Contract type deleted successfully !',
+        },
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
   const handleOk = () => {
     form.submit();
   };
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="M1">
-        <Button type="text">Edit Type Contract</Button>
-      </Menu.Item>
-      <Menu.Item key="M2">
-        <Button type="text">Remove Type Contract</Button>
-      </Menu.Item>
-    </Menu>
-  );
 
   return (
     <div className="sections-vertical">
@@ -141,27 +145,47 @@ function ContractType() {
             </Form>
           </Modal>
           <div className="form-pad-2">
-            <List
-              size="large"
-              bordered
-              dataSource={ContractTypeList}
-              renderItem={(item, index) => (
-                <List.Item
-                  key={index}
-                  actions={[
-                    <Dropdown overlay={menu} placement="bottomRight" arrow>
-                      <Button
-                        type="dashed"
-                        shape="circle"
-                        icon={<SettingOutlined />}
-                      />
-                    </Dropdown>,
-                  ]}
-                >
-                  {item.name}
-                </List.Item>
-              )}
-            />
+            {ContractTypeList.length > 0 && (
+              <List
+                size="large"
+                bordered
+                dataSource={ContractTypeList}
+                renderItem={(item, index) => (
+                  <List.Item
+                    key={index}
+                    actions={[
+                      <Dropdown
+                        overlay={
+                          <Menu>
+                            <Menu.Item key="M1">
+                              <Button type="text">Edit Type Contract</Button>
+                            </Menu.Item>
+                            <Menu.Item key="M2">
+                              <Button
+                                type="text"
+                                onClick={() => DeleteContract(item._id)}
+                              >
+                                Remove Type Contract
+                              </Button>
+                            </Menu.Item>
+                          </Menu>
+                        }
+                        placement="bottomRight"
+                        arrow
+                      >
+                        <Button
+                          type="dashed"
+                          shape="circle"
+                          icon={<SettingOutlined />}
+                        />
+                      </Dropdown>,
+                    ]}
+                  >
+                    {item.name}
+                  </List.Item>
+                )}
+              />
+            )}
           </div>
         </div>
       </div>

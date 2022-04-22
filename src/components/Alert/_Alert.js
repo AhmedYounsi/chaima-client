@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react';
 import { Alert } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +13,7 @@ const _Alert = () => {
           payload: [],
         });
       }, 5000);
-  }, [AlertReducer])
+  }, [AlertReducer]);
   const dispatch = useDispatch();
   const handleClose = () => {
     dispatch({

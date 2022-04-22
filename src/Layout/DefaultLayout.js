@@ -31,6 +31,7 @@ import Files from '../pages/Files/Files';
 import { Route, Routes } from 'react-router-dom';
 
 import './DefaultLayout.scss';
+import ProfileEmployee from '../pages/Employees/Profile/ProfileEmployee';
 //import { useSelector } from 'react-redux';
 
 const { Header, Content, Sider } = Layout;
@@ -64,7 +65,10 @@ function DefaultLayout() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/employees/newUser" element={<NewUser />} />
-
+                <Route
+                  path="/employees/profile"
+                  element={<ProfileEmployee />}
+                />
                 <Route path="/events" element={<Event />} />
                 <Route path="/events/newEvent" element={<NewEvent />} />
                 <Route

@@ -81,14 +81,18 @@ span {
   border: 1px solid #ced4da !important;
   padding: 0.5rem 0.5rem !important;
   font-size: 1rem !important;
-  padding-left: 41px !important;
+  padding-left: 50px !important;
   color: #495057 !important;
   background: #ffffff;
   transition: background-color 0.2s, color 0.2s, border-color 0.2s,
     box-shadow 0.2s !important;
   border-radius: 3px !important;
 }
-
+.site-layout-content{
+  overflow: auto;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
 .react-tel-input .form-control:enabled:hover {
   border-color: #1890ff !important;
 }

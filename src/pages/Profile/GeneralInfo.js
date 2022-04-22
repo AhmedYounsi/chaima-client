@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -8,45 +9,49 @@ import { UpdateUser, UpdatePassword } from '../../actions/user';
 
 function GeneralInfo() {
   const UserReducer = useSelector((state) => state.UserReducer);
-  const [Name, setName] = useState(UserReducer && UserReducer.name)
-  const [LastName, setLastName] = useState(UserReducer && UserReducer.lastName)
-  const [Tel, setTel] = useState(UserReducer && UserReducer.tel)
-  const [Email, setEmail] = useState(UserReducer && UserReducer.email)
-  const [OldPassword, setOldPassword] = useState("")
-  const [NewPassword, setNewPassword] = useState("")
-  const [ConfirmPassword, setConfirmPassword] = useState("")
+  const [Name, setName] = useState(UserReducer && UserReducer.name);
+  const [LastName, setLastName] = useState(UserReducer && UserReducer.lastName);
+  const [Tel, setTel] = useState(UserReducer && UserReducer.tel);
+  const [Email, setEmail] = useState(UserReducer && UserReducer.email);
+  const [OldPassword, setOldPassword] = useState('');
+  const [NewPassword, setNewPassword] = useState('');
+  const [ConfirmPassword, setConfirmPassword] = useState('');
 
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const Update = async () => {
-    const id = UserReducer._id
-    const user = { id, Name, LastName, Tel }
-    await UpdateUser(user, dispatch)
-  }
+    const id = UserReducer._id;
+    const user = { id, Name, LastName, Tel };
+    await UpdateUser(user, dispatch);
+  };
   const UpdatePass = async () => {
     if (NewPassword != ConfirmPassword) {
-      alert("Error")
-      setConfirmPassword("")
-      setNewPassword("")
-      return
+      alert('Error');
+      setConfirmPassword('');
+      setNewPassword('');
+      return;
     }
-    const id = UserReducer._id
-    const data = { id, OldPassword, NewPassword }
+    const id = UserReducer._id;
+    const data = { id, OldPassword, NewPassword };
 
-    const res = await UpdatePassword(data, dispatch)
-    console.log(res)
+    const res = await UpdatePassword(data, dispatch);
+    console.log(res);
     if (res.status == 200) {
-      setConfirmPassword("")
-      setNewPassword("")
-      setOldPassword("")
+      setConfirmPassword('');
+      setNewPassword('');
+      setOldPassword('');
     }
-  }
+  };
 
   const ConrolePassword = () => {
-    if (OldPassword == "" || NewPassword == "" || ConfirmPassword == "")
-      return false
-    else return true
-  }
+    if (OldPassword == '' || NewPassword == '' || ConfirmPassword == '')
+      return false;
+    else return true;
+  };
+
+  const ConroleGeneralInfo = () => {
+    if (Name == '' || LastName == '' || Tel == '') return false;
+    else return true;
+  };
 
   return (
     <div className="sections-vertical">
@@ -94,6 +99,7 @@ function GeneralInfo() {
                 </Form.Item>
                 <Form.Item label="Date Of Birth">
                   <DatePicker
+                    disabled
                     className="custom-input"
                     size="large"
                     placeholder={'Date of Birth'}
@@ -102,19 +108,18 @@ function GeneralInfo() {
                 <Form.Item label="Phone Number">
                   <PhoneInput
                     value={Tel}
-
                     className="input-phone"
-                    //onFocus={() => focus_phone()}
-                    //onBlur={() => blur_phone()}
                     enableLongNumbers={false}
-                    country={'fr'}
+                    country={'tn'}
                     placeholder="Number Phone"
-                    //value={Tel}
                     onChange={(phone) => setTel(phone)}
                   />
                 </Form.Item>
-
-                <Button onClick={Update} type="primary">Save</Button>
+                {ConroleGeneralInfo() && (
+                  <Button onClick={Update} type="primary">
+                    Save
+                  </Button>
+                )}
               </Form>
             </div>
           </div>
@@ -170,10 +175,11 @@ function GeneralInfo() {
                     }
                   />{' '}
                 </Form.Item>
-                {
-                  ConrolePassword() && <Button onClick={UpdatePass} type="primary">Change Password</Button>
-                }
-
+                {ConrolePassword() && (
+                  <Button onClick={UpdatePass} type="primary">
+                    Change Password
+                  </Button>
+                )}
               </Form>
             </div>
           </div>
