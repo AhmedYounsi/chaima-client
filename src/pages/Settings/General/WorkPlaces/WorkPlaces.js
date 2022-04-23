@@ -4,7 +4,7 @@ import { Button, Tooltip, BackTop, List } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import WorkPlaceCard from './WorkPlacesCard';
 import '../../Modal.scss';
-import { DeleteOffice, GetOffice } from '../../../../actions/OfficeAction';
+import { DeleteOffice, GetOffice } from '../../../../actions/SettingsAction';
 import { useDispatch } from 'react-redux';
 import UpdateModal from './UpdateModal';
 import AddWorkPlaceModal from './AddWorkPlace';

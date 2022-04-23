@@ -17,7 +17,7 @@ import {
   AddFolderType,
   GetFolderType,
   DeleteFolderType,
-} from '../../../actions/DocumentTypeAction';
+} from '../../../actions/SettingsAction';
 import './../Modal.scss';
 
 function DocumentSettings() {

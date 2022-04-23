@@ -17,7 +17,7 @@ import {
   AddContractType,
   GetContractType,
   DeleteContractType,
-} from '../../../../actions/ContractTypeAction';
+} from '../../../../actions/SettingsAction';
 import '../../Modal.scss';
 
 function ContractType() {

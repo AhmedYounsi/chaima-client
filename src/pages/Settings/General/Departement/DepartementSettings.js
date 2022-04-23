@@ -23,7 +23,7 @@ import {
   AddDepartement,
   GetDepartement,
   DeleteDepartement,
-} from '../../../../actions/DepartementAction';
+} from '../../../../actions/SettingsAction';
 import { useDispatch } from 'react-redux';
 import '../../Modal.scss';
 

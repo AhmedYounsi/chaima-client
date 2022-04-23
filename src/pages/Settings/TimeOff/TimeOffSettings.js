@@ -17,7 +17,7 @@ import {
   AddTimeOffType,
   GetTimeOffType,
   DeleteTimeOffType,
-} from '../../../actions/TimeOffAction';
+} from '../../../actions/SettingsAction';
 import './../Modal.scss';
 
 function TimeOffSettings() {

@@ -7,7 +7,7 @@ import {
   UserOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import { BackTop, Button, Space, Input } from 'antd';
+import { BackTop, Button, Space, Input, Divider } from 'antd';
 import { Table } from 'antd';
 import { useNavigate } from 'react-router-dom';
 function ListEmployees() {
@@ -16,7 +16,6 @@ function ListEmployees() {
   const [EmployeesList, setEmployeesList] = useState([]);
   const [EmployeeFilter, setEmployeeFilter] = useState([]);
   const [Search, setSearch] = useState('');
-  const [sortedInfo, setsortedInfo] = useState(null);
 
   useEffect(() => {
     getUser();
@@ -83,16 +82,14 @@ function ListEmployees() {
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-          <Button icon={<DeleteOutlined />} type="primary" danger>
-            Delete
-          </Button>
+          <Button icon={<DeleteOutlined />} type="link" danger />
+          <Divider type="vertical" />
+
           <Button
             onClick={() => ToProfile(record)}
             icon={<UserOutlined />}
-            type="primary"
-          >
-            Profile
-          </Button>
+            type="link"
+          />
         </Space>
       ),
     },
@@ -122,7 +119,7 @@ function ListEmployees() {
           prefix={<SearchOutlined />}
         />
         <div className="site-layout-content">
-          <Table columns={columns} dataSource={EmployeeFilter} />
+          <Table columns={columns} dataSource={EmployeeFilter} />{' '}
         </div>
       </div>
     </div>
