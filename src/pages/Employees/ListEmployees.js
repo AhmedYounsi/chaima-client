@@ -7,7 +7,7 @@ import {
   UserOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import { BackTop, Button, Space, Input, Skeleton } from 'antd';
+import { BackTop, Button, Space, Input, Divider } from 'antd';
 import { Table } from 'antd';
 import { useNavigate } from 'react-router-dom';
 function ListEmployees() {
@@ -83,12 +83,12 @@ function ListEmployees() {
       render: (text, record) => (
         <Space size="middle">
           <Button icon={<DeleteOutlined />} type="link" danger />
+          <Divider type="vertical" />
 
           <Button
             onClick={() => ToProfile(record)}
             icon={<UserOutlined />}
             type="link"
-            primary
           />
         </Space>
       ),

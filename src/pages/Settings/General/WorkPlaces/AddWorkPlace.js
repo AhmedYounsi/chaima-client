@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, { useState, useMemo, useEffect } from 'react';
-import { Button, Modal, Form, Input, Select, Row, Col } from 'antd';
+import { Modal, Form, Input, Select, Row, Col } from 'antd';
 import '../../Modal.scss';
 import countryList from 'react-select-country-list';
-import { AddOffice, GetOffice } from '../../../../actions/OfficeAction';
+import { AddOffice, GetOffice } from '../../../../actions/SettingsAction';
 import { useDispatch } from 'react-redux';
 
 function AddWorkPlace(props) {

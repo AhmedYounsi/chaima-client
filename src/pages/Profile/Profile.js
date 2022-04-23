@@ -4,13 +4,17 @@ import GeneralInfo from './GeneralInfo';
 import JobInfo from './JobInfo';
 import MyTimeOff from './MyTimeOff';
 import MyDocuments from './MyDocuments';
+import { useSelector } from 'react-redux';
 
 function Profile() {
   const [Selected, setSelected] = useState('1');
+  const UserReducer = useSelector((state) => state.UserReducer);
 
   return (
     <div className="site-layout-background">
-      <div className="site-layout-header-centred">chaima Dey</div>
+      <div className="site-layout-header-centred">
+        {UserReducer.name + ' ' + UserReducer.lastName}
+      </div>
       <div className="site-layout-header-centred">
         <Tabs
           defaultActiveKey="1"

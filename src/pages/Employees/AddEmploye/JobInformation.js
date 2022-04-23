@@ -2,8 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Form, Select, DatePicker, Checkbox } from 'antd';
 import { getUsers } from '../../../actions/user';
-import { GetOffice } from '../../../actions/OfficeAction';
-import { GetDepartement } from '../../../actions/DepartementAction';
+import {
+  GetContractType,
+  GetDepartement,
+  GetOffice,
+} from '../../../actions/SettingsAction';
 
 import { useDispatch } from 'react-redux';
 const { Option } = Select;
@@ -12,6 +15,7 @@ function JobInformation(props) {
   const [OfficeList, setOfficeList] = useState([]);
   const [reprtedto, setreprtedto] = useState([]);
   const [DepartementList, setDepartementList] = useState([]);
+  const [ContractTypeList, setContractTypeList] = useState([]);
 
   function onChange(e) {
     console.log(`checked = ${e.target.checked}`);
@@ -33,7 +37,6 @@ function JobInformation(props) {
 
   const GetOffices = async () => {
     const res = await GetOffice(dispatch);
-    console.log(res.data);
     if (res.status == 200) setOfficeList(res.data);
   };
   useEffect(() => {
@@ -42,8 +45,16 @@ function JobInformation(props) {
 
   const GetDepartements = async () => {
     const res = await GetDepartement(dispatch);
-    console.log(res.data);
     if (res.status == 200) setDepartementList(res.data);
+  };
+
+  useEffect(() => {
+    GetContractTypes();
+  }, []);
+
+  const GetContractTypes = async () => {
+    const res = await GetContractType(dispatch);
+    if (res.status == 200) setContractTypeList(res.data);
   };
   return (
     <>
@@ -173,8 +184,18 @@ function JobInformation(props) {
                 style={{ width: '100%' }}
                 showSearch
                 placeholder="Select Contract Type"
-                onChange={(e) => props.HandleContract(e.target.value)}
-              />
+                onChange={(e) => props.HandleContract(e)}
+              >
+                {ContractTypeList.length > 0 &&
+                  ContractTypeList.map((el, index) => {
+                    return (
+                      <Option key={index} value={el._id}>
+                        {' '}
+                        {el.name}{' '}
+                      </Option>
+                    );
+                  })}
+              </Select>
             </Form.Item>
           </Col>
           <Col span={12}>
