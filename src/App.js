@@ -18,6 +18,7 @@ function App() {
       type: 'SetAlert',
       payload: [],
     });
+    window.scrollTo(0, 0);
   }, [location])
   return (
     <>

@@ -1,18 +1,18 @@
 /* eslint-disable */
-import React from 'react';
-import './EventCard.scss';
-import { Menu, Button, Dropdown, Space, Divider, Avatar } from 'antd';
+import React from "react";
+import "./EventCard.scss";
+import { Menu, Button, Dropdown, Space, Divider, Avatar } from "antd";
 import {
   MoreOutlined,
   EnvironmentOutlined,
   MessageOutlined,
   LikeOutlined,
-} from '@ant-design/icons';
-import { UserOutlined, AntDesignOutlined } from '@ant-design/icons';
+} from "@ant-design/icons";
+import { UserOutlined, AntDesignOutlined } from "@ant-design/icons";
 
-import img from '../../assets/images/1.jpg';
+import img from "../../assets/images/1.jpg";
 
-function EventCard() {
+function EventCard(props) {
   const menu = (
     <Menu>
       <Menu.Item key="M1">
@@ -23,17 +23,21 @@ function EventCard() {
       </Menu.Item>
     </Menu>
   );
+
+  const GetImage = (image) => {
+    if (image) return `http://localhost:5000/uploads/${image}`;
+    else return img;
+  };
   return (
     <div className="card-event">
       <div className="header-event">
         <div className="first-child">
-          <div className="box-date">12</div>
+          <div className="box-date"> {props.index} </div>
           <div className="itemsEvent">
-            <span className="titleEvent">title</span>
-
+            <span className="titleEvent"> {props.event.title} </span>
             <div className="locationEvent">
               <Space>
-                <EnvironmentOutlined /> Megrine
+                <EnvironmentOutlined /> {props.event.adress}
               </Space>
             </div>
           </div>
@@ -45,9 +49,9 @@ function EventCard() {
         </div>
       </div>
       <div className="content-event">
-        <img className="imgEvent" src={img} />
+        <img className="imgEvent" src={GetImage(props.event.image)} />
 
-        <div className="descriptionEvent">hhhhhhhhhhhhhhh</div>
+        <div className="descriptionEvent"> {props.event.desc} </div>
       </div>
       <Divider />
 
@@ -58,28 +62,28 @@ function EventCard() {
             maxPopoverTrigger="click"
             size="large"
             maxStyle={{
-              color: '#f56a00',
-              backgroundColor: '#fde3cf',
-              cursor: 'pointer',
+              color: "#f56a00",
+              backgroundColor: "#fde3cf",
+              cursor: "pointer",
             }}
           >
             <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
             <Avatar
               style={{
-                backgroundColor: '#f56a00',
+                backgroundColor: "#f56a00",
               }}
             >
               K
             </Avatar>
             <Avatar
               style={{
-                backgroundColor: '#87d068',
+                backgroundColor: "#87d068",
               }}
               icon={<UserOutlined />}
             />
             <Avatar
               style={{
-                backgroundColor: '#1890ff',
+                backgroundColor: "#1890ff",
               }}
               icon={<AntDesignOutlined />}
             />
@@ -87,11 +91,11 @@ function EventCard() {
         </div>
         <div className="iconEvent">
           <Space>
-            <MessageOutlined /> 3
+            <MessageOutlined /> {props.event.comments.length}
           </Space>
           <Divider type="vertical"></Divider>
           <Space>
-            <LikeOutlined /> 3
+            <LikeOutlined /> {props.event.likes.length}
           </Space>
         </div>
       </div>

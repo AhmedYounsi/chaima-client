@@ -110,7 +110,6 @@ function Events() {
           <Form.Item
             label="SELECT POST TYPE"
             name={'type'}
-            val
             rules={[
               {
                 required: true,

@@ -1,36 +1,32 @@
 /* eslint-disable */
-import React, { useState } from 'react';
-import { BackTop, List } from 'antd';
-import EventCard from './EventCard';
-import DetailsEvent from './DetailsEvent';
-import './EventCard.scss';
+import React, { useEffect, useState } from "react";
+import { BackTop, List } from "antd";
+import EventCard from "./EventCard";
+import DetailsEvent from "./DetailsEvent";
+import "./EventCard.scss";
+import { GetEvents } from "../../actions/EventAction";
 
 function ListEvents() {
-  const [Event, setEvent] = useState(null);
+  const [Event, setEvent] = useState([]);
+
+  const getEvent = async () => {
+    const res = await GetEvents();
+    setEvent(res);
+  };
+
+  useEffect(() => {
+    getEvent();
+  }, []);
 
   return (
     <div className="site-layout-content">
       <BackTop />
-      <List
-        className={'ant-list-item1'}
-        grid={{ gutter: 16, column: 3 }}
-        pagination={{
-          onChange: (page) => {
-            console.log(page);
-          },
-          pageSize: 6,
-        }}
-        dataSource={'Hello'}
-        itemLayout={'vertical'}
-        renderItem={(item, index) => (
-          <List.Item key={index}>
-            <EventCard
-              item={item}
-              onClick={(item) => setEvent(item)}
-            ></EventCard>
-          </List.Item>
-        )}
-      />
+     <div className="event_container">
+     {Event.length > 0 &&
+        Event.map((el, index) => {
+          return <EventCard event={el} index={index+1} key={index}></EventCard>;
+        })}
+     </div>
     </div>
   );
 }

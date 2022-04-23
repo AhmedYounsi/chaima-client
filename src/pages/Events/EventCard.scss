@@ -143,3 +143,12 @@
 .ant-divider-horizontal {
     margin: 15px  !important;
 }
+
+.event_container{
+    display: flex;
+    flex-wrap: wrap;
+    .card-event{
+        margin: 10px;
+        width: 45%;
+    }
+}

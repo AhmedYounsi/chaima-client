@@ -1,17 +1,31 @@
 /* eslint-disable */
-import React, { useState } from 'react';
-import { Button, Form, Input, DatePicker, Select } from 'antd';
-import { Link } from 'react-router-dom';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import './FormLayout.scss';
+import React, { useState } from "react";
+import { Button, Form, Input, DatePicker, Select, Descriptions } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeftOutlined, DownloadOutlined } from "@ant-design/icons";
+import { AddEvent } from "../../actions/EventAction";
+import "./FormLayout.scss";
+import { useDispatch, useSelector } from "react-redux";
 
 const { TextArea } = Input;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 function NewEvent() {
+  const UserReducer = useSelector((state) => state.UserReducer);
+
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
   const [form] = Form.useForm();
 
+  const [title, settitle] = useState("");
+  const [office, setoffice] = useState("");
+  const [members, setmembers] = useState("");
+  const [Adress, setAdress] = useState("");
+  const [Description, setDescription] = useState("");
+  const [startDate, setstartDate] = useState("");
+  const [endDate, setendDate] = useState("");
+  const [Image, setImage] = useState("");
   function handleChange(value) {
     console.log(`selected ${value}`);
   }
@@ -22,8 +36,8 @@ function NewEvent() {
     if (!dates || dates.length === 0) {
       return false;
     }
-    const tooLate = dates[0] && current.diff(dates[0], 'days') > 7;
-    const tooEarly = dates[1] && dates[1].diff(current, 'days') > 7;
+    const tooLate = dates[0] && current.diff(dates[0], "days") > 7;
+    const tooEarly = dates[1] && dates[1].diff(current, "days") > 7;
     return tooEarly || tooLate;
   };
   const onOpenChange = (open) => {
@@ -33,6 +47,45 @@ function NewEvent() {
     } else {
       setHackValue(undefined);
     }
+  };
+
+  function padTo2Digits(num) {
+    return num.toString().padStart(2, "0");
+  }
+
+  function formatDate(date) {
+    return [
+      padTo2Digits(date.getDate()),
+      padTo2Digits(date.getMonth() + 1),
+      date.getFullYear(),
+    ].join("/");
+  }
+  const handleFileChange = (e) => {
+    const img = {
+      preview: URL.createObjectURL(e.target.files[0]),
+      data: e.target.files[0],
+    };
+    setImage(img);
+  };
+
+  const Add_Event = async () => {
+    let formData = new FormData();
+  
+    const event = {
+      user: UserReducer._id,
+      title: title,
+      adress: Adress,
+      desc: Description,
+      start: formatDate(dates[0]._d),
+      end: formatDate(dates[1]._d),
+      image: "",
+      likes: [],
+      comments: [],
+      office: "",
+    };
+    formData.append("file", Image.data);
+    formData.append("event", JSON.stringify(event));
+    const res = await AddEvent(formData, dispatch, navigation);
   };
 
   return (
@@ -49,8 +102,7 @@ function NewEvent() {
         <div className="form-layout">
           <div className="blockFormA">
             <Form.Item
-              name={'title'}
-              val
+              name={"title"}
               label="Title"
               rules={[
                 {
@@ -58,11 +110,16 @@ function NewEvent() {
                 },
               ]}
             >
-              <Input className="custom-input" placeholder="Title" type="text" />
+              <Input
+                value={title}
+                onChange={(e) => settitle(e.target.value)}
+                className="custom-input"
+                placeholder="Title"
+                type="text"
+              />
             </Form.Item>
             <Form.Item
-              name={'description'}
-              val
+              name={"description"}
               label="Description"
               rules={[
                 {
@@ -71,17 +128,18 @@ function NewEvent() {
               ]}
             >
               <TextArea
+                value={Description}
+                onChange={(e) => setDescription(e.target.value)}
                 className="custom-input"
                 rows={2}
-                placeholder={'Description'}
-                type={'text'}
+                placeholder={"Description"}
+                type={"text"}
               />
             </Form.Item>
           </div>
           <div className="blockFormB">
             <Form.Item
-              name={'date'}
-              val
+              name={"date"}
               label="date"
               rules={[
                 {
@@ -90,7 +148,7 @@ function NewEvent() {
               ]}
             >
               <RangePicker
-                className={'custom-input'}
+                className={"custom-input"}
                 value={hackValue || value}
                 disabledDate={disabledDate}
                 onCalendarChange={(val) => setDates(val)}
@@ -99,8 +157,6 @@ function NewEvent() {
               />
             </Form.Item>
             <Form.Item
-              name={'address'}
-              val
               label="Address"
               rules={[
                 {
@@ -109,15 +165,45 @@ function NewEvent() {
               ]}
             >
               <TextArea
+                value={Adress}
+                onChange={(e) => setAdress(e.target.value)}
+                name={"address"}
                 className="custom-input"
                 rows={2}
-                placeholder={'Address'}
-                type={'text'}
+                placeholder={"Address"}
+                type={"text"}
+              />
+            </Form.Item>
+            <Form.Item
+              label="File"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <input
+                onChange={handleFileChange}
+                accept="image/png, image/jpg, image/jpeg"
+                type="file"
+                name="file"
               />
             </Form.Item>
           </div>
+          
         </div>
+      
       </Form>
+      <div className="button_uploads">
+      <Button
+          onClick={Add_Event}
+          type="primary"
+          icon={<DownloadOutlined />}
+          size={"50"}
+        >
+          Download
+        </Button>
+      </div>
     </div>
   );
 }
