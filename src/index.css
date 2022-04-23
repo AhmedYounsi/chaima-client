@@ -90,8 +90,6 @@ span {
 }
 .site-layout-content{
   overflow: auto;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
 }
 .react-tel-input .form-control:enabled:hover {
   border-color: #1890ff !important;
