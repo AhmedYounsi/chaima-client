@@ -28,17 +28,20 @@ import TimeOff from '../pages/TimeOff/TimeOff';
 //Files
 import Files from '../pages/Files/Files';
 
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import './DefaultLayout.scss';
 import ProfileEmployee from '../pages/Employees/Profile/ProfileEmployee';
+import Chat from '../pages/Chat/Chat';
+import ChatRoom from '../pages/Chat/ChatRoom';
 //import { useSelector } from 'react-redux';
 
 const { Header, Content, Sider } = Layout;
 
 function DefaultLayout() {
   const [collapsed, setcollapsed] = useState(false);
-
+  const location = useLocation();
+   
   //const TokenReducer = useSelector((state) => state.TokenReducer);
   return (
     <>
@@ -60,7 +63,7 @@ function DefaultLayout() {
             <br />
             <AppBreadcrumb />
             <br />
-            <div style={{ padding: 24, minHeight: 360 }}>
+       
               <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/employees" element={<Employees />} />
@@ -82,10 +85,12 @@ function DefaultLayout() {
                 <Route path="/profile" element={<Me />} />
                 <Route path="/timeOff" element={<TimeOff />} />
                 <Route path="/files" element={<Files />} />
+                <Route path="/chat" element={<Chat />} />
+                {/* <Route path="/chat/:id" element={<ChatRoom />} /> */}
               </Routes>
-            </div>
+            
           </Content>
-          <Footer />
+        {/* { location.pathname.includes("/chat")  &&  <Footer />} */}
         </Layout>
       </Layout>
     </>

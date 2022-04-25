@@ -38,7 +38,11 @@ const Sidebar = () => {
               TimeOff
             </NavLink>
           </Menu.Item>
-          <Menu.Item key="4">Chat</Menu.Item>
+          <Menu.Item key="4">
+          <NavLink className="nav-link" to="/chat">
+            Chat
+          </NavLink>
+          </Menu.Item>
         </SubMenu>
         <Menu.Item
           style={{ margin: 0 }}

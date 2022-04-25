@@ -84,7 +84,6 @@ function ListEmployees() {
         <Space size="middle">
           <Button icon={<DeleteOutlined />} type="link" danger />
           <Divider type="vertical" />
-
           <Button
             onClick={() => ToProfile(record)}
             icon={<UserOutlined />}
