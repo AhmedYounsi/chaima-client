@@ -1,8 +1,9 @@
 /* eslint-disable */
 import axios from 'axios';
+import host from './host';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/',
+  baseURL: host,
   headers: { 
     'Content-Type': 'application/json',
   },

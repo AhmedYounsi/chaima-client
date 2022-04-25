@@ -2,17 +2,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Chat.scss";
 import { getUsers } from "../../actions/user";
-import { Input, Button, Tabs, Spin } from "antd";
+import { Input, Button, Tabs, Spin, Avatar } from "antd";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingAction } from "../../actions/LoadingAction";
 import { SendOutlined, MessageOutlined, UserOutlined } from "@ant-design/icons";
-
+ 
 const { TabPane } = Tabs;
 import axios from "axios";
 import ConversationItem from "./ConversationItem";
-
+import host from '../../Utils/host';
 function Chat() {
   const inputEl = useRef(null);
   const UserReducer = useSelector((state) => state.UserReducer);
@@ -27,7 +27,9 @@ function Chat() {
   const [Converations, setConverations] = useState([]);
   const [UserToSend, setUserToSend] = useState(null);
   const [SingleConv, setSingleConv] = useState([])
-  const socket = io("http://localhost:5000/");
+
+
+  const socket = io(host);
   const getAllUser = async () => {
     const res = await getUsers();
     const arr = res.data.filter((el) => el._id != UserReducer._id);
@@ -48,7 +50,7 @@ function Chat() {
   }, []);
 
   const GetConversation = async () => {
-    const res = await axios.post("http://localhost:5000/get_conv", {
+    const res = await axios.post(`${host}get_conv`, {
       id: UserReducer._id,
     });
     setConverations(res.data);
@@ -93,8 +95,8 @@ function Chat() {
       setLoading(false)
       setMessages(data);
     });
-    socket.on("addmessage", (message) => {
-      console.log(message)
+    socket.on("addmessage", () => {
+      console.log("message")
     });
 
 
@@ -176,16 +178,16 @@ function Chat() {
     const id = el.users.filter((el) => el != UserReducer._id);
     setUserToSend(username[0]);
     setMessageTo(id[0]);
-
-  
+ 
+   
   }; 
 
   const Seen = () =>{
-  if(SingleConv.lastsender != UserReducer._id && !SingleConv.seen)
-    socket.emit("Seen",{conv : SingleConv,id :UserReducer._id})
-    socket.on("Seen",seen_conv=>{   
-   setConverations(seen_conv)
-     })
+  // if(SingleConv.lastsender != UserReducer._id && !SingleConv.seen)
+  //   socket.emit("Seen",{conv : SingleConv,id :UserReducer._id})
+  //   socket.on("Seen",seen_conv=>{   
+  //  setConverations(seen_conv)
+  //    })
   }
 
   const Send = (e) => {
@@ -232,8 +234,14 @@ function Chat() {
         </Tabs>
       </div>
       <div className="messages-chat">
+        
         {MessageTo && (
+          
           <>
+          <h3 className="chat_name">
+        <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>U</Avatar>
+
+           {UserToSend} </h3>
             <div className="message-list">
               {Messages.length > 0 &&
                 Messages.map((el, index) => {
