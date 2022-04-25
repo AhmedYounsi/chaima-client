@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Chat.scss";
 import { getUsers } from "../../actions/user";
-import { Input, Button, Tabs } from "antd";
+import { Input, Button, Tabs, Spin } from "antd";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +18,7 @@ function Chat() {
   const UserReducer = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [Loading, setLoading] = useState(false)
   const [Employee, setEmployee] = useState([]);
   const [MessageTo, setMessageTo] = useState(null);
   const [Messages, setMessages] = useState([]);
@@ -42,6 +42,9 @@ function Chat() {
       const el = document.querySelectorAll(".ant-tabs-tab");
       el[1].click();
     });
+    return () => {
+      socket.removeAllListeners();
+    };
   }, []);
 
   const GetConversation = async () => {
@@ -79,6 +82,7 @@ function Chat() {
         const el = document.querySelectorAll(".ant-tabs-tab");
         el[1].click();
       }
+      console.log(data)
       setSingleConv(data)
       setMessages(data.messages);
       LoadingAction(false, dispatch);
@@ -86,18 +90,22 @@ function Chat() {
     // LoadingAction(true, dispatch);
     socket.emit("JoinRoom", { Me: UserReducer, user_id: MessageTo });
     socket.on("ResendMessage", (data) => {
-      setMessages(data.messages);
+      setLoading(false)
+      setMessages(data);
+    });
+    socket.on("addmessage", (message) => {
+      console.log(message)
     });
 
-    socket.on("NewMessage", () => {
-      console.log("NewMessage");
-    });
+
+     
 
     return () => {
-      socket.removeAllListeners("ResendMessage");
+      socket.removeAllListeners();
     };
   }, [MessageTo]);
 
+ 
   const ChatOne = (props) => {
     return (
       <div
@@ -174,22 +182,19 @@ function Chat() {
 
   const Seen = () =>{
   if(SingleConv.lastsender != UserReducer._id && !SingleConv.seen)
-    socket.emit("Seen",SingleConv._id)
-    socket.on("Seen",seen_conv=>{
-    let arr = []
-   const objIndex = Converations.findIndex((obj => obj._id == seen_conv._id));
-   arr[objIndex]= seen_conv
-   setConverations(arr)
+    socket.emit("Seen",{conv : SingleConv,id :UserReducer._id})
+    socket.on("Seen",seen_conv=>{   
+   setConverations(seen_conv)
      })
   }
 
   const Send = (e) => {
     e.preventDefault();
-    if (message.length == 0) return;
+    if (message.length == 0 || Loading) return;
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes();
     var dateTime = time + " | " + formatDate(new Date());
-
+    setLoading(true)
     socket.emit("SendMessage", {
       message,
       user: UserReducer,
@@ -249,9 +254,11 @@ function Chat() {
                   type="text"
                 />
 
-                <button onClick={(e) => Send(e)}>
+              {!Loading ?  <button onClick={(e) => Send(e)}>
                   <SendOutlined />
-                </button>
+                </button> : <button>
+                <Spin />
+                </button>}
               </form>
             </div>
           </>
