@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from 'react'
 import { useSelector } from 'react-redux';
-import {EnterOutlined} from "@ant-design/icons";
-import { Badge } from 'antd';
+import {UserOutlined} from "@ant-design/icons";
+import { Avatar, Badge } from 'antd';
 function ConversationItem(props) {
     const UserReducer = useSelector((state) => state.UserReducer);
     const SelectedConversation = (el) =>{
@@ -32,10 +32,7 @@ function ConversationItem(props) {
         >
           <div className="chat_people">
             <div className="chat_img">
-              <img
-                src="https://ptetutorials.com/images/user-profile.png"
-                alt="sunil"
-              />
+            <Avatar className="user_avatar" size={45} icon={<UserOutlined />} />
             </div>
             <div className="chat_ib">
               <h5>

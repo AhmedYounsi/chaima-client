@@ -8,7 +8,7 @@ import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingAction } from "../../actions/LoadingAction";
 import { SendOutlined, MessageOutlined, UserOutlined } from "@ant-design/icons";
- 
+
 const { TabPane } = Tabs;
 import axios from "axios";
 import ConversationItem from "./ConversationItem";
@@ -84,30 +84,28 @@ function Chat() {
         const el = document.querySelectorAll(".ant-tabs-tab");
         el[1].click();
       }
-      console.log(data)
       setSingleConv(data)
       setMessages(data.messages);
-      LoadingAction(false, dispatch);
+    
+      console.log("seen")
+      
     });
-    // LoadingAction(true, dispatch);
+
     socket.emit("JoinRoom", { Me: UserReducer, user_id: MessageTo });
-    socket.on("ResendMessage", (data) => {
-      setLoading(false)
-      setMessages(data);
-    });
-    socket.on("addmessage", () => {
-      console.log("message")
-    });
-
-
-     
 
     return () => {
       socket.removeAllListeners();
     };
   }, [MessageTo]);
 
- 
+
+  useEffect(() => {
+    socket.on("ResendMessage", (data) => {
+      setMessages(data);
+    });
+  }, [socket])
+
+
   const ChatOne = (props) => {
     return (
       <div
@@ -118,10 +116,7 @@ function Chat() {
         <div className="chat_people">
           <div className="chat_img">
             {" "}
-            <img
-              src="https://ptetutorials.com/images/user-profile.png"
-              alt="sunil"
-            />{" "}
+            <Avatar className="user_avatar" size={45} icon={<UserOutlined />} />
           </div>
           <div className="chat_ib">
             <h5>
@@ -140,10 +135,7 @@ function Chat() {
       <div className="incoming_msg">
         <div className="incoming_msg_img">
           {" "}
-          <img
-            src="https://ptetutorials.com/images/user-profile.png"
-            alt="sunil"
-          />{" "}
+          <Avatar size={50} icon={<UserOutlined />} />
         </div>
         <div className="received_msg">
           <div className="received_withd_msg">
@@ -169,7 +161,7 @@ function Chat() {
   const SelectMessage = (el) => {
     setUserToSend(el.name + " " + el.lastName);
     setMessageTo(el._id);
- 
+
   };
 
   const SelectConversation = (el) => {
@@ -178,34 +170,32 @@ function Chat() {
     const id = el.users.filter((el) => el != UserReducer._id);
     setUserToSend(username[0]);
     setMessageTo(id[0]);
- 
-   
-  }; 
+    
 
-  const Seen = () =>{
-  // if(SingleConv.lastsender != UserReducer._id && !SingleConv.seen)
-  //   socket.emit("Seen",{conv : SingleConv,id :UserReducer._id})
-  //   socket.on("Seen",seen_conv=>{   
-  //  setConverations(seen_conv)
-  //    })
-  }
+  };
+
+ 
 
   const Send = (e) => {
     e.preventDefault();
-    if (message.length == 0 || Loading) return;
+
+    if (inputEl.current.value.length == 0 || Loading) return;
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes();
     var dateTime = time + " | " + formatDate(new Date());
-    setLoading(true)
+
+
+    const msg = {
+      text: inputEl.current.value,
+      username: UserReducer.name + " " + UserReducer.lastName,
+      user_id: UserReducer._id,
+      dateTime: dateTime,
+    };
     socket.emit("SendMessage", {
-      message,
-      user: UserReducer,
-      RoomID,
-      dateTime,
-      UserToSend,
-      MessageTo,
+      msg, UserToSend,
+      MessageTo, RoomID
     });
-    setmessage("");
+    inputEl.current.value = ""
     inputEl.current.focus();
   };
 
@@ -234,14 +224,14 @@ function Chat() {
         </Tabs>
       </div>
       <div className="messages-chat">
-        
-        {MessageTo && (
-          
-          <>
-          <h3 className="chat_name">
-        <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>U</Avatar>
 
-           {UserToSend} </h3>
+        {MessageTo && (
+
+          <>
+            <h3 className="chat_name">
+            <Avatar size={30} icon={<UserOutlined />} />
+
+              {UserToSend} </h3>
             <div className="message-list">
               {Messages.length > 0 &&
                 Messages.map((el, index) => {
@@ -256,16 +246,14 @@ function Chat() {
                 <input
                   onClick={Seen}
                   ref={inputEl}
-                  value={message}
-                  onChange={(e) => setmessage(e.target.value)}
                   placeholder="Message ..."
                   type="text"
                 />
 
-              {!Loading ?  <button onClick={(e) => Send(e)}>
+                {!Loading ? <button onClick={(e) => Send(e)}>
                   <SendOutlined />
                 </button> : <button>
-                <Spin />
+                  <Spin />
                 </button>}
               </form>
             </div>
