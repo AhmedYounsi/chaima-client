@@ -86,9 +86,7 @@ function Chat() {
       }
       setSingleConv(data)
       setMessages(data.messages);
-    
-      console.log("seen")
-      
+      Seen(data)
     });
 
     socket.emit("JoinRoom", { Me: UserReducer, user_id: MessageTo });
@@ -103,6 +101,13 @@ function Chat() {
     socket.on("ResendMessage", (data) => {
       setMessages(data);
     });
+
+
+    socket.on('Seen',(data)=>{
+      
+      let arr = Converations.filter(el => el._id == data._id)
+       
+    }) 
   }, [socket])
 
 
@@ -170,11 +175,13 @@ function Chat() {
     const id = el.users.filter((el) => el != UserReducer._id);
     setUserToSend(username[0]);
     setMessageTo(id[0]);
-    
+
 
   };
 
- 
+  const Seen = (data) => {
+     socket.emit('Seen',data._id) 
+  }
 
   const Send = (e) => {
     e.preventDefault();
