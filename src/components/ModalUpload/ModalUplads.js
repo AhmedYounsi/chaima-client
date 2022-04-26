@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { Modal, Button } from 'antd';
 import axios from 'axios';
 import host from '../../Utils/host';
-
+import { useDispatch } from 'react-redux';
+import {FileAddFilled} from "@ant-design/icons";
 const ModalUplads = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
  const [Image, setImage] = useState(null)
@@ -12,7 +13,7 @@ const ModalUplads = (props) => {
   };
 
   const handleOk = () => {
-    setIsModalVisible(false);
+    Add_Event()
   };
 
   const handleCancel = () => {
@@ -36,22 +37,30 @@ const ModalUplads = (props) => {
     formData.append("Room",   props.RoomID);
     formData.append("UserToSend",   props.UserToSend);
     const res = await axios.post(`${host}upload_chat`,formData)
+    console.log(res)
     if(res.status == 200)
+   {
     props.SaveFile(res.data)
     setIsModalVisible(false)
+   }
+   else{
+    useDispatch({
+      type: 'SetAlert',
+      payload: { message: "Error from server", type: 'error' }
+    });
+   }
   };
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        Open Modal
-      </Button>
-      <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+    
+      <FileAddFilled className='File_icon' onClick={showModal} />
+      <Modal title="Upload files" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
       <input
                 onChange={handleFileChange}
                 type="file"
                 name="file"
               />
-              <Button onClick={Add_Event} >Uploads</Button>
+            
       </Modal>
     </>
   );

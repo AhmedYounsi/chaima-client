@@ -203,8 +203,10 @@ span{
            padding: 10px 20px;
        }
        .input-chat{
+         position: relative;
         margin-left: 15px;
         height: 60px;
+      
         textarea{
           width: 100%;
     border: none;
@@ -224,8 +226,17 @@ span{
     }
    
 }
+.File_icon{
+  position: absolute;
+  z-index: 1;
+  font-size: 28px;
+  right: 55px;
+  top: 13px;
+  color: #05728f !important;
 
+}
 .input-box{
+  position: relative;
     display: flex !important;
     height: 100%;
     input{
@@ -315,4 +326,12 @@ span{
  .File_item{
   text-align: end;
   cursor: pointer;
+  img{
+    max-height: 150px;
+    margin-top: 10px;
+  }
+ }
+
+ .file_rec{
+  text-align: start !important;
  }

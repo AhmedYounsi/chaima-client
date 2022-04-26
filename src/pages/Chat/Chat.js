@@ -7,13 +7,20 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingAction } from "../../actions/LoadingAction";
-import { SendOutlined, MessageOutlined, UserOutlined, CheckOutlined } from "@ant-design/icons";
-import Dots from '../../assets/images/dots.svg'
+import {
+  SendOutlined,
+  MessageOutlined,
+  UserOutlined,
+  CheckOutlined,
+} from "@ant-design/icons";
+import Dots from "../../assets/images/dots.svg";
 const { TabPane } = Tabs;
 import axios from "axios";
 import ConversationItem from "./ConversationItem";
 import host from "../../Utils/host";
 import ModalUplads from "../../components/ModalUpload/ModalUplads";
+import IncomMSG from "./IncomMSG";
+import OutMSG from "./OutMSG";
 function Chat() {
   const socket = io(host);
   const inputEl = useRef(null);
@@ -29,8 +36,8 @@ function Chat() {
   const [Converations, setConverations] = useState([]);
   const [UserToSend, setUserToSend] = useState(null);
   const [SingleConv, setSingleConv] = useState([]);
-  const [SeenVal, setSeenVal] = useState(false)
-  const [Typing, setTyping] = useState(false)
+  const [SeenVal, setSeenVal] = useState(false);
+  const [Typing, setTyping] = useState(false);
 
   const getAllUser = async () => {
     const res = await getUsers();
@@ -75,9 +82,13 @@ function Chat() {
     const element = document.querySelector(".message-list");
     if (!element) return;
     element.scrollTop = element.scrollHeight;
-  }
+  };
   useEffect(() => {
+    if(Messages.length)
+   setTimeout(() => {
     scroll()
+   }, 200);
+    // console.log(Messages)
   }, [Messages, SingleConv]);
 
   useEffect(() => {
@@ -85,18 +96,18 @@ function Chat() {
       return;
     }
 
-    setSeenVal(false)
+    setSeenVal(false);
 
     socket.on("joining_room", (data) => {
-
       setRoomID(data._id);
       if (data.messages.length > 0) {
         const el = document.querySelectorAll(".ant-tabs-tab");
         el[1].click();
       }
-      Seen(data)
+      Seen(data);
       setSingleConv(data);
       setMessages(data.messages);
+     
     });
 
     socket.emit("JoinRoom", { Me: UserReducer, user_id: MessageTo });
@@ -108,27 +119,27 @@ function Chat() {
 
   useEffect(() => {
     socket.on("ResendMessage", (data) => {
-      setSeenVal(false)
-      setSingleConv(data)
+      setSeenVal(false);
+      setSingleConv(data);
       setMessages(data.messages);
       GetConversation();
-      setTyping(false)
+      setTyping(false);
     });
 
     socket.on("Seen", (data) => {
-      GetConversation()
-      setSeenVal(true)
-      setSingleConv(data)
+      GetConversation();
+      setSeenVal(true);
+      setSingleConv(data);
     });
     socket.on(`Typing${UserReducer._id}`, () => {
-      scroll()
-      setTyping(true)
+      scroll();
+      setTyping(true);
     });
     socket.on(`StopTyping${UserReducer._id}`, () => {
-      setTyping(false)
+      setTyping(false);
     });
     socket.on(`my_event`, () => {
-   console.log("my_event")
+      console.log("my_event");
     });
   }, [socket]);
 
@@ -153,16 +164,15 @@ function Chat() {
   const Send = (e) => {
     e.preventDefault();
     if (inputEl.current.value.length == 0 || Loading) return;
-    Seen(SingleConv)
-
+    Seen(SingleConv);
     const msg = {
       text: inputEl.current.value,
-      file:null,
+      file: null,
       username: UserReducer.name + " " + UserReducer.lastName,
       user_id: UserReducer._id,
       dateTime: new Date().getTime(),
     };
-    setSeenVal(false)
+    setSeenVal(false);
     socket.emit("SendMessage", {
       msg,
       UserToSend,
@@ -197,58 +207,20 @@ function Chat() {
     );
   };
 
-  const IncommingMSG = (props) => {
-    return (
-      <div className="incoming_msg">
-        <div className="incoming_msg_img">
-          <Avatar size={34} icon={<UserOutlined />} />
-        </div>
-        <div className="received_msg">
-          <div className="received_withd_msg">
-            <p> {props.message.text} </p>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const OutgoingMSG = (props) => {
-    return (
-      <div className="outgoing_msg ">
-        <div className="sent_msg">
-          {
-            props.message.file ?
-
-    <div className="File_item">
-            <p
-            onClick={()=> window.open( `http://localhost:5000/uploads/${props.message.file}`, '_blank') }
-            > { props.message.file } </p>
-          { 
-          If_image(props.message.file.split('.').pop()) &&
-          <img src={`http://localhost:5000/uploads/${props.message.file}`} alt="" />}
-    </div>
-            :
-          <p> {  props.message.text} </p>
-
-          }
-        </div>
-      </div>
-    );
-  };
-
-  const If_image = (ext) =>{
-    return true
-  }
+ 
 
   const MessageList = ({ el }) => {
-    if (el.user_id == UserReducer._id) return <OutgoingMSG message={el} />;
-    if (el.user_id != UserReducer._id) return <IncommingMSG message={el} />;
+    if (el.user_id == UserReducer._id) return <OutMSG message={el} />;
+    if (el.user_id != UserReducer._id) return <IncomMSG message={el} />;
   };
 
   const DateFormat = (index) => {
-    var TEN_MINUTES = 5 * 60 * 1000
-    if (index > 0 && (Messages[index].dateTime - Messages[index - 1].dateTime) > TEN_MINUTES) {
-      return true
+    var TEN_MINUTES = 5 * 60 * 1000;
+    if (
+      index > 0 &&
+      Messages[index].dateTime - Messages[index - 1].dateTime > TEN_MINUTES
+    ) {
+      return true;
     }
     if (index > 0 && Messages[index].user_id == Messages[index - 1].user_id)
       return false;
@@ -260,50 +232,49 @@ function Chat() {
     var year = date.getFullYear();
     var month = date.getMonth();
     var day = date.getDay();
-    var hours = date.getHours()
+    var hours = date.getHours();
     var minutes = date.getMinutes();
-    time = ("0" + hours).slice(-2) + ':' + ("0" + minutes).slice(-2)
-    return time
-  }
+    time = ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2);
+    return time;
+  };
 
   const IsTyping = () => {
-    const input = inputEl.current.value
-    setmessage(input)
+    const input = inputEl.current.value;
+    setmessage(input);
     // if(inputEl.current.value.length > 0)
     // socket.emit("Typing",RoomID,)
-    // else 
+    // else
     // socket.emit("StopTyping",RoomID)
-  }
+  };
 
   useEffect(() => {
     // if (message.length > 0)
     //   socket.emit("Typing", MessageTo)
     // if (message.length == 0)
     //   socket.emit("StopTyping", MessageTo)
-  }, [message])
+  }, [message]);
 
-const SaveFile = (file) =>{
-  console.log(file)   
-  Seen(SingleConv)
+  const SaveFile = (file) => {
+    console.log(file);
+    Seen(SingleConv);
 
-  const msg = {
-    text: "File",
-    file:file,
-    username: UserReducer.name + " " + UserReducer.lastName,
-    user_id: UserReducer._id,
-    dateTime: new Date().getTime(),
+    const msg = {
+      text: "File",
+      file: file,
+      username: UserReducer.name + " " + UserReducer.lastName,
+      user_id: UserReducer._id,
+      dateTime: new Date().getTime(),
+    };
+    setSeenVal(false);
+    socket.emit("SendMessage", {
+      msg,
+      UserToSend,
+      MessageTo,
+      RoomID,
+    });
+    inputEl.current.value = "";
+    inputEl.current.focus();
   };
-  setSeenVal(false)
-  socket.emit("SendMessage", {
-    msg,
-    UserToSend,
-    MessageTo,
-    RoomID,
-  });
-  inputEl.current.value = "";
-  inputEl.current.focus();
-}
-
 
   return (
     <div className="Chat-container">
@@ -342,22 +313,25 @@ const SaveFile = (file) =>{
                   return (
                     <div key={index}>
                       {DateFormat(index) && (
-
-                        <span className="time_date"> {TimeDisplay(el.dateTime)} </span>
+                        <span className="time_date">
+                          {" "}
+                          {TimeDisplay(el.dateTime)}{" "}
+                        </span>
                       )}
                       <MessageList el={el} />
                     </div>
                   );
                 })}
 
-              {SingleConv.lastsender == UserReducer._id && (SeenVal || SingleConv.seen) &&
-                <div className="seen">
-                  <CheckOutlined />
-                  <span> Seen </span>
-                </div>}
+              {SingleConv.lastsender == UserReducer._id &&
+                (SeenVal || SingleConv.seen) && (
+                  <div className="seen">
+                    <CheckOutlined />
+                    <span> Seen </span>
+                  </div>
+                )}
 
-              {
-                Typing &&
+              {Typing && (
                 <div className="incoming_msg">
                   <div className="incoming_msg_img">
                     <Avatar size={34} icon={<UserOutlined />} />
@@ -366,24 +340,28 @@ const SaveFile = (file) =>{
                     <img className="is_typing" src={Dots} alt="" />
                   </div>
                 </div>
-              }
+              )}
             </div>
             <div className="input-chat">
-            <ModalUplads SaveFile={(file) => SaveFile(file)} UserReducer={UserReducer} />
+              <ModalUplads
+                SaveFile={(file) => SaveFile(file)}
+                UserReducer={UserReducer}
+              />
               <form className="input-box">
-                <textarea onClick={() => Seen(SingleConv)}
+                <textarea
+                  onClick={() => Seen(SingleConv)}
                   // onChange={IsTyping}
                   ref={inputEl}
                   placeholder="Message ..."
                   type="text"
                   // onBlur={() => socket.emit("StopTyping", MessageTo)}
-                   cols="30" rows="10"
-                  onKeyDown={e => {
-                    if(e.keyCode == 13)
-                    Send(e)
+                  cols="30"
+                  rows="10"
+                  onKeyDown={(e) => {
+                    if (e.keyCode == 13) Send(e);
                   }}
-                  ></textarea>
-              
+                ></textarea>
+
                 {!Loading ? (
                   <button onClick={(e) => Send(e)}>
                     <SendOutlined />
