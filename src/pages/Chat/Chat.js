@@ -84,6 +84,8 @@ function Chat() {
       return;
     }
 
+    setSeenVal(false)
+
     socket.on("joining_room", (data) => {
 
       setRoomID(data._id);
