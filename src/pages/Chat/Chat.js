@@ -218,9 +218,15 @@ function Chat() {
         <div className="sent_msg">
           {
             props.message.file ?
+
+    <div className="File_item">
             <p
             onClick={()=> window.open( `http://localhost:5000/uploads/${props.message.file}`, '_blank') }
-            > {props.message.file} </p>
+            > { props.message.file } </p>
+          { 
+          If_image(props.message.file.split('.').pop()) &&
+          <img src={`http://localhost:5000/uploads/${props.message.file}`} alt="" />}
+    </div>
             :
           <p> {  props.message.text} </p>
 
@@ -229,6 +235,10 @@ function Chat() {
       </div>
     );
   };
+
+  const If_image = (ext) =>{
+    return true
+  }
 
   const MessageList = ({ el }) => {
     if (el.user_id == UserReducer._id) return <OutgoingMSG message={el} />;
