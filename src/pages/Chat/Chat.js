@@ -253,10 +253,10 @@ function Chat() {
   }
 
   useEffect(() => {
-    if (message.length > 0)
-      socket.emit("Typing", MessageTo)
-    if (message.length == 0)
-      socket.emit("StopTyping", MessageTo)
+    // if (message.length > 0)
+    //   socket.emit("Typing", MessageTo)
+    // if (message.length == 0)
+    //   socket.emit("StopTyping", MessageTo)
   }, [message])
 
 
@@ -327,13 +327,13 @@ function Chat() {
             </div>
             <div className="input-chat">
               <form className="input-box">
-
                 <textarea onClick={() => Seen(SingleConv)}
-                  onChange={IsTyping}
+                  // onChange={IsTyping}
                   ref={inputEl}
                   placeholder="Message ..."
                   type="text"
-                  onBlur={() => socket.emit("StopTyping", MessageTo)} cols="30" rows="10"
+                  // onBlur={() => socket.emit("StopTyping", MessageTo)}
+                   cols="30" rows="10"
                   onKeyDown={e => {
                     if(e.keyCode == 13)
                     Send(e)
