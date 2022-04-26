@@ -216,7 +216,15 @@ function Chat() {
     return (
       <div className="outgoing_msg ">
         <div className="sent_msg">
-          <p> {props.message.text} </p>
+          {
+            props.message.file ?
+            <p
+            onClick={()=> window.open( `http://localhost:5000/uploads/${props.message.file}`, '_blank') }
+            > {props.message.file} </p>
+            :
+          <p> {  props.message.text} </p>
+
+          }
         </div>
       </div>
     );
@@ -265,7 +273,25 @@ function Chat() {
   }, [message])
 
 const SaveFile = (file) =>{
-  console.log(SaveFile)
+  console.log(file)   
+  Seen(SingleConv)
+
+  const msg = {
+    text: "File",
+    file:file,
+    username: UserReducer.name + " " + UserReducer.lastName,
+    user_id: UserReducer._id,
+    dateTime: new Date().getTime(),
+  };
+  setSeenVal(false)
+  socket.emit("SendMessage", {
+    msg,
+    UserToSend,
+    MessageTo,
+    RoomID,
+  });
+  inputEl.current.value = "";
+  inputEl.current.focus();
 }
 
 

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import { Modal, Button } from 'antd';
 import axios from 'axios';
@@ -37,6 +38,7 @@ const ModalUplads = (props) => {
     const res = await axios.post(`${host}upload_chat`,formData)
     if(res.status == 200)
     props.SaveFile(res.data)
+    setIsModalVisible(false)
   };
   return (
     <>
