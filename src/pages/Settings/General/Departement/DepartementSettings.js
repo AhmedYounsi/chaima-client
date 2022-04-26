@@ -23,6 +23,8 @@ import {
   AddDepartement,
   GetDepartement,
   DeleteDepartement,
+  AddPostTitle,
+  GetPostTileDep,
 } from '../../../../actions/SettingsAction';
 import { useDispatch } from 'react-redux';
 import '../../Modal.scss';
@@ -34,6 +36,12 @@ function DepartementSettings() {
   const [visible, setVisible] = useState(false);
   const [name, setname] = useState('');
   const [DepartementList, setDepartementList] = useState([]);
+  const [form2] = Form.useForm();
+  const [visiblePost, setVisiblePost] = useState(false);
+  const [departement, setdepartement] = useState('');
+  const [posttitle, setposttitle] = useState('');
+  const [PostTitles, setPostTitles] = useState([])
+  const [DepartementId, setDepartementId] = useState(null)
 
   const dispatch = useDispatch();
   const data = [
@@ -54,13 +62,16 @@ function DepartementSettings() {
 
   const GetDepartements = async () => {
     const res = await GetDepartement(dispatch);
+    console.log(res.data)
     if (res.status == 200) setDepartementList(res.data);
   };
 
   const showModal = () => {
     setVisible(true);
   };
-
+  const showModalPost = () => {
+    setVisiblePost(true);
+  };
   const hideModal = () => {
     setVisible(false);
   };
@@ -100,6 +111,29 @@ function DepartementSettings() {
   const onOk = () => {
     form.submit();
   };
+  const onOkPost = () => {
+    form2.submit();
+  }
+
+  const onFinish2 = async (values) => {
+    const postTitle = {
+      name: posttitle,
+      departement: departement,
+    };
+    const res = await AddPostTitle(dispatch, postTitle);
+    if (res.status == 200) {
+      setVisiblePost(false);
+      GetDepartements()
+      dispatch({
+        type: 'SetAlert',
+        payload: {
+          type: 'success',
+          message: 'PostTitle added successfully !',
+        },
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="section">
@@ -131,7 +165,9 @@ function DepartementSettings() {
           </div>
           {DepartementList.length > 0 && (
             <div className="form-pad-2">
-              <Collapse defaultActiveKey={['1']} expandIconPosition={'left'}>
+              <Collapse
+
+                defaultActiveKey={['1']} expandIconPosition={'left'}>
                 {DepartementList.map((el, index) => (
                   <Panel
                     key={index}
@@ -152,7 +188,10 @@ function DepartementSettings() {
                               </Button>
                             </Menu.Item>
                             <Menu.Item key="3">
-                              <Button type="text">Add new Post Title</Button>
+                              <Button type="text" onClick={() => {
+                                showModalPost(),
+                                  setdepartement(el._id)
+                              }}>Add new Post Title</Button>
                             </Menu.Item>
                           </Menu>
                         }
@@ -166,20 +205,21 @@ function DepartementSettings() {
                     <div>
                       <List
                         itemLayout="horizontal"
-                        dataSource={data}
+                        dataSource={el.titlePost}
                         renderItem={(item, index) => (
                           <List.Item
                             key={index}
                             actions={[
                               <Button type="link" icon={<EditOutlined />} />,
                               <Button
+                                onClick={() => console.log(item._id)}
                                 type="link"
                                 danger
                                 icon={<DeleteOutlined />}
                               />,
                             ]}
                           >
-                            <List.Item.Meta title={item.title} />
+                            <List.Item.Meta title={item.name} />
                           </List.Item>
                         )}
                       />
@@ -211,6 +251,30 @@ function DepartementSettings() {
             <Input
               value={name}
               onChange={(e) => setname(e.target.value)}
+              className="custom-input"
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title="Add New Post Title"
+        visible={visiblePost}
+        onOk={onOkPost}
+        onCancel={hideModal}
+      >
+        <Form form={form2} layout="vertical" name="userForm" onFinish={onFinish2}>
+          <Form.Item
+            name={'posttitle'}
+            label="Post Title "
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input
+              value={posttitle}
+              onChange={(e) => setposttitle(e.target.value)}
               className="custom-input"
             />
           </Form.Item>

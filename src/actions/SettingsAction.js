@@ -190,3 +190,49 @@ export const DeleteTimeOffType = async (id) => {
 };
 
 //Post Title
+export const AddPostTitle = async (dispatch, postTitle) => {
+  try {
+    const res = await api.post('/posts', postTitle);
+    return res;
+  } catch (err) {
+    dispatch({
+      type: User_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const GetPostTitle = async (dispatch) => {
+  try {
+    const res = await api.get('/posts/posts');
+    return res;
+  } catch (err) {
+    dispatch({
+      type: User_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const DeletePostTitle = async (id) => {
+  try {
+    const res = await api.delete('/posts', { data: { id } });
+    return res;
+  } catch (err) {
+    dispatch({
+      type: User_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+export const GetPostTileDep = async (id) => {
+  try {
+    const res = await api.post('/posts/single', { data: { id } });
+    return res;
+  } catch (err) {
+    dispatch({
+      type: User_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
