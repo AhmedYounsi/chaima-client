@@ -13,6 +13,7 @@ const { TabPane } = Tabs;
 import axios from "axios";
 import ConversationItem from "./ConversationItem";
 import host from "../../Utils/host";
+import ModalUplads from "../../components/ModalUpload/ModalUplads";
 function Chat() {
   const socket = io(host);
   const inputEl = useRef(null);
@@ -126,6 +127,9 @@ function Chat() {
     socket.on(`StopTyping${UserReducer._id}`, () => {
       setTyping(false)
     });
+    socket.on(`my_event`, () => {
+   console.log("my_event")
+    });
   }, [socket]);
 
   const SelectMessage = (el) => {
@@ -153,6 +157,7 @@ function Chat() {
 
     const msg = {
       text: inputEl.current.value,
+      file:null,
       username: UserReducer.name + " " + UserReducer.lastName,
       user_id: UserReducer._id,
       dateTime: new Date().getTime(),
@@ -259,7 +264,9 @@ function Chat() {
     //   socket.emit("StopTyping", MessageTo)
   }, [message])
 
-
+const SaveFile = (file) =>{
+  console.log(SaveFile)
+}
 
 
   return (
@@ -326,6 +333,7 @@ function Chat() {
               }
             </div>
             <div className="input-chat">
+            <ModalUplads SaveFile={(file) => SaveFile(file)} UserReducer={UserReducer} />
               <form className="input-box">
                 <textarea onClick={() => Seen(SingleConv)}
                   // onChange={IsTyping}
@@ -339,6 +347,7 @@ function Chat() {
                     Send(e)
                   }}
                   ></textarea>
+              
                 {!Loading ? (
                   <button onClick={(e) => Send(e)}>
                     <SendOutlined />
