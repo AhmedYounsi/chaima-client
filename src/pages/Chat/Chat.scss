@@ -91,12 +91,17 @@ img{ max-width:100%;}
   width: 100%;
 }
 .time_date {
+  text-align: center;
   color: #747474;
   display: block;
   font-size: 12px;
   margin: 8px 0 0;
+  margin-bottom: 5px;
 }
-.received_withd_msg { width: 57%;}
+.received_withd_msg { 
+  width: fit-content;
+  max-width: 60%;
+}
 .mesgs {
   float: left;
   padding: 30px 15px 0 25px;
@@ -111,10 +116,11 @@ img{ max-width:100%;}
   padding: 5px 10px 5px 12px;
   width:100%;
 }
-.outgoing_msg{ overflow:hidden;  margin-bottom: 10px;}
+.outgoing_msg{ overflow:hidden;  margin-bottom: 5px;}
 .sent_msg {
   float: right;
-  width: 46%;
+  width: auto;
+  max-width: 60%;
 }
 .input_msg_write input {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
@@ -279,4 +285,13 @@ img{ max-width:100%;}
 
  .user_avatar{
   background: #5c7080 !important;
+ }
+
+
+ .seen{
+  color: grey;
+  text-align: end;
+  span{
+    margin-right: 2px;
+  }
  }

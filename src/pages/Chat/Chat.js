@@ -7,18 +7,18 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingAction } from "../../actions/LoadingAction";
-import { SendOutlined, MessageOutlined, UserOutlined } from "@ant-design/icons";
+import { SendOutlined, MessageOutlined, UserOutlined,CheckOutlined} from "@ant-design/icons";
 
 const { TabPane } = Tabs;
 import axios from "axios";
 import ConversationItem from "./ConversationItem";
-import host from '../../Utils/host';
+import host from "../../Utils/host";
 function Chat() {
   const inputEl = useRef(null);
   const UserReducer = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [Loading, setLoading] = useState(false)
+  const [Loading, setLoading] = useState(false);
   const [Employee, setEmployee] = useState([]);
   const [MessageTo, setMessageTo] = useState(null);
   const [Messages, setMessages] = useState([]);
@@ -26,9 +26,8 @@ function Chat() {
   const [RoomID, setRoomID] = useState("");
   const [Converations, setConverations] = useState([]);
   const [UserToSend, setUserToSend] = useState(null);
-  const [SingleConv, setSingleConv] = useState([])
-
-
+  const [SingleConv, setSingleConv] = useState([]);
+  const [SeenVal, setSeenVal] = useState(false)
   const socket = io(host);
   const getAllUser = async () => {
     const res = await getUsers();
@@ -71,7 +70,7 @@ function Chat() {
     const element = document.querySelector(".message-list");
     if (!element) return;
     element.scrollTop = element.scrollHeight;
-  }, [Messages]);
+  }, [Messages,SingleConv]);
 
   useEffect(() => {
     if (!MessageTo) {
@@ -79,14 +78,15 @@ function Chat() {
     }
 
     socket.on("joining_room", (data) => {
+       
       setRoomID(data._id);
       if (data.messages.length > 0) {
         const el = document.querySelectorAll(".ant-tabs-tab");
         el[1].click();
       }
-      setSingleConv(data)
-      setMessages(data.messages);
       Seen(data)
+      setSingleConv(data);
+      setMessages(data.messages);
     });
 
     socket.emit("JoinRoom", { Me: UserReducer, user_id: MessageTo });
@@ -96,20 +96,69 @@ function Chat() {
     };
   }, [MessageTo]);
 
-
   useEffect(() => {
     socket.on("ResendMessage", (data) => {
-      setMessages(data);
+      setSeenVal(false)
+      setSingleConv(data)
+      setMessages(data.messages);
     });
 
+    socket.on("Seen", (data) => {
+      GetConversation()
+      setSeenVal(true)
+      // let i = Converations.findIndex((el) => el._id == data._id);
+      // setSingleConv([])
+      // if (i == -1) return;
+      // let arr = [...Converations];
+      // arr[i].seen = true;
+      // setConverations(arr);
+      // console.log(arr)
+      setSingleConv(data)
+    
+    });
+  }, [socket]);
 
-    socket.on('Seen',(data)=>{
-      
-      let arr = Converations.filter(el => el._id == data._id)
-       
-    }) 
-  }, [socket])
+  const SelectMessage = (el) => {
+    setUserToSend(el.name + " " + el.lastName);
+    setMessageTo(el._id);
+  };
 
+  const SelectConversation = (el) => {
+    const name = UserReducer.name + " " + UserReducer.lastName;
+    const username = el.usernames.filter((el) => el != name);
+    const id = el.users.filter((el) => el != UserReducer._id);
+    setUserToSend(username[0]);
+    setMessageTo(id[0]);
+  };
+
+  const Seen = (data) => {
+    if (data.lastsender != UserReducer._id && !data.seen )
+      socket.emit("Seen", data._id);
+  };
+
+  const Send = (e) => {
+    e.preventDefault();
+    if (inputEl.current.value.length == 0 || Loading) return;
+    Seen(SingleConv)
+    var today = new Date();
+    var time = today.getHours() + ":" + today.getMinutes();
+    var dateTime = time + " | " + formatDate(new Date());
+    const msg = {
+      text: inputEl.current.value,
+      username: UserReducer.name + " " + UserReducer.lastName,
+      user_id: UserReducer._id,
+      dateTime: dateTime,
+    };
+    setSeenVal(false)
+    socket.emit("SendMessage", {
+      msg,
+      UserToSend,
+      MessageTo,
+      RoomID,
+    });
+    inputEl.current.value = "";
+    inputEl.current.focus();
+  };
 
   const ChatOne = (props) => {
     return (
@@ -139,13 +188,11 @@ function Chat() {
     return (
       <div className="incoming_msg">
         <div className="incoming_msg_img">
-          {" "}
-          <Avatar size={50} icon={<UserOutlined />} />
+          <Avatar size={34} icon={<UserOutlined />} />
         </div>
         <div className="received_msg">
           <div className="received_withd_msg">
             <p> {props.message.text} </p>
-            <span className="time_date"> {props.message.dateTime} </span>{" "}
           </div>
         </div>
       </div>
@@ -157,53 +204,20 @@ function Chat() {
       <div className="outgoing_msg ">
         <div className="sent_msg">
           <p> {props.message.text} </p>
-          <span className="time_date"> {props.message.dateTime} </span>{" "}
         </div>
       </div>
     );
   };
 
-  const SelectMessage = (el) => {
-    setUserToSend(el.name + " " + el.lastName);
-    setMessageTo(el._id);
-
+  const MessageList = ({ el }) => {
+    if (el.user_id == UserReducer._id) return <OutgoingMSG message={el} />;
+    if (el.user_id != UserReducer._id) return <IncommingMSG message={el} />;
   };
 
-  const SelectConversation = (el) => {
-    const name = UserReducer.name + " " + UserReducer.lastName;
-    const username = el.usernames.filter((el) => el != name);
-    const id = el.users.filter((el) => el != UserReducer._id);
-    setUserToSend(username[0]);
-    setMessageTo(id[0]);
-
-
-  };
-
-  const Seen = (data) => {
-     socket.emit('Seen',data._id) 
-  }
-
-  const Send = (e) => {
-    e.preventDefault();
-
-    if (inputEl.current.value.length == 0 || Loading) return;
-    var today = new Date();
-    var time = today.getHours() + ":" + today.getMinutes();
-    var dateTime = time + " | " + formatDate(new Date());
-
-
-    const msg = {
-      text: inputEl.current.value,
-      username: UserReducer.name + " " + UserReducer.lastName,
-      user_id: UserReducer._id,
-      dateTime: dateTime,
-    };
-    socket.emit("SendMessage", {
-      msg, UserToSend,
-      MessageTo, RoomID
-    });
-    inputEl.current.value = ""
-    inputEl.current.focus();
+  const DateFormat = (index) => {
+    if (index > 0 && Messages[index].user_id == Messages[index - 1].user_id)
+      return false;
+    return true;
   };
 
   return (
@@ -231,37 +245,50 @@ function Chat() {
         </Tabs>
       </div>
       <div className="messages-chat">
-
         {MessageTo && (
-
           <>
             <h3 className="chat_name">
-            <Avatar size={30} icon={<UserOutlined />} />
-
-              {UserToSend} </h3>
+              <Avatar size={30} icon={<UserOutlined />} />
+              {UserToSend}{" "}
+            </h3>
             <div className="message-list">
               {Messages.length > 0 &&
                 Messages.map((el, index) => {
-                  if (el.user_id == UserReducer._id)
-                    return <OutgoingMSG message={el} key={index} />;
-                  if (el.user_id != UserReducer._id)
-                    return <IncommingMSG message={el} key={index} />;
+                  return (
+                    <div key={index}>
+                      {DateFormat(index) && (
+                        <span className="time_date"> {el.dateTime} </span>
+                      )}
+                      <MessageList el={el} />
+                    </div>
+                  );
                 })}
+            
+            { SeenVal && SingleConv.lastsender == UserReducer._id &&
+             <div className="seen">
+                <CheckOutlined />
+                  <span> Seen </span>
+              </div>}
+           
             </div>
             <div className="input-chat">
               <form className="input-box">
                 <input
-                  onClick={Seen}
+                  onClick={()=> Seen(SingleConv)}
                   ref={inputEl}
                   placeholder="Message ..."
                   type="text"
                 />
 
-                {!Loading ? <button onClick={(e) => Send(e)}>
-                  <SendOutlined />
-                </button> : <button>
-                  <Spin />
-                </button>}
+                {!Loading ? (
+                  <button onClick={(e) => Send(e)}>
+                    <SendOutlined />
+                  </button>
+                ) : (
+                  <button>
+                    <Spin />
+                  </button>
+                )}
               </form>
             </div>
           </>
