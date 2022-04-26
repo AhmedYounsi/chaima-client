@@ -7,13 +7,14 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingAction } from "../../actions/LoadingAction";
-import { SendOutlined, MessageOutlined, UserOutlined,CheckOutlined} from "@ant-design/icons";
-
+import { SendOutlined, MessageOutlined, UserOutlined, CheckOutlined } from "@ant-design/icons";
+import Dots from '../../assets/images/dots.svg'
 const { TabPane } = Tabs;
 import axios from "axios";
 import ConversationItem from "./ConversationItem";
 import host from "../../Utils/host";
 function Chat() {
+  const socket = io(host);
   const inputEl = useRef(null);
   const UserReducer = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
@@ -28,7 +29,8 @@ function Chat() {
   const [UserToSend, setUserToSend] = useState(null);
   const [SingleConv, setSingleConv] = useState([]);
   const [SeenVal, setSeenVal] = useState(false)
-  const socket = io(host);
+  const [Typing, setTyping] = useState(false)
+
   const getAllUser = async () => {
     const res = await getUsers();
     const arr = res.data.filter((el) => el._id != UserReducer._id);
@@ -38,11 +40,14 @@ function Chat() {
   useEffect(() => {
     getAllUser();
     GetConversation();
-    socket.on(`message${UserReducer._id}`, (data) => {
-      setConverations(data);
-      const el = document.querySelectorAll(".ant-tabs-tab");
-      el[1].click();
+    socket.on(`message${UserReducer._id}`, () => {
+      GetConversation();
+      // const el = document.querySelectorAll(".ant-tabs-tab");
+      // el[1].click();
     });
+    //     socket.on(`notifMessage${UserReducer._id}`, () => {
+    //  alert('new message')
+    //     });
     return () => {
       socket.removeAllListeners();
     };
@@ -65,12 +70,14 @@ function Chat() {
       padTo2Digits(date.getMonth() + 1),
     ].join("-");
   }
-
-  useEffect(() => {
+  const scroll = () => {
     const element = document.querySelector(".message-list");
     if (!element) return;
     element.scrollTop = element.scrollHeight;
-  }, [Messages,SingleConv]);
+  }
+  useEffect(() => {
+    scroll()
+  }, [Messages, SingleConv]);
 
   useEffect(() => {
     if (!MessageTo) {
@@ -78,7 +85,7 @@ function Chat() {
     }
 
     socket.on("joining_room", (data) => {
-       
+
       setRoomID(data._id);
       if (data.messages.length > 0) {
         const el = document.querySelectorAll(".ant-tabs-tab");
@@ -101,20 +108,21 @@ function Chat() {
       setSeenVal(false)
       setSingleConv(data)
       setMessages(data.messages);
+      GetConversation();
+      setTyping(false)
     });
 
     socket.on("Seen", (data) => {
       GetConversation()
       setSeenVal(true)
-      // let i = Converations.findIndex((el) => el._id == data._id);
-      // setSingleConv([])
-      // if (i == -1) return;
-      // let arr = [...Converations];
-      // arr[i].seen = true;
-      // setConverations(arr);
-      // console.log(arr)
       setSingleConv(data)
-    
+    });
+    socket.on(`Typing${UserReducer._id}`, () => {
+      scroll()
+      setTyping(true)
+    });
+    socket.on(`StopTyping${UserReducer._id}`, () => {
+      setTyping(false)
     });
   }, [socket]);
 
@@ -132,7 +140,7 @@ function Chat() {
   };
 
   const Seen = (data) => {
-    if (data.lastsender != UserReducer._id && !data.seen )
+    if (data.lastsender != UserReducer._id && !data.seen)
       socket.emit("Seen", data._id);
   };
 
@@ -140,14 +148,12 @@ function Chat() {
     e.preventDefault();
     if (inputEl.current.value.length == 0 || Loading) return;
     Seen(SingleConv)
-    var today = new Date();
-    var time = today.getHours() + ":" + today.getMinutes();
-    var dateTime = time + " | " + formatDate(new Date());
+
     const msg = {
       text: inputEl.current.value,
       username: UserReducer.name + " " + UserReducer.lastName,
       user_id: UserReducer._id,
-      dateTime: dateTime,
+      dateTime: new Date().getTime(),
     };
     setSeenVal(false)
     socket.emit("SendMessage", {
@@ -177,7 +183,7 @@ function Chat() {
               {props.employee.name + " " + props.employee.lastName}
               {/* <span className="chat_date">Dec 25</span> */}
             </h5>
-            <p>New message</p>
+            <p>Employee</p>
           </div>
         </div>
       </div>
@@ -215,10 +221,44 @@ function Chat() {
   };
 
   const DateFormat = (index) => {
+    var TEN_MINUTES = 5 * 60 * 1000
+    if (index > 0 && (Messages[index].dateTime - Messages[index - 1].dateTime) > TEN_MINUTES) {
+      return true
+    }
     if (index > 0 && Messages[index].user_id == Messages[index - 1].user_id)
       return false;
     return true;
   };
+
+  const TimeDisplay = (time) => {
+    var date = new Date(time);
+    var year = date.getFullYear();
+    var month = date.getMonth();
+    var day = date.getDay();
+    var hours = date.getHours()
+    var minutes = date.getMinutes();
+    time = ("0" + hours).slice(-2) + ':' + ("0" + minutes).slice(-2)
+    return time
+  }
+
+  const IsTyping = () => {
+    const input = inputEl.current.value
+    setmessage(input)
+    // if(inputEl.current.value.length > 0)
+    // socket.emit("Typing",RoomID,)
+    // else 
+    // socket.emit("StopTyping",RoomID)
+  }
+
+  useEffect(() => {
+    if (message.length > 0)
+      socket.emit("Typing", MessageTo)
+    if (message.length == 0)
+      socket.emit("StopTyping", MessageTo)
+  }, [message])
+
+
+
 
   return (
     <div className="Chat-container">
@@ -257,29 +297,46 @@ function Chat() {
                   return (
                     <div key={index}>
                       {DateFormat(index) && (
-                        <span className="time_date"> {el.dateTime} </span>
+
+                        <span className="time_date"> {TimeDisplay(el.dateTime)} </span>
                       )}
                       <MessageList el={el} />
                     </div>
                   );
                 })}
-            
-            { SeenVal && SingleConv.lastsender == UserReducer._id &&
-             <div className="seen">
-                <CheckOutlined />
+
+              {SingleConv.lastsender == UserReducer._id && (SeenVal || SingleConv.seen) &&
+                <div className="seen">
+                  <CheckOutlined />
                   <span> Seen </span>
-              </div>}
-           
+                </div>}
+
+              {
+                Typing &&
+                <div className="incoming_msg">
+                  <div className="incoming_msg_img">
+                    <Avatar size={34} icon={<UserOutlined />} />
+                  </div>
+                  <div className="received_msg">
+                    <img className="is_typing" src={Dots} alt="" />
+                  </div>
+                </div>
+              }
             </div>
             <div className="input-chat">
               <form className="input-box">
-                <input
-                  onClick={()=> Seen(SingleConv)}
+
+                <textarea onClick={() => Seen(SingleConv)}
+                  onChange={IsTyping}
                   ref={inputEl}
                   placeholder="Message ..."
                   type="text"
-                />
-
+                  onBlur={() => socket.emit("StopTyping", MessageTo)} cols="30" rows="10"
+                  onKeyDown={e => {
+                    if(e.keyCode == 13)
+                    Send(e)
+                  }}
+                  ></textarea>
                 {!Loading ? (
                   <button onClick={(e) => Send(e)}>
                     <SendOutlined />

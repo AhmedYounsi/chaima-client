@@ -1,11 +1,12 @@
 /* eslint-disable */
-import React, { useState } from 'react';
-import { Layout } from 'antd';
+import React, { useState, useEffect } from 'react';
+ 
 //layout
 import Sidebar from '../components/SideBar/Sidebar';
 import HeaderTab from '../components/Header/HeaderTab';
 import Footer from '../components/Footer/Footer';
 import AppBreadcrumb from '../components/AppBreadcrumb/AppBreadcrumb';
+import Notifs from '../components/Notifications/Notifs';
 import _Alert from '../components/Alert/_Alert';
 //dashboard
 import Dashboard from '../pages/Home/Dashboard';
@@ -28,23 +29,32 @@ import TimeOff from '../pages/TimeOff/TimeOff';
 //Files
 import Files from '../pages/Files/Files';
 
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation,useNavigate } from 'react-router-dom';
 
 import './DefaultLayout.scss';
 import ProfileEmployee from '../pages/Employees/Profile/ProfileEmployee';
 import Chat from '../pages/Chat/Chat';
 import ChatRoom from '../pages/Chat/ChatRoom';
-//import { useSelector } from 'react-redux';
+import host from "../Utils/host";
+import io from "socket.io-client";
+const socket = io(host);
+import { useDispatch, useSelector } from "react-redux";
+
+import { Button, notification, Space,Layout } from 'antd';
+
 
 const { Header, Content, Sider } = Layout;
 
 function DefaultLayout() {
+ 
   const [collapsed, setcollapsed] = useState(false);
   const location = useLocation();
-   
-  //const TokenReducer = useSelector((state) => state.TokenReducer);
+
+ 
+
   return (
     <>
+      <Notifs />
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
           collapsible
@@ -63,34 +73,34 @@ function DefaultLayout() {
             <br />
             <AppBreadcrumb />
             <br />
-       
-              <Routes>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/employees" element={<Employees />} />
-                <Route path="/employees/newUser" element={<NewUser />} />
-                <Route
-                  path="/employees/profile"
-                  element={<ProfileEmployee />}
-                />
-                <Route path="/events" element={<Event />} />
-                <Route path="/events/newEvent" element={<NewEvent />} />
-                <Route
-                  path="/events/newAnnouncement"
-                  element={<NewAnnouncement />}
-                />
-                <Route path="/events/details" element={<DetailsEvent />} />
 
-                <Route path="/calendar" element={<Calendar />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/profile" element={<Me />} />
-                <Route path="/timeOff" element={<TimeOff />} />
-                <Route path="/files" element={<Files />} />
-                <Route path="/chat" element={<Chat />} />
-                {/* <Route path="/chat/:id" element={<ChatRoom />} /> */}
-              </Routes>
-            
+            <Routes>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/employees" element={<Employees />} />
+              <Route path="/employees/newUser" element={<NewUser />} />
+              <Route
+                path="/employees/profile"
+                element={<ProfileEmployee />}
+              />
+              <Route path="/events" element={<Event />} />
+              <Route path="/events/newEvent" element={<NewEvent />} />
+              <Route
+                path="/events/newAnnouncement"
+                element={<NewAnnouncement />}
+              />
+              <Route path="/events/details" element={<DetailsEvent />} />
+
+              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/profile" element={<Me />} />
+              <Route path="/timeOff" element={<TimeOff />} />
+              <Route path="/files" element={<Files />} />
+              <Route path="/chat" element={<Chat />} />
+              {/* <Route path="/chat/:id" element={<ChatRoom />} /> */}
+            </Routes>
+
           </Content>
-        {/* { location.pathname.includes("/chat")  &&  <Footer />} */}
+          {/* { location.pathname.includes("/chat")  &&  <Footer />} */}
         </Layout>
       </Layout>
     </>

@@ -72,8 +72,9 @@ img{ max-width:100%;}
 
 .incoming_msg_img {
   display: inline-block;
-  width: 6%;
-
+span{
+  color: #787878 !important;
+}
 }
 .received_msg {
   display: inline-block;
@@ -89,6 +90,8 @@ img{ max-width:100%;}
   margin: 0;
   padding: 5px 10px 5px 12px;
   width: 100%;
+
+  font-weight: 400;
 }
 .time_date {
   text-align: center;
@@ -201,7 +204,14 @@ img{ max-width:100%;}
        }
        .input-chat{
         margin-left: 15px;
-        height: 10%;
+        height: 60px;
+        textarea{
+          width: 100%;
+    border: none;
+    padding: 8px 9px;
+    border: 1px solid #c3c3c3;
+    box-shadow: none;
+        }
         span{
           input:focus{
            outline: none !important;
@@ -294,4 +304,10 @@ img{ max-width:100%;}
   span{
     margin-right: 2px;
   }
+ }
+
+ .is_typing{
+  width: 35px;
+  filter: opacity(0.5);
+  margin-left: 3px;
  }
