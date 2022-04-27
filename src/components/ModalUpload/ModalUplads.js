@@ -37,7 +37,6 @@ const ModalUplads = (props) => {
     formData.append("Room",   props.RoomID);
     formData.append("UserToSend",   props.UserToSend);
     const res = await axios.post(`/upload_chat`,formData)
-    console.log(res)
     if(res.status == 200)
    {
     props.SaveFile(res.data)
