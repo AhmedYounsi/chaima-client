@@ -36,7 +36,7 @@ const ModalUplads = (props) => {
     formData.append("User",   JSON.stringify(props.UserReducer));
     formData.append("Room",   props.RoomID);
     formData.append("UserToSend",   props.UserToSend);
-    const res = await axios.post(`${host}upload_chat`,formData)
+    const res = await axios.post(`/upload_chat`,formData)
     console.log(res)
     if(res.status == 200)
    {
