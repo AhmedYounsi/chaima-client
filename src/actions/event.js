@@ -15,7 +15,6 @@ import {
 export const getEvents = () => async (dispatch) => {
   try {
     const res = await api.get('/events');
-
     dispatch({
       type: GET_EVENTS,
       payload: res.data,

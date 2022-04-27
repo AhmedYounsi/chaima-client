@@ -4,7 +4,7 @@ import { Form, Input, DatePicker, BackTop, Button, Select } from 'antd';
 import PhoneInput from 'react-phone-input-2';
 
 function GeneralInfoEmployes(props) {
-  console.log(props.Employee);
+ 
   const [Name, setName] = useState('');
   const [LastName, setLastName] = useState('');
   const [Tel, setTel] = useState('');
@@ -35,7 +35,7 @@ function GeneralInfoEmployes(props) {
                 </Form.Item>
                 <Form.Item label="Last Name">
                   <Input
-                    value={props.Employee.LastName}
+                    value={props.Employee.lastName}
                     className="custom-input"
                     size="large"
                     placeholder={'Last Name'}
@@ -53,6 +53,7 @@ function GeneralInfoEmployes(props) {
                 <Form.Item label="Date Of Birth">
                   <DatePicker
                     disabled
+                    value={""}
                     className="custom-input"
                     size="large"
                     placeholder={'Date of Birth'}

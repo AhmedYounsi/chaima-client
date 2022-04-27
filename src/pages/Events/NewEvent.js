@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState } from "react";
-import { Button, Form, Input, DatePicker, Select, Descriptions } from "antd";
+import { Button, Form, Input, DatePicker, Select, TimePicker  } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeftOutlined, DownloadOutlined } from "@ant-design/icons";
 import { AddEvent } from "../../actions/EventAction";
@@ -26,6 +26,7 @@ function NewEvent() {
   const [startDate, setstartDate] = useState("");
   const [endDate, setendDate] = useState("");
   const [Image, setImage] = useState("");
+  const [Time, setTime] = useState([])
   function handleChange(value) {
     console.log(`selected ${value}`);
   }
@@ -54,6 +55,7 @@ function NewEvent() {
   }
 
   function formatDate(date) {
+   if(!date) return
     return [
       padTo2Digits(date.getDate()),
       padTo2Digits(date.getMonth() + 1),
@@ -76,17 +78,30 @@ function NewEvent() {
       title: title,
       adress: Adress,
       desc: Description,
-      start: formatDate(dates[0]._d),
-      end: formatDate(dates[1]._d),
+      start: dates[0]._d,
+      end:  dates[1]._d,
       image: "",
       likes: [],
       comments: [],
       office: "",
+      time:Time
     };
+     
     formData.append("file", Image.data);
     formData.append("event", JSON.stringify(event));
-    const res = await AddEvent(formData, dispatch, navigation);
+     await AddEvent(formData, dispatch, navigation);
   };
+
+  const HandleTime = (time) =>{
+    const start = new Date(time[0]).getHours();
+    const end = new Date(time[1]).getHours();
+ 
+const arr = [
+  start,
+  end 
+]
+setTime(arr)
+  }
 
   return (
     <div className="site-layout-background">
@@ -155,7 +170,23 @@ function NewEvent() {
                 onChange={(val) => setValue(val)}
                 onOpenChange={onOpenChange}
               />
+              
             </Form.Item>
+            <Form.Item
+              name={"time"}
+              label="time"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+
+            <TimePicker.RangePicker 
+            onChange={e => HandleTime(e)}
+              format={"HH"}
+              />
+              </Form.Item>
             <Form.Item
               label="Address"
               rules={[

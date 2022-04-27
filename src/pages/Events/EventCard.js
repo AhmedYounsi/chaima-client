@@ -49,7 +49,9 @@ function EventCard(props) {
         </div>
       </div>
       <div className="content-event">
-        <img className="imgEvent" src={GetImage(props.event.image)} />
+      <div className="event_image">
+      <img className="imgEvent" src={GetImage(props.event.image)} />
+      </div>
 
         <div className="descriptionEvent"> {props.event.desc} </div>
       </div>
@@ -91,7 +93,7 @@ function EventCard(props) {
         </div>
         <div className="iconEvent">
           <Space>
-            <MessageOutlined /> {props.event.comments.length}
+            <MessageOutlined /> {"0"}
           </Space>
           <Divider type="vertical"></Divider>
           <Space>

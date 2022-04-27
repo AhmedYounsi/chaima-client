@@ -1,75 +1,60 @@
-import React from 'react';
-import './Calendar.scss';
-
-import { Calendar, Badge } from 'antd';
-
+/* eslint-disable */
+import React, { useEffect, useState } from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import { GetEvents } from "../../actions/EventAction";
+import "./Calendar.scss";
+const localizer = momentLocalizer(moment);
 function AppCalendar() {
-  function getListData(value) {
-    let listData;
-    switch (value.date()) {
-      case 8:
-        listData = [
-          { type: 'warning', content: 'This is warning event.' },
-          { type: 'success', content: 'This is usual event.' },
-        ];
-        break;
-      case 10:
-        listData = [
-          { type: 'warning', content: 'This is warning event.' },
-          { type: 'success', content: 'This is usual event.' },
-          { type: 'error', content: 'This is error event.' },
-        ];
-        break;
-      case 15:
-        listData = [
-          { type: 'warning', content: 'This is warning event' },
-          { type: 'success', content: 'This is very long usual event。。....' },
-          { type: 'error', content: 'This is error event 1.' },
-          { type: 'error', content: 'This is error event 2.' },
-          { type: 'error', content: 'This is error event 3.' },
-          { type: 'error', content: 'This is error event 4.' },
-        ];
-        break;
-      default:
-    }
-    return listData || [];
-  }
+  const [Events, setEvents] = useState([]);
+  const getEvent = async () => {
+    const res = await GetEvents();
+    // setEvents(res)
+    let arr = [];
+    res.map((el) => {
+ 
+      arr.push({
+        start: new Date(
+          new Date(el.start).getFullYear(),
+          new Date(el.start).getMonth(),
+          new Date(el.start).getDate(),
+          el.time[0],
+          0
+        ),
+        end: new Date(
+          new Date(el.end).getFullYear(),
+          new Date(el.end).getMonth(),
+          new Date(el.end).getDate(),
+          el.time[1],
+          0
+        ),
+        title:el.title,
+      });
+    });
+    setEvents(arr);
+  };
 
-  function dateCellRender(value) {
-    const listData = getListData(value);
-    return (
-      <ul className="events">
-        {listData.map((item) => (
-          <li key={item.content}>
-            <Badge status={item.type} text={item.content} />
-          </li>
-        ))}
-      </ul>
-    );
-  }
+  useEffect(() => {
+    getEvent();
+  }, []);
 
-  function getMonthData(value) {
-    if (value.month() === 8) {
-      return 1394;
-    }
-  }
-  function monthCellRender(value) {
-    const num = getMonthData(value);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-      </div>
-    ) : null;
-  }
+  const events = [
+    {
+      start: new Date(2022, 3, 27, 10, 0),
+      end: new Date(2022, 3, 27, 14, 0),
+      title: "Some title",
+    },
+  ];
   return (
-    <div className="site-layout-background">
-      <div className="site-layout-header-centred">Calendar</div>
-      <div className="site-layout-content">
-        <Calendar
-          dateCellRender={dateCellRender}
-          monthCellRender={monthCellRender}
-        />
-      </div>
+    <div className="calender-container">
+      <Calendar
+        localizer={localizer}
+        defaultDate={new Date()}
+        defaultView="month"
+        events={Events}
+        style={{ height: "100vh" }}
+      />
     </div>
   );
 }
