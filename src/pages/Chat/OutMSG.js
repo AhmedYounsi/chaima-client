@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 import React from 'react'
+import host from '../../Utils/host';
 
 function OutMSG(props) {
     const If_image = (ext) => {
@@ -17,7 +18,7 @@ function OutMSG(props) {
          { If_image(props.message.file.split(".").pop()) && <p
             onClick={() =>
               window.open(
-                `http://localhost:5000/uploads/${props.message.file}`,
+                `${host}/uploads/${props.message.file}`,
                 "_blank"
               )
             }
@@ -28,11 +29,11 @@ function OutMSG(props) {
             <img
             onClick={() =>
               window.open(
-                `http://localhost:5000/uploads/${props.message.file}`,
+                `${host}/uploads/${props.message.file}`,
                 "_blank"
               )
             }
-              src={`http://localhost:5000/uploads/${props.message.file}`}
+              src={`${host}/uploads/${props.message.file}`}
               alt=""
             />
           )}

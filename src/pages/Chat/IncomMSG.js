@@ -4,6 +4,7 @@ import React from 'react'
 import {
     UserOutlined,
   } from "@ant-design/icons";
+import host from '../../Utils/host';
 function IncomMSG(props) {
   const If_image = (ext) => {
     const e = ext.toLowerCase()
@@ -23,7 +24,7 @@ function IncomMSG(props) {
                {If_image(props.message.file.split(".").pop()) && <p
                   onClick={() =>
                     window.open(
-                      `http://localhost:5000/uploads/${props.message.file}`,
+                      `${host}/uploads/${props.message.file}`,
                       "_blank"
                     )
                   }
@@ -34,11 +35,11 @@ function IncomMSG(props) {
                   <img
                   onClick={() =>
                     window.open(
-                      `http://localhost:5000/uploads/${props.message.file}`,
+                      `${host}/uploads/${props.message.file}`,
                       "_blank"
                     )
                   }
-                    src={`http://localhost:5000/uploads/${props.message.file}`}
+                    src={`${host}/uploads/${props.message.file}`}
                     alt=""
                   />
                 )}

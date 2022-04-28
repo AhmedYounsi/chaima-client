@@ -128,7 +128,7 @@ setTime(arr)
               <Input
                 value={title}
                 onChange={(e) => settitle(e.target.value)}
-                className="custom-input"
+                className=""
                 placeholder="Title"
                 type="text"
               />
@@ -145,7 +145,7 @@ setTime(arr)
               <TextArea
                 value={Description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="custom-input"
+                className=""
                 rows={2}
                 placeholder={"Description"}
                 type={"text"}
@@ -163,7 +163,7 @@ setTime(arr)
               ]}
             >
               <RangePicker
-                className={"custom-input"}
+                className={""}
                 value={hackValue || value}
                 disabledDate={disabledDate}
                 onCalendarChange={(val) => setDates(val)}
@@ -199,7 +199,7 @@ setTime(arr)
                 value={Adress}
                 onChange={(e) => setAdress(e.target.value)}
                 name={"address"}
-                className="custom-input"
+                className=""
                 rows={2}
                 placeholder={"Address"}
                 type={"text"}

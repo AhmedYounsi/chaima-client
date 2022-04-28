@@ -10,13 +10,13 @@ export const getCurrentUser = () => async (dispatch) => {
     const res = await api.get('/users');
 
     dispatch({
-      type: GET_User,
+      type: "SET_USER",
       payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -87,7 +87,10 @@ export const UpdateUser = async (user, dispatch) => {
     return res;
   } catch (err) {
     LoadingAction(false, dispatch)
-    console.log(err)
+    dispatch({
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
+    });
   }
 };
 
@@ -109,6 +112,9 @@ export const UpdatePassword = async (data, dispatch) => {
     return res;
   } catch (err) {
     LoadingAction(false, dispatch)
-    console.log(err)
+    dispatch({
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
+    });
   }
 };

@@ -10,8 +10,8 @@ export const AddOffice = async (dispatch, office) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: "Add office error", type: 'error' }
     });
   }
 };
@@ -22,8 +22,8 @@ export const GetOffice = async (dispatch) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: "cannot get offices", type: 'error' }
     });
   }
 };
@@ -34,8 +34,8 @@ export const DeleteOffice = async (id) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: "delete office error", type: 'error' }
     });
   }
 };
@@ -47,8 +47,8 @@ export const AddDepartement = async (dispatch, departement) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -59,8 +59,8 @@ export const GetDepartement = async (dispatch) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -71,8 +71,8 @@ export const DeleteDepartement = async (id) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -85,8 +85,8 @@ export const AddFolderType = async (dispatch, folderType) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -97,8 +97,8 @@ export const GetFolderType = async (dispatch) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -109,8 +109,8 @@ export const DeleteFolderType = async (id) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -122,8 +122,8 @@ export const AddContractType = async (dispatch, contractType) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -134,8 +134,8 @@ export const GetContractType = async (dispatch) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -146,8 +146,8 @@ export const DeleteContractType = async (id) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -159,8 +159,8 @@ export const AddTimeOffType = async (dispatch, timeOffType) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -171,8 +171,8 @@ export const GetTimeOffType = async (dispatch) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -183,8 +183,8 @@ export const DeleteTimeOffType = async (id) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -196,8 +196,8 @@ export const AddPostTitle = async (dispatch, postTitle) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -208,8 +208,8 @@ export const GetPostTitle = async (dispatch) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -220,8 +220,8 @@ export const DeletePostTitle = async (id) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };
@@ -231,8 +231,8 @@ export const GetPostTileDep = async (id) => {
     return res;
   } catch (err) {
     dispatch({
-      type: User_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' }
     });
   }
 };

@@ -137,7 +137,7 @@ function TimeOffSettings() {
                 ]}
               >
                 <Input
-                  className="custom-input"
+                  className=""
                   value={name}
                   onChange={(e) => setname(e.target.value)}
                 />

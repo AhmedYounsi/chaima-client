@@ -28,7 +28,7 @@ function GeneralInfoEmployes(props) {
                 <Form.Item label="First Name">
                   <Input
                     value={props.Employee.name}
-                    className="custom-input"
+                    className=""
                     size="large"
                     placeholder={'FirstName'}
                   />
@@ -36,7 +36,7 @@ function GeneralInfoEmployes(props) {
                 <Form.Item label="Last Name">
                   <Input
                     value={props.Employee.lastName}
-                    className="custom-input"
+                    className=""
                     size="large"
                     placeholder={'Last Name'}
                   />
@@ -45,7 +45,7 @@ function GeneralInfoEmployes(props) {
                   <Input
                     disabled
                     value={props.Employee.email}
-                    className="custom-input"
+                    className=""
                     size="large"
                     placeholder={'Last Name'}
                   />
@@ -54,7 +54,7 @@ function GeneralInfoEmployes(props) {
                   <DatePicker
                     disabled
                     value={""}
-                    className="custom-input"
+                    className=""
                     size="large"
                     placeholder={'Date of Birth'}
                   />
@@ -126,14 +126,14 @@ function GeneralInfoEmployes(props) {
 
               <Form.Item label="Start date">
                 <DatePicker
-                  className="custom-input"
+                  className=""
                   size="large"
                   placeholder={'Start date'}
                 />
               </Form.Item>
               <Form.Item label="End date">
                 <DatePicker
-                  className="custom-input"
+                  className=""
                   size="large"
                   placeholder={'End date'}
                 />

@@ -36,7 +36,7 @@ function NewAnnouncement() {
                 ]}
               >
                 <Input
-                  className="custom-input"
+                  className=""
                   placeholder={'Title'}
                   type={'text'}
                 ></Input>
@@ -52,7 +52,7 @@ function NewAnnouncement() {
                 ]}
               >
                 <TextArea
-                  className="custom-input"
+                  className=""
                   rows={2}
                   placeholder={'Description'}
                   type={'text'}

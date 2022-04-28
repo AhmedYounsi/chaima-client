@@ -22,7 +22,7 @@ function GeneralInfo(props) {
             ]}
           >
             <Input
-              className="custom-input"
+              className=""
               size="large"
               placeholder="First Name"
               type="text"
@@ -41,7 +41,7 @@ function GeneralInfo(props) {
             ]}
           >
             <Input
-              className="custom-input"
+              className=""
               size="large"
               placeholder={'Last Name'}
               type="text"
@@ -60,7 +60,7 @@ function GeneralInfo(props) {
         ]}
       >
         <Input
-          className="custom-input"
+          className=""
           size="large"
           placeholder={'Email'}
           type="email"
@@ -81,7 +81,7 @@ function GeneralInfo(props) {
         <Col span={12}>
           <Form.Item name={'Date of Birth'} label="Date of Birth">
             <DatePicker
-              className="custom-input"
+              className=""
               size="large"
               placeholder={'Date of Birth'}
               onChange={(e) => props.HandleBirthday(e.target.value)}

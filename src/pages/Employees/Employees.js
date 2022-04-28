@@ -116,7 +116,7 @@ function Employees() {
               },
             ]}
           >
-            <Input className="custom-input" />
+            <Input className="" />
           </Form.Item>
           <Form.Item
             name={'team lead'}

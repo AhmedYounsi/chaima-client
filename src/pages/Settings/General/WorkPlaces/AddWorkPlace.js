@@ -94,7 +94,7 @@ function AddWorkPlace(props) {
             <Input
               value={name}
               onChange={(e) => setname(e.target.value)}
-              className="custom-input"
+              className=""
             />
           </Form.Item>
           <div className="root">
@@ -110,7 +110,7 @@ function AddWorkPlace(props) {
               <Input
                 value={Adress}
                 onChange={(e) => setAdress(e.target.value)}
-                className="custom-input"
+                className=""
               />
             </Form.Item>
             <Row gutter={[16, 16]}>
@@ -127,7 +127,7 @@ function AddWorkPlace(props) {
                   <Input
                     value={City}
                     onChange={(e) => setCity(e.target.value)}
-                    className="custom-input"
+                    className=""
                   />
                 </Form.Item>
               </Col>
@@ -144,7 +144,7 @@ function AddWorkPlace(props) {
                   <Input
                     value={Zip}
                     onChange={(e) => setZip(e.target.value)}
-                    className="custom-input"
+                    className=""
                   />
                 </Form.Item>
               </Col>

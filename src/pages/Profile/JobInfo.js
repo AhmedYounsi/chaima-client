@@ -55,14 +55,14 @@ function JobInfo() {
 
               <Form.Item label="Start date">
                 <DatePicker
-                  className="custom-input"
+                  className=""
                   size="large"
                   placeholder={'Start date'}
                 />
               </Form.Item>
               <Form.Item label="End date">
                 <DatePicker
-                  className="custom-input"
+                  className=""
                   size="large"
                   placeholder={'End date'}
                 />

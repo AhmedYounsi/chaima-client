@@ -74,7 +74,7 @@ function GeneralInfo() {
                   <Input
                     value={Name}
                     onChange={(e) => setName(e.target.value)}
-                    className="custom-input"
+                    className=""
                     size="large"
                     placeholder={'FirstName'}
                   />
@@ -83,7 +83,7 @@ function GeneralInfo() {
                   <Input
                     value={LastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    className="custom-input"
+                    className=""
                     size="large"
                     placeholder={'Last Name'}
                   />
@@ -92,7 +92,7 @@ function GeneralInfo() {
                   <Input
                     disabled
                     value={Email}
-                    className="custom-input"
+                    className=""
                     size="large"
                     placeholder={'Last Name'}
                   />
@@ -100,7 +100,7 @@ function GeneralInfo() {
                 <Form.Item label="Date Of Birth">
                   <DatePicker
                     disabled
-                    className="custom-input"
+                    className=""
                     size="large"
                     placeholder={'Date of Birth'}
                   />
@@ -143,7 +143,7 @@ function GeneralInfo() {
                   <Input.Password
                     value={OldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
-                    className="custom-input"
+                    className=""
                     size="large"
                     placeholder={'Old Password'}
                     iconRender={(visible) =>
@@ -155,7 +155,7 @@ function GeneralInfo() {
                   <Input.Password
                     value={NewPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="custom-input"
+                    className=""
                     size="large"
                     placeholder={'New Password'}
                     iconRender={(visible) =>
@@ -167,7 +167,7 @@ function GeneralInfo() {
                   <Input.Password
                     value={ConfirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="custom-input"
+                    className=""
                     size="large"
                     placeholder={'Confirm Password'}
                     iconRender={(visible) =>

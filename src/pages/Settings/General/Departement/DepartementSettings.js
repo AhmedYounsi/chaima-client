@@ -251,7 +251,7 @@ function DepartementSettings() {
             <Input
               value={name}
               onChange={(e) => setname(e.target.value)}
-              className="custom-input"
+              className=""
             />
           </Form.Item>
         </Form>
@@ -275,7 +275,7 @@ function DepartementSettings() {
             <Input
               value={posttitle}
               onChange={(e) => setposttitle(e.target.value)}
-              className="custom-input"
+              className=""
             />
           </Form.Item>
         </Form>
