@@ -21,6 +21,7 @@ import host from "../../Utils/host";
 import ModalUplads from "../../components/ModalUpload/ModalUplads";
 import IncomMSG from "./IncomMSG";
 import OutMSG from "./OutMSG";
+import api from "../../Utils/api";
 function Chat() {
   const socket = io(host);
   const inputEl = useRef(null);
@@ -62,7 +63,7 @@ function Chat() {
   }, []);
 
   const GetConversation = async () => {
-    const res = await axios.post(`${host}/get_conv`, {
+    const res = await api.post(`/get_conv`, {
       id: UserReducer._id,
     });
     setConverations(res.data);

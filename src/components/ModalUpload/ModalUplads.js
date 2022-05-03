@@ -37,7 +37,7 @@ const ModalUplads = (props) => {
     formData.append("User",   JSON.stringify(props.UserReducer));
     formData.append("Room",   props.RoomID);
     formData.append("UserToSend",   props.UserToSend);
-    const res = await api.post(`upload_chat`,formData)
+    const res = await api.post(`/upload_chat`,formData)
     if(res.status == 200)
    {
     props.SaveFile(res.data)
