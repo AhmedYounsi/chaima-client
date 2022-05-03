@@ -5,6 +5,7 @@ import axios from 'axios';
 import host from '../../Utils/host';
 import { useDispatch } from 'react-redux';
 import {FileAddFilled} from "@ant-design/icons";
+import api from '../../Utils/api';
 const ModalUplads = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
  const [Image, setImage] = useState(null)
@@ -36,7 +37,7 @@ const ModalUplads = (props) => {
     formData.append("User",   JSON.stringify(props.UserReducer));
     formData.append("Room",   props.RoomID);
     formData.append("UserToSend",   props.UserToSend);
-    const res = await axios.post(`/upload_chat`,formData)
+    const res = await api.post(`upload_chat`,formData)
     if(res.status == 200)
    {
     props.SaveFile(res.data)

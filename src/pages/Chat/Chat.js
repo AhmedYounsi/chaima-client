@@ -62,7 +62,7 @@ function Chat() {
   }, []);
 
   const GetConversation = async () => {
-    const res = await axios.post(`${host}get_conv`, {
+    const res = await axios.post(`${host}/get_conv`, {
       id: UserReducer._id,
     });
     setConverations(res.data);
