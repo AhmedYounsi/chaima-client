@@ -35,11 +35,7 @@ function NewAnnouncement() {
                   },
                 ]}
               >
-                <Input
-                  className=""
-                  placeholder={'Title'}
-                  type={'text'}
-                ></Input>
+                <Input className="" placeholder={'Title'} type={'text'}></Input>
               </Form.Item>
               <Form.Item
                 name={'description'}
@@ -62,7 +58,6 @@ function NewAnnouncement() {
             <div className="form-pad">
               <Form.Item
                 name={'community'}
-                val
                 label="Select community"
                 rules={[
                   {
@@ -76,7 +71,6 @@ function NewAnnouncement() {
               </Form.Item>
               <Form.Item
                 name={'members'}
-                val
                 label="Members"
                 rules={[
                   {

@@ -1,5 +1,4 @@
 import api from '../Utils/api';
-import { setAlert } from './alert';
 
 import { GET_User, User_ERROR } from './types';
 import { LoadingAction } from './LoadingAction';
@@ -10,13 +9,13 @@ export const getCurrentUser = () => async (dispatch) => {
     const res = await api.get('/users');
 
     dispatch({
-      type: "SET_USER",
+      type: 'SET_USER',
       payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -35,46 +34,35 @@ export const getUsers = async (dispatch) => {
 // Get all profiles
 
 // Create or update User
-export const createProfile =
-  (formData, history, edit = false) =>
-    async (dispatch) => {
-      try {
-        const res = await api.post('/users', formData);
-        if (res.data) {
-          return true;
-        }
-        dispatch({
-          type: GET_User,
-          payload: res.data,
-        });
-
-        dispatch(setAlert(edit ? 'User Updated' : 'Usser Created', 'success'));
-
-        if (!edit) {
-          history.push('/dashboard');
-        }
-      } catch (err) {
-        const errors = err.response;
-
-        if (errors) {
-          errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-        }
-
-        dispatch({
-          type: User_ERROR,
-          payload: { msg: err.response.statusText, status: err.response.status },
-        });
-      }
-    };
+export const CreateUser = async (user, dispatch, navigate) => {
+  try {
+    LoadingAction(true, dispatch);
+    const res = await api.post('/users', user);
+    LoadingAction(false, dispatch);
+    navigate('/employees');
+    dispatch({
+      type: 'SetAlert',
+      payload: {
+        type: 'success',
+        message: 'Profile updated successfully !',
+      },
+    });
+  } catch (err) {
+    dispatch({
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' },
+    });
+  }
+};
 
 export const UpdateUser = async (user, dispatch) => {
-  LoadingAction(true, dispatch)
+  LoadingAction(true, dispatch);
   try {
     const res = await api.post('/users/update', user);
-    LoadingAction(false, dispatch)
-    window.scrollTo(0, 0)
+    LoadingAction(false, dispatch);
+    window.scrollTo(0, 0);
     dispatch({
-      type: "SET_USER",
+      type: 'SET_USER',
       payload: res.data,
     });
     dispatch({
@@ -86,22 +74,20 @@ export const UpdateUser = async (user, dispatch) => {
     });
     return res;
   } catch (err) {
-    LoadingAction(false, dispatch)
+    LoadingAction(false, dispatch);
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
 
-
 export const UpdatePassword = async (data, dispatch) => {
-
-  LoadingAction(true, dispatch)
+  LoadingAction(true, dispatch);
   try {
     const res = await api.post('/users/update_password', data);
-    LoadingAction(false, dispatch)
-    window.scrollTo(0, 0)
+    LoadingAction(false, dispatch);
+    window.scrollTo(0, 0);
     dispatch({
       type: 'SetAlert',
       payload: {
@@ -111,10 +97,10 @@ export const UpdatePassword = async (data, dispatch) => {
     });
     return res;
   } catch (err) {
-    LoadingAction(false, dispatch)
+    LoadingAction(false, dispatch);
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };

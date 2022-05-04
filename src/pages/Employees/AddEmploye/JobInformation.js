@@ -16,7 +16,7 @@ function JobInformation(props) {
   const [reprtedto, setreprtedto] = useState([]);
   const [DepartementList, setDepartementList] = useState([]);
   const [ContractTypeList, setContractTypeList] = useState([]);
-
+  const [PostTitleList, setPostTitleList] = useState([]);
   function onChange(e) {
     console.log(`checked = ${e.target.checked}`);
   }
@@ -56,6 +56,18 @@ function JobInformation(props) {
     const res = await GetContractType(dispatch);
     if (res.status == 200) setContractTypeList(res.data);
   };
+
+  const GetPostTitle = (id) => {
+    const dep = DepartementList.find((el) => el._id == id);
+    setPostTitleList(dep.titlePost);
+    // if (dep.length < 1) return;
+    // setPostTitleList(dep[0].titlePost);
+  };
+
+  useEffect(() => {
+    console.log(PostTitleList);
+  }, [PostTitleList]);
+
   return (
     <>
       <Form layout="vertical">
@@ -103,7 +115,9 @@ function JobInformation(props) {
                 style={{ width: '100%' }}
                 showSearch
                 placeholder="Select Departement"
-                onChange={(e) => props.HandleDep(e)}
+                onChange={(e) => {
+                  props.HandleDep(e), GetPostTitle(e);
+                }}
               >
                 {DepartementList.length > 0 &&
                   DepartementList.map((el, index) => {
@@ -134,8 +148,18 @@ function JobInformation(props) {
                 style={{ width: '100%' }}
                 showSearch
                 placeholder="Select Job Title"
-                onChange={(e) => props.HandlePost(e.target.value)}
-              />
+                onChange={(e) => props.HandlePost(e)}
+              >
+                {PostTitleList.length > 0 &&
+                  PostTitleList.map((el, index) => {
+                    return (
+                      <Option key={index} value={el._id}>
+                        {' '}
+                        {el.name}{' '}
+                      </Option>
+                    );
+                  })}
+              </Select>
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -201,6 +225,7 @@ function JobInformation(props) {
           <Col span={12}>
             <Form.Item name={'Start'} label="Start">
               <DatePicker
+                onChange={(e) => props.HandleFrom(e)}
                 style={{ width: '100%', height: '40px' }}
                 size="large"
                 placeholder={'Start with Addinn From'}

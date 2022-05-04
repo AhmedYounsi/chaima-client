@@ -7,15 +7,17 @@ import GeneralInfo from './GeneralInfo';
 import JobInfo from './JobInformation';
 import { Link } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import { CreateUser } from '../../../actions/user';
+import { useDispatch } from 'react-redux';
 
 const { Step } = Steps;
 
 function NewUser() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [current, setCurrent] = React.useState(0);
   // GeneralInfo
   const [Email, setEmail] = useState('');
-  const [Password, setPassword] = useState('');
   const [Lastname, setFLastname] = useState('');
   const [Firstname, setFirstname] = useState('');
   const [Adresse, setAdresse] = useState('');
@@ -27,6 +29,7 @@ function NewUser() {
   const [Post, setPost] = useState('');
   const [Contrat, setContrat] = useState('');
   const [Report, setReport] = useState('');
+  const [From, setFrom] = useState('');
 
   const steps = [
     {
@@ -52,11 +55,13 @@ function NewUser() {
           HandlePost={(text) => setPost(text)}
           HandleContract={(text) => setContrat(text)}
           HandleReported={(text) => setReport(text)}
-          Office={Office}
-          Dep={Dep}
-          Post={Post}
-          Contrat={Contrat}
-          Report={Report}
+          HandleFrom={(text) => setFrom(text)}
+
+          // Office={Office}
+          // Dep={Dep}
+          // Post={Post}
+          // Contrat={Contrat}
+          // Report={Report}
         />
       ),
     },
@@ -68,6 +73,27 @@ function NewUser() {
 
   const prev = () => {
     setCurrent(current - 1);
+  };
+
+  const AddEmployee = async () => {
+    const employee = {
+      name: Firstname,
+      email: Email,
+      password: '123',
+      role: 'employee',
+      avatar: '',
+      lastName: Lastname,
+      tel: Tel,
+      address: Adresse,
+      DateOfBirth: BirthDay?._d,
+      office: Office,
+      departement: Dep,
+      post: Post,
+      reportsTo: Report,
+      typeContrat: Contrat,
+      from: From?._d,
+    };
+    await CreateUser(employee, dispatch, navigate);
   };
 
   return (
@@ -95,10 +121,7 @@ function NewUser() {
               </Button>
             )}
             {current === steps.length - 1 && (
-              <Button
-                type="primary"
-                onClick={() => message.success('Processing complete!')}
-              >
+              <Button type="primary" onClick={AddEmployee}>
                 Done
               </Button>
             )}

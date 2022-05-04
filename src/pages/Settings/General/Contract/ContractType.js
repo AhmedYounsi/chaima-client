@@ -17,15 +17,20 @@ import {
   AddContractType,
   GetContractType,
   DeleteContractType,
+  UpdateContractType,
 } from '../../../../actions/SettingsAction';
 import '../../Modal.scss';
 
 function ContractType() {
   const [form] = Form.useForm();
+  const [form2] = Form.useForm();
   const [visible, setVisible] = useState(false);
+  const [visibleUpdate, setVisibleUpdate] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [name, setname] = useState('');
   const [ContractTypeList, setContractTypeList] = useState([]);
+  const [updateType, setUpdateType] = useState(null);
+  const [Name, setName] = useState('');
 
   const dispatch = useDispatch();
 
@@ -44,6 +49,20 @@ function ContractType() {
 
   const handleCancel = () => {
     setVisible(false);
+    setVisibleUpdate(false);
+  };
+
+  const showModalUpdate = (item) => {
+    setVisibleUpdate(true);
+    setUpdateType(item);
+    setName(item.name);
+  };
+  const onFinishUpdate = async (values) => {
+    const id = updateType._id;
+    const type = { id, Name };
+    await UpdateContractType(type, dispatch);
+    GetContractTypes();
+    setVisibleUpdate(false);
   };
 
   const onFinish = async (values) => {
@@ -86,6 +105,9 @@ function ContractType() {
   };
   const handleOk = () => {
     form.submit();
+  };
+  const handleOk2 = () => {
+    form2.submit();
   };
 
   return (
@@ -144,6 +166,31 @@ function ContractType() {
               </Form.Item>
             </Form>
           </Modal>
+          <Modal
+            className="ant-modal"
+            title="Add a new type of contract"
+            visible={visibleUpdate}
+            onOk={handleOk2}
+            confirmLoading={confirmLoading}
+            onCancel={handleCancel}
+          >
+            <Form layout={'vertical'} form={form2} onFinish={onFinishUpdate}>
+              <Form.Item
+                label=" Contract name"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input
+                  className=""
+                  value={Name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Form.Item>
+            </Form>
+          </Modal>
           <div className="form-pad-2">
             {ContractTypeList.length > 0 && (
               <List
@@ -158,7 +205,12 @@ function ContractType() {
                         overlay={
                           <Menu>
                             <Menu.Item key="M1">
-                              <Button type="text">Edit Type Contract</Button>
+                              <Button
+                                type="text"
+                                onClick={() => showModalUpdate(item)}
+                              >
+                                Edit Type Contract
+                              </Button>
                             </Menu.Item>
                             <Menu.Item key="M2">
                               <Button

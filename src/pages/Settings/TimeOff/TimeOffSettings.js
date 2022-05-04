@@ -17,15 +17,20 @@ import {
   AddTimeOffType,
   GetTimeOffType,
   DeleteTimeOffType,
+  UpdateTimeOffType,
 } from '../../../actions/SettingsAction';
 import './../Modal.scss';
 
 function TimeOffSettings() {
   const [form] = Form.useForm();
+  const [form2] = Form.useForm();
   const [visible, setVisible] = useState(false);
+  const [visibleUpdate, setVisibleUpdate] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [name, setname] = useState('');
   const [TimeOffTypeList, setTimeOffTypeList] = useState([]);
+  const [updateType, setUpdateType] = useState(null);
+  const [Name, setName] = useState('');
 
   const dispatch = useDispatch();
 
@@ -40,6 +45,20 @@ function TimeOffSettings() {
 
   const showModal = () => {
     setVisible(true);
+  };
+
+  const showModalUpdate = (item) => {
+    setVisibleUpdate(true);
+    setUpdateType(item);
+    setName(item.name);
+  };
+  const onFinishUpdate = async (values) => {
+    setVisibleUpdate(true);
+    const id = updateType._id;
+    const type = { id, Name };
+    await UpdateTimeOffType(type, dispatch);
+    GetTimeOffTypes();
+    setVisibleUpdate(false);
   };
 
   const onFinish = async (values) => {
@@ -69,9 +88,13 @@ function TimeOffSettings() {
   const handleOk = () => {
     form.submit();
   };
+  const handleOk2 = () => {
+    form2.submit();
+  };
 
   const handleCancel = () => {
     setVisible(false);
+    setVisibleUpdate(false);
   };
   const DeleteTimeOff = async (id) => {
     const res = await DeleteTimeOffType(id);
@@ -144,6 +167,32 @@ function TimeOffSettings() {
               </Form.Item>
             </Form>
           </Modal>
+          <Modal
+            className="ant-modal"
+            title="Edit time off policy"
+            visible={visibleUpdate}
+            onOk={handleOk2}
+            confirmLoading={confirmLoading}
+            onCancel={handleCancel}
+          >
+            <Form layout={'vertical'} form={form2} onFinish={onFinishUpdate}>
+              <Form.Item
+                label=" Policy name"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input
+                  className=""
+                  value={Name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Form.Item>
+            </Form>
+          </Modal>
+
           <div className="form-pad-2">
             {TimeOffTypeList.length > 0 && (
               <List
@@ -158,7 +207,12 @@ function TimeOffSettings() {
                         overlay={
                           <Menu>
                             <Menu.Item key={'edit'}>
-                              <Button type="text">Edit Type</Button>
+                              <Button
+                                type="text"
+                                onClick={() => showModalUpdate(item)}
+                              >
+                                Edit Type
+                              </Button>
                             </Menu.Item>
                             <Menu.Item key={'remove'}>
                               <Button

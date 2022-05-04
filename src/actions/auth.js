@@ -1,7 +1,7 @@
 /* eslint-disable */
-import api from "../Utils/api";
-import { setAlert } from "./alert";
-import { LoadingAction } from "./LoadingAction";
+import api from '../Utils/api';
+import { setAlert } from './alert';
+import { LoadingAction } from './LoadingAction';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -10,12 +10,12 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-} from "./types";
+} from './types';
 
 // Load User
 export const loadUser = () => async (dispatch) => {
   try {
-    const res = await api.get("/users");
+    const res = await api.get('/users');
 
     dispatch({
       type: USER_LOADED,
@@ -31,7 +31,7 @@ export const loadUser = () => async (dispatch) => {
 // Register User
 export const register = (formData) => async (dispatch) => {
   try {
-    const res = await api.post("/users", formData);
+    const res = await api.post('/users', formData);
 
     dispatch({
       type: REGISTER_SUCCESS,
@@ -42,7 +42,7 @@ export const register = (formData) => async (dispatch) => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -56,22 +56,21 @@ export const LoginAction = async (email, password, dispatch) => {
   LoadingAction(true, dispatch);
   const body = { email, password };
   try {
-    const res = await api.post("/users/signin", body);
-
+    const res = await api.post('/users/signin', body);
     LoadingAction(false, dispatch);
     dispatch({
-      type: "SET_TOKEN",
-      payload: res.data.token,
+      type: 'SET_USER',
+      payload: res.data.user,
     });
     dispatch({
-      type: "SET_USER",
-      payload: res.data.user,
+      type: 'SET_TOKEN',
+      payload: res.data.token,
     });
   } catch (err) {
     LoadingAction(false, dispatch);
     dispatch({
-      type: "SetAlert",
-      payload: { message: err.response.data.msg, type: "error" },
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };

@@ -2,6 +2,7 @@
 import api from '../Utils/api';
 
 import { User_ERROR } from './types';
+import { LoadingAction } from './LoadingAction';
 
 //office
 export const AddOffice = async (dispatch, office) => {
@@ -11,7 +12,7 @@ export const AddOffice = async (dispatch, office) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: "Add office error", type: 'error' }
+      payload: { message: 'Add office error', type: 'error' },
     });
   }
 };
@@ -23,7 +24,7 @@ export const GetOffice = async (dispatch) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: "cannot get offices", type: 'error' }
+      payload: { message: 'cannot get offices', type: 'error' },
     });
   }
 };
@@ -35,11 +36,33 @@ export const DeleteOffice = async (id) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: "delete office error", type: 'error' }
+      payload: { message: 'delete office error', type: 'error' },
     });
   }
 };
 
+export const UpdateOffice = async (office, dispatch) => {
+  LoadingAction(true, dispatch);
+  try {
+    const res = await api.post('/offices/update', office);
+    LoadingAction(false, dispatch);
+    window.scrollTo(0, 0);
+    dispatch({
+      type: 'SetAlert',
+      payload: {
+        type: 'success',
+        message: 'WorkPlace updated successfully !',
+      },
+    });
+    return res;
+  } catch (err) {
+    LoadingAction(false, dispatch);
+    dispatch({
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' },
+    });
+  }
+};
 // Departement
 export const AddDepartement = async (dispatch, departement) => {
   try {
@@ -48,7 +71,7 @@ export const AddDepartement = async (dispatch, departement) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -60,7 +83,7 @@ export const GetDepartement = async (dispatch) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -72,7 +95,30 @@ export const DeleteDepartement = async (id) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
+    });
+  }
+};
+
+export const UpdateDepartement = async (departement, dispatch) => {
+  LoadingAction(true, dispatch);
+  try {
+    const res = await api.post('/departements/update', departement);
+    LoadingAction(false, dispatch);
+    window.scrollTo(0, 0);
+    dispatch({
+      type: 'SetAlert',
+      payload: {
+        type: 'success',
+        message: 'Departement updated successfully !',
+      },
+    });
+    return res;
+  } catch (err) {
+    LoadingAction(false, dispatch);
+    dispatch({
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -86,7 +132,7 @@ export const AddFolderType = async (dispatch, folderType) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -98,7 +144,7 @@ export const GetFolderType = async (dispatch) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -110,7 +156,29 @@ export const DeleteFolderType = async (id) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
+    });
+  }
+};
+export const UpdateFolderType = async (type, dispatch) => {
+  LoadingAction(true, dispatch);
+  try {
+    const res = await api.post('/folderType/update', type);
+    LoadingAction(false, dispatch);
+    window.scrollTo(0, 0);
+    dispatch({
+      type: 'SetAlert',
+      payload: {
+        type: 'success',
+        message: 'Type Folder updated successfully !',
+      },
+    });
+    return res;
+  } catch (err) {
+    LoadingAction(false, dispatch);
+    dispatch({
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -123,7 +191,7 @@ export const AddContractType = async (dispatch, contractType) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -135,7 +203,7 @@ export const GetContractType = async (dispatch) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -147,7 +215,30 @@ export const DeleteContractType = async (id) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
+    });
+  }
+};
+
+export const UpdateContractType = async (type, dispatch) => {
+  LoadingAction(true, dispatch);
+  try {
+    const res = await api.post('/contractType/update', type);
+    LoadingAction(false, dispatch);
+    window.scrollTo(0, 0);
+    dispatch({
+      type: 'SetAlert',
+      payload: {
+        type: 'success',
+        message: 'Type Contract updated successfully !',
+      },
+    });
+    return res;
+  } catch (err) {
+    LoadingAction(false, dispatch);
+    dispatch({
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -160,7 +251,7 @@ export const AddTimeOffType = async (dispatch, timeOffType) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -172,7 +263,7 @@ export const GetTimeOffType = async (dispatch) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -184,7 +275,30 @@ export const DeleteTimeOffType = async (id) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
+    });
+  }
+};
+
+export const UpdateTimeOffType = async (type, dispatch) => {
+  LoadingAction(true, dispatch);
+  try {
+    const res = await api.post('/timeOff/update', type);
+    LoadingAction(false, dispatch);
+    window.scrollTo(0, 0);
+    dispatch({
+      type: 'SetAlert',
+      payload: {
+        type: 'success',
+        message: 'Type Time Off updated successfully !',
+      },
+    });
+    return res;
+  } catch (err) {
+    LoadingAction(false, dispatch);
+    dispatch({
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -197,7 +311,7 @@ export const AddPostTitle = async (dispatch, postTitle) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -209,7 +323,7 @@ export const GetPostTitle = async (dispatch) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -221,7 +335,7 @@ export const DeletePostTitle = async (id) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };
@@ -232,7 +346,30 @@ export const GetPostTileDep = async (id) => {
   } catch (err) {
     dispatch({
       type: 'SetAlert',
-      payload: { message: err.response.data.msg, type: 'error' }
+      payload: { message: err.response.data.msg, type: 'error' },
+    });
+  }
+};
+
+export const UpdatePostTitle = async (post, dispatch) => {
+  LoadingAction(true, dispatch);
+  try {
+    const res = await api.post('/posts/update', post);
+    LoadingAction(false, dispatch);
+    window.scrollTo(0, 0);
+    dispatch({
+      type: 'SetAlert',
+      payload: {
+        type: 'success',
+        message: 'Post Title updated successfully !',
+      },
+    });
+    return res;
+  } catch (err) {
+    LoadingAction(false, dispatch);
+    dispatch({
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' },
     });
   }
 };

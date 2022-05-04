@@ -1,11 +1,13 @@
 /* eslint-disable */
-import React, { useState } from "react";
-import { Button, Form, Input, DatePicker, Select, TimePicker  } from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeftOutlined, DownloadOutlined } from "@ant-design/icons";
-import { AddEvent } from "../../actions/EventAction";
-import "./FormLayout.scss";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Button, Form, Input, DatePicker, Select, TimePicker } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowLeftOutlined, DownloadOutlined } from '@ant-design/icons';
+import { AddEvent } from '../../actions/EventAction';
+import { getUsers } from '../../actions/user';
+
+import './FormLayout.scss';
+import { useDispatch, useSelector } from 'react-redux';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -17,16 +19,17 @@ function NewEvent() {
   const dispatch = useDispatch();
   const navigation = useNavigate();
   const [form] = Form.useForm();
+  const [membersList, setMembersList] = useState([]);
 
-  const [title, settitle] = useState("");
-  const [office, setoffice] = useState("");
-  const [members, setmembers] = useState("");
-  const [Adress, setAdress] = useState("");
-  const [Description, setDescription] = useState("");
-  const [startDate, setstartDate] = useState("");
-  const [endDate, setendDate] = useState("");
-  const [Image, setImage] = useState("");
-  const [Time, setTime] = useState([])
+  const [title, settitle] = useState('');
+  const [office, setoffice] = useState('');
+  const [members, setmembers] = useState('');
+  const [Adress, setAdress] = useState('');
+  const [Description, setDescription] = useState('');
+  const [startDate, setstartDate] = useState('');
+  const [endDate, setendDate] = useState('');
+  const [Image, setImage] = useState('');
+  const [Time, setTime] = useState([]);
   function handleChange(value) {
     console.log(`selected ${value}`);
   }
@@ -37,8 +40,8 @@ function NewEvent() {
     if (!dates || dates.length === 0) {
       return false;
     }
-    const tooLate = dates[0] && current.diff(dates[0], "days") > 7;
-    const tooEarly = dates[1] && dates[1].diff(current, "days") > 7;
+    const tooLate = dates[0] && current.diff(dates[0], 'days') > 7;
+    const tooEarly = dates[1] && dates[1].diff(current, 'days') > 7;
     return tooEarly || tooLate;
   };
   const onOpenChange = (open) => {
@@ -51,16 +54,16 @@ function NewEvent() {
   };
 
   function padTo2Digits(num) {
-    return num.toString().padStart(2, "0");
+    return num.toString().padStart(2, '0');
   }
 
   function formatDate(date) {
-   if(!date) return
+    if (!date) return;
     return [
       padTo2Digits(date.getDate()),
       padTo2Digits(date.getMonth() + 1),
       date.getFullYear(),
-    ].join("/");
+    ].join('/');
   }
   const handleFileChange = (e) => {
     const img = {
@@ -72,36 +75,44 @@ function NewEvent() {
 
   const Add_Event = async () => {
     let formData = new FormData();
-  
+
     const event = {
       user: UserReducer._id,
       title: title,
       adress: Adress,
       desc: Description,
       start: dates[0]._d,
-      end:  dates[1]._d,
-      image: "",
+      end: dates[1]._d,
+      image: '',
       likes: [],
       comments: [],
-      office: "",
-      time:Time
+      office: '',
+      time: Time,
     };
-     
-    formData.append("file", Image.data);
-    formData.append("event", JSON.stringify(event));
-     await AddEvent(formData, dispatch, navigation);
+
+    console.log(event);
+
+    formData.append('file', Image.data);
+    formData.append('event', JSON.stringify(event));
+    await AddEvent(formData, dispatch, navigation);
   };
 
-  const HandleTime = (time) =>{
+  const HandleTime = (time) => {
     const start = new Date(time[0]).getHours();
     const end = new Date(time[1]).getHours();
- 
-const arr = [
-  start,
-  end 
-]
-setTime(arr)
-  }
+
+    const arr = [start, end];
+    setTime(arr);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = async () => {
+    const res = await getUsers(dispatch);
+    if (res.status == 200) setMembersList(res.data);
+  };
 
   return (
     <div className="site-layout-background">
@@ -117,7 +128,7 @@ setTime(arr)
         <div className="form-layout">
           <div className="blockFormA">
             <Form.Item
-              name={"title"}
+              name={'title'}
               label="Title"
               rules={[
                 {
@@ -126,15 +137,15 @@ setTime(arr)
               ]}
             >
               <Input
+                size="large"
                 value={title}
                 onChange={(e) => settitle(e.target.value)}
-                className=""
                 placeholder="Title"
                 type="text"
               />
             </Form.Item>
             <Form.Item
-              name={"description"}
+              name={'description'}
               label="Description"
               rules={[
                 {
@@ -145,16 +156,13 @@ setTime(arr)
               <TextArea
                 value={Description}
                 onChange={(e) => setDescription(e.target.value)}
-                className=""
                 rows={2}
-                placeholder={"Description"}
-                type={"text"}
+                placeholder={'Description'}
+                type={'text'}
               />
             </Form.Item>
-          </div>
-          <div className="blockFormB">
             <Form.Item
-              name={"date"}
+              name={'date'}
               label="date"
               rules={[
                 {
@@ -163,32 +171,45 @@ setTime(arr)
               ]}
             >
               <RangePicker
-                className={""}
+                className={''}
                 value={hackValue || value}
                 disabledDate={disabledDate}
                 onCalendarChange={(val) => setDates(val)}
                 onChange={(val) => setValue(val)}
                 onOpenChange={onOpenChange}
               />
-              
             </Form.Item>
+          </div>
+          <div className="blockFormB">
             <Form.Item
-              name={"time"}
-              label="time"
+              name={'members'}
+              label="Members"
               rules={[
                 {
                   required: true,
                 },
               ]}
             >
-
-            <TimePicker.RangePicker 
-            onChange={e => HandleTime(e)}
-              format={"HH"}
-              />
-              </Form.Item>
+              <Select
+                mode="multiple"
+                allowClear
+                style={{ width: '100%' }}
+                placeholder="Please select"
+              >
+                {membersList.length > 0 &&
+                  membersList.map((el, index) => {
+                    return (
+                      <Option key={index} value={el._id}>
+                        {' '}
+                        {el.name + ' ' + el.lastName}{' '}
+                      </Option>
+                    );
+                  })}
+              </Select>
+            </Form.Item>
             <Form.Item
               label="Address"
+              name={'adress'}
               rules={[
                 {
                   required: true,
@@ -198,13 +219,29 @@ setTime(arr)
               <TextArea
                 value={Adress}
                 onChange={(e) => setAdress(e.target.value)}
-                name={"address"}
+                name={'address'}
                 className=""
                 rows={2}
-                placeholder={"Address"}
-                type={"text"}
+                placeholder={'Address'}
+                type={'text'}
               />
             </Form.Item>
+
+            <Form.Item
+              name={'time'}
+              label="time"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <TimePicker.RangePicker
+                onChange={(e) => HandleTime(e)}
+                format={'HH'}
+              />
+            </Form.Item>
+
             <Form.Item
               label="File"
               rules={[
@@ -221,16 +258,14 @@ setTime(arr)
               />
             </Form.Item>
           </div>
-          
         </div>
-      
       </Form>
       <div className="button_uploads">
-      <Button
+        <Button
           onClick={Add_Event}
           type="primary"
           icon={<DownloadOutlined />}
-          size={"50"}
+          size={'50'}
         >
           Download
         </Button>

@@ -84,7 +84,7 @@ function GeneralInfo(props) {
               className=""
               size="large"
               placeholder={'Date of Birth'}
-              onChange={(e) => props.HandleBirthday(e.target.value)}
+              onChange={(e) => props.HandleBirthday(e)}
             />
           </Form.Item>
         </Col>
@@ -95,7 +95,7 @@ function GeneralInfo(props) {
               enableLongNumbers={false}
               country={'fr'}
               placeholder="Number Phone"
-              onChange={(e) => props.HandleTel(e.target.value)}
+              onChange={(e) => props.HandleTel(e)}
             />
           </Form.Item>
         </Col>

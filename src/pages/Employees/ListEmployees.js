@@ -7,8 +7,7 @@ import {
   UserOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import { BackTop, Button, Space, Input, Divider } from 'antd';
-import { Table } from 'antd';
+import { BackTop, Button, Space, Input, Divider, Table } from 'antd';
 import { useNavigate } from 'react-router-dom';
 function ListEmployees() {
   const navigate = useNavigate();

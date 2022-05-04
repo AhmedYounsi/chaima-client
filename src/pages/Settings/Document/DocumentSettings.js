@@ -17,15 +17,20 @@ import {
   AddFolderType,
   GetFolderType,
   DeleteFolderType,
+  UpdateFolderType,
 } from '../../../actions/SettingsAction';
 import './../Modal.scss';
 
 function DocumentSettings() {
   const [form] = Form.useForm();
+  const [form2] = Form.useForm();
   const [visible, setVisible] = useState(false);
+  const [visibleUpdate, setVisibleUpdate] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [name, setname] = useState('');
   const [FolderTypeList, setFolderTypeList] = useState([]);
+  const [updateType, setUpdateType] = useState(null);
+  const [Name, setName] = useState('');
 
   const dispatch = useDispatch();
 
@@ -44,6 +49,20 @@ function DocumentSettings() {
 
   const handleCancel = () => {
     setVisible(false);
+    setVisibleUpdate(false);
+  };
+  const showModalUpdate = (item) => {
+    setVisibleUpdate(true);
+    setUpdateType(item);
+    setName(item.name);
+  };
+  const onFinishUpdate = async (values) => {
+    setVisibleUpdate(true);
+    const id = updateType._id;
+    const type = { id, Name };
+    await UpdateFolderType(type, dispatch);
+    GetFolderTypes();
+    setVisibleUpdate(false);
   };
 
   const onFinish = async (values) => {
@@ -86,6 +105,9 @@ function DocumentSettings() {
   };
   const handleOk = () => {
     form.submit();
+  };
+  const handleOk2 = () => {
+    form2.submit();
   };
 
   return (
@@ -144,6 +166,31 @@ function DocumentSettings() {
               </Form.Item>
             </Form>
           </Modal>
+          <Modal
+            className="ant-modal"
+            title="Edit a folder type"
+            visible={visibleUpdate}
+            onOk={handleOk2}
+            confirmLoading={confirmLoading}
+            onCancel={handleCancel}
+          >
+            <Form layout={'vertical'} form={form2} onFinish={onFinishUpdate}>
+              <Form.Item
+                label=" Contract name"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input
+                  className=""
+                  value={Name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Form.Item>
+            </Form>
+          </Modal>
           <div className="form-pad-2">
             {FolderTypeList.length > 0 && (
               <List
@@ -158,7 +205,12 @@ function DocumentSettings() {
                         overlay={
                           <Menu>
                             <Menu.Item key="M1">
-                              <Button type="text">Edit Folder</Button>
+                              <Button
+                                type="text"
+                                onClick={() => showModalUpdate(item)}
+                              >
+                                Edit Folder
+                              </Button>
                             </Menu.Item>
                             <Menu.Item key="M2">
                               <Button
