@@ -234,7 +234,9 @@ function JobInformation(props) {
           </Col>
         </Row>
         <Row>
-          <Checkbox onChange={onChange}>Send Invitation </Checkbox>
+          <Checkbox defaultChecked onChange={onChange}>
+            Send Invitation{' '}
+          </Checkbox>
         </Row>
       </Form>
     </>

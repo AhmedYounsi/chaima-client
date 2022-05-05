@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
-import { getUsers } from '../../actions/user';
+import { getUsers, DeleteUser } from '../../actions/user';
+import { GetDepartement } from '../../actions/SettingsAction';
 import { useDispatch } from 'react-redux';
 import {
   DeleteOutlined,
@@ -15,6 +16,9 @@ function ListEmployees() {
   const [EmployeesList, setEmployeesList] = useState([]);
   const [EmployeeFilter, setEmployeeFilter] = useState([]);
   const [Search, setSearch] = useState('');
+  const [userDep, setUser] = useState('');
+  const [DepartementList, setDepartementList] = useState([]);
+  const [departement, setDepartement] = useState('');
 
   useEffect(() => {
     getUser();
@@ -57,6 +61,20 @@ function ListEmployees() {
     }
   };
 
+  const deleteEmploye = async (id) => {
+    const res = await DeleteUser(id);
+    if (res.status == 200) {
+      getUser();
+      dispatch({
+        type: 'SetAlert',
+        payload: {
+          type: 'success',
+          message: 'Employe deleted successfully !',
+        },
+      });
+    }
+  };
+
   const ToProfile = (user) => {
     navigate('/employees/profile', { state: { employee: user } });
   };
@@ -73,14 +91,23 @@ function ListEmployees() {
       sorter: (a, b) => a.lastName > b.lastName,
     },
     {
+      title: 'Departement',
+      dataIndex: 'departement',
+    },
+    {
+      title: 'Post Title',
+      dataIndex: 'post',
+    },
+    {
       title: 'tel',
       dataIndex: 'tel',
     },
     {
       title: 'Action',
       key: 'action',
+      width: '10%',
       render: (text, record) => (
-        <Space size="middle">
+        <Space size="small">
           <Button icon={<DeleteOutlined />} type="link" danger />
           <Divider type="vertical" />
           <Button
@@ -92,6 +119,23 @@ function ListEmployees() {
       ),
     },
   ];
+
+  useEffect(() => {
+    GetDepartements();
+  }, []);
+
+  const GetDepartements = async () => {
+    const res = await GetDepartement(dispatch);
+    if (res.status == 200) setDepartementList(res.data);
+  };
+
+  const GetDepartementUser = async (departement) => {
+    let arr = DepartementList;
+    const i = DepartementList.findIndex((el) => el._id == departement);
+    if (i != -1) {
+      setDepartement(arr[i].name);
+    }
+  };
 
   return (
     <div className="sections-vertical">
@@ -109,14 +153,17 @@ function ListEmployees() {
             <div className="line radical"></div>
           </div>
         </div>
-        <Input
-          value={Search}
-          onChange={(e) => setSearch(e.target.value)}
-          size="large"
-          placeholder="Search ..."
-          prefix={<SearchOutlined />}
-        />
+
         <div className="site-layout-content">
+          <Input
+            value={Search}
+            onChange={(e) => setSearch(e.target.value)}
+            size="large"
+            placeholder="Search ..."
+            prefix={<SearchOutlined />}
+          />
+          <br />
+          <br></br>
           <Table columns={columns} dataSource={EmployeeFilter} />{' '}
         </div>
       </div>

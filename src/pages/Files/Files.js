@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Tab, Tabs } from '@blueprintjs/core';
 import CompanyFiles from './CompanyFiles';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Tooltip } from 'antd';
 
 function Files() {
   const [Selected, setSelected] = useState('1');
@@ -22,7 +24,44 @@ function Files() {
             </Tabs>
           </div>
         </div>
-        <div className="header-right"></div>
+        <div className="header-right">
+          {(function () {
+            switch (Selected) {
+              case '1':
+                return (
+                  <Tooltip title="Add New File">
+                    <Button
+                      style={{ height: '35px' }}
+                      shape="round"
+                      type="primary"
+                      ghost
+                      icon={<PlusOutlined />}
+                    >
+                      New File
+                    </Button>
+                  </Tooltip>
+                );
+
+              case '2':
+                return (
+                  <Tooltip title="Send New File">
+                    <Button
+                      style={{ height: '35px' }}
+                      shape="round"
+                      type="primary"
+                      ghost
+                      icon={<PlusOutlined />}
+                    >
+                      Send File
+                    </Button>
+                  </Tooltip>
+                );
+
+              default:
+                break;
+            }
+          })()}
+        </div>
       </div>
       <div className="site-layout-content">
         {(function () {

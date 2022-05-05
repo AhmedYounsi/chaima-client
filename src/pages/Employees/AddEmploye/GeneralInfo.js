@@ -93,7 +93,7 @@ function GeneralInfo(props) {
             <PhoneInput
               className="input-phone"
               enableLongNumbers={false}
-              country={'fr'}
+              country={'tn'}
               placeholder="Number Phone"
               onChange={(e) => props.HandleTel(e)}
             />

@@ -124,6 +124,9 @@ span {
   letter-spacing: normal;
   color: #515164;
 }
+.ant-picker {
+  width: 100%;
+}
 
 
 
@@ -142,12 +145,22 @@ span {
   margin: 16px;
   background: rgba(255, 255, 255, 0.3);
 }
+.ant-breadcrumb {
+  margin-left: 20px !important;
+}
+
+.ant-layout-header {
+  background : transparent !important ;
+}
 
 .site-layout .site-layout-background {
   background: #fff;
   background-clip: border-box;
   border-radius: 5px;
   box-shadow: 0 5px 20px rgb(0 0 0 / 5%);
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
 [data-theme='dark'] .site-layout .site-layout-background {
   background: #141414;

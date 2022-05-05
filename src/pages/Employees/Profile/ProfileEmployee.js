@@ -37,7 +37,7 @@ function ProfileEmployee() {
           <Tab id="1" title="Genaral and Job Information" />
 
           <Tab id="2" title="Time Off" />
-          <Tab id="3" title="My Documents" />
+          <Tab id="3" title="Documents" />
 
           <Tabs.Expander />
         </Tabs>

@@ -31,9 +31,8 @@ export const getUsers = async (dispatch) => {
     });
   }
 };
-// Get all profiles
 
-// Create or update User
+// Create User
 export const CreateUser = async (user, dispatch, navigate) => {
   try {
     LoadingAction(true, dispatch);
@@ -95,6 +94,21 @@ export const UpdatePassword = async (data, dispatch) => {
         message: 'Password updated successfully !',
       },
     });
+    return res;
+  } catch (err) {
+    LoadingAction(false, dispatch);
+    dispatch({
+      type: 'SetAlert',
+      payload: { message: err.response.data.msg, type: 'error' },
+    });
+  }
+};
+
+export const DeleteUser = async (id, dispatch) => {
+  try {
+    const res = await api.delete('/users', { data: { id } });
+    LoadingAction(false, dispatch);
+    window.scrollTo(0, 0);
     return res;
   } catch (err) {
     LoadingAction(false, dispatch);

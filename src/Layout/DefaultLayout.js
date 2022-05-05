@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
- 
+
 //layout
 import Sidebar from '../components/SideBar/Sidebar';
 import HeaderTab from '../components/Header/HeaderTab';
@@ -29,28 +29,24 @@ import TimeOff from '../pages/TimeOff/TimeOff';
 //Files
 import Files from '../pages/Files/Files';
 
-import { Route, Routes, useLocation,useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import './DefaultLayout.scss';
 import ProfileEmployee from '../pages/Employees/Profile/ProfileEmployee';
 import Chat from '../pages/Chat/Chat';
 import ChatRoom from '../pages/Chat/ChatRoom';
-import host from "../Utils/host";
-import io from "socket.io-client";
+import host from '../Utils/host';
+import io from 'socket.io-client';
 const socket = io(host);
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, notification, Space,Layout } from 'antd';
-
+import { Button, notification, Space, Layout } from 'antd';
 
 const { Header, Content, Sider } = Layout;
 
 function DefaultLayout() {
- 
   const [collapsed, setcollapsed] = useState(false);
   const location = useLocation();
-
- 
 
   return (
     <>
@@ -65,7 +61,7 @@ function DefaultLayout() {
           <Sidebar />
         </Sider>
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }}>
+          <Header style={{ padding: 0 }}>
             <HeaderTab />
           </Header>
 
@@ -78,10 +74,7 @@ function DefaultLayout() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/employees" element={<Employees />} />
               <Route path="/employees/newUser" element={<NewUser />} />
-              <Route
-                path="/employees/profile"
-                element={<ProfileEmployee />}
-              />
+              <Route path="/employees/profile" element={<ProfileEmployee />} />
               <Route path="/events" element={<Event />} />
               <Route path="/events/newEvent" element={<NewEvent />} />
               <Route
@@ -98,7 +91,6 @@ function DefaultLayout() {
               <Route path="/chat" element={<Chat />} />
               {/* <Route path="/chat/:id" element={<ChatRoom />} /> */}
             </Routes>
-
           </Content>
           {/* { location.pathname.includes("/chat")  &&  <Footer />} */}
         </Layout>
